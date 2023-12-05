@@ -1,113 +1,298 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      {/* Header */}
+      <div className="w-full bg-winter-wizard py-4">
+        <div className="custom_container mx-auto text-slate-800">
+          {/* Logo and links */}
+          <div className="w-full flex justify-between items-center">
+            <div className="flex items-center gap-4 font-semibold">
+              <h2>Logo</h2>
+              <ul className="text-lg">
+                <li className="cursor-pointer">Tools</li>
+              </ul>
+            </div>
+            <div>
+              <ul className="flex justify-center items-center gap-4 text-lg font-semibold">
+                <li className="cursor-pointer">Login</li>
+                <li className="cursor-pointer">Sign up</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+      {/* Header */}
+      {/* Hero Section */}
+      <div className="w-full bg-winter-wizard  md:h-[80vh] overflow-hidden">
+        <div className="custom_container mx-auto h-full">
+          <div className="flex justify-between items-center md:h-full flex-col lg:flex-row">
+            <div className="flex-1 flex flex-col gap-5 relative h-[500px] lg:h-full justify-center">
+              <div className="w-[100px] h-[100px] top-[50%]    absolute rounded-full border-4 border-baby-blue bg-winter-wizard z-10"></div>
+              <div className="absolute bottom-[20%] left-[50%]  grid grid-cols-5 justify-center items-center w-[160px] h-[160px] gap-0 rotate-45 z-10">
+                {[
+                  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+                  19, 20, 21, 22, 23, 24, 25,
+                ].map((el) => (
+                  <div className="w-[17px] h-[17px] bg-baby-blue rounded-full"></div>
+                ))}
+              </div>
+              <div className="absolute top-[10%] rotate-[180] right-0 lg:right-[20%]">
+                <div
+                  className="w-[100px] h-[100px] bg-transparent rounded-full flex justify-center items-center border-blue-bolt"
+                  style={{
+                    borderTop: "11px solid #00A9FF",
+                    borderLeft: "11px solid #00A9FF",
+                    borderRight: "11px solid transparent",
+                    borderBottom: "11px solid transparent",
+                  }}
+                >
+                  <div className="w-[60px] h-[60px]   bg-baby-blue rounded-full"></div>
+                </div>
+              </div>
+              <h1 className="text-3xl font-bold text-slate-800 z-20">
+                Transform your{" "}
+                <span className="text-space-cadet">imagination </span> into a
+                story-based learning workbook
+              </h1>
+              <p className="text-slate-800 text-lg z-20">
+                Express your idea in a few words!
+              </p>
+            </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+            <div className="flex-1 relative w-full lg:h-full h-[400px] overflow-hidden">
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[17%]  moveUpDownPdf z-20">
+                <Image
+                  src={"/assests/index/icons/pdf.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  right-[12%] moveUpDownImage z-20">
+                <Image
+                  src={"/assests/index/icons/image.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  left-[50%] -translate-x-[50%] moveUpDownText z-20">
+                <Image
+                  src={"/assests/index/icons/text.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
+                <Image
+                  src={"/assests/index/icons/ai.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[75%] -translate-x-[50%] moveUpDownCompress z-20">
+                <Image
+                  src={"/assests/index/icons/compress.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
+                <Image
+                  src={"/assests/index/icons/ai.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[15%]  moveUpDownSummary z-20">
+                <Image
+                  src={"/assests/index/icons/summary.png"}
+                  width={50}
+                  height={60}
+                  alt="ai-icon"
+                />
+              </div>
+              <div className="w-[300px] h-[300px] top-[50%] left-[60%] -translate-x-[50%] -translate-y-[50%] absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
+              <div className="w-[100px] h-[100px] -bottom-10 right-0  absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
+              <div className="w-[250px] h-[250px] top-[50%] left-[60%] -translate-x-[50%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
+              <div className="w-[100px] h-[100px] top-[50%]   -translate-y-[50%]  absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
+              <div className="w-[150px] h-[150px] top-[60%] left-[40%] -translate-x-[60%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
+              <div className="w-[70px] h-[70px] shadow top-[50%] left-[10%] -translate-x-[60%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
+            </div>
+          </div>
+        </div>
       </div>
+      {/* Hero Section */}
+      {/* Services Section */}
+      <div className="w-full bg-water py-10 relative overflow-hidden">
+        <div className="bg-water w-[200px] h-[200px] rounded-full  border-[15px] -top-[100px]  border-baby-blue -left-[100px] absolute z-10"></div>
+        <div className="bg-baby-blue w-[200px] h-[200px] rounded-full  border-[15px] -bottom-[100px]  border-baby-blue -right-[100px] absolute z-10"></div>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt left-[60%] z-10"></div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+        <div className="custom_container mx-auto h-full z-20">
+          <div className=" py-5 w-full">
+            <div className="flex justify-center items-center flex-col">
+              <h1 className="text-3xl font-bold text-slate-800 z-50">
+                Our Tools
+              </h1>
+              <p className="text-slate-800 text-lg">
+                Try our cutting-edge tools
+              </p>
+            </div>
+          </div>
+          <div className="service-cards-containers grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-center  w-full md:w-[90%] xl:w-[80%] justify-center mx-auto py-5 relative">
+            <div className="bg-water w-[100px] h-[100px] rounded-full  border-[6px] bottom-[0px]  border-baby-blue -left-[50px] absolute z-10"></div>
+            <div className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7">
+              <Image
+                src={"/assests/index/icons/compress.png"}
+                alt="compressor"
+                width={45}
+                height={50}
+              />
+              <h1 className="text-xl font-semibold">Compress Image</h1>
+              <p className="text-center">
+                Shrink Image File Sizes with High-Quality Image Compression
+              </p>
+            </div>
+            <div className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7">
+              <Image
+                src={"/assests/index/icons/format.png"}
+                alt="compressor"
+                width={60}
+                height={70}
+              />
+              <h1 className="text-xl font-semibold">Transform Image Format</h1>
+              <p className="text-center">Efficiently Modify Image File Types</p>
+            </div>
+            <div className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7">
+              <div className="flex gap-4">
+                <Image
+                  src={"/assests/index/icons/image.png"}
+                  alt="compressor"
+                  width={50}
+                  height={30}
+                />
+                <Image
+                  src={"/assests/index/icons/one-way.png"}
+                  alt="compressor"
+                  width={40}
+                  height={100}
+                />
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+                <Image
+                  src={"/assests/index/icons/pdf.png"}
+                  alt="compressor"
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <h1 className="text-xl font-semibold">Image to PDF</h1>
+              <p className="text-center">
+                Create PDF Documents from Images with Ease
+              </p>
+            </div>
+            <div className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7">
+              <Image
+                src={"/assests/index/icons/summary.png"}
+                alt="compressor"
+                width={45}
+                height={50}
+              />
+              <h1 className="text-xl font-semibold">Text Summarization</h1>
+              <p className="text-center">
+                Generate Precise Summaries of Lengthy Texts
+              </p>
+            </div>
+            <div className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7">
+              <Image
+                src={"/assests/index/icons/text-q.png"}
+                alt="compressor"
+                width={65}
+                height={50}
+              />
+              <h1 className="text-xl font-semibold">Text-to-Q&A</h1>
+              <p className="text-center">
+                Instantly Create Q&A from Your Textual Resources
+              </p>
+            </div>
+            <div className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7">
+              <Image
+                src={"/assests/index/icons/delete.png"}
+                alt="compressor"
+                width={50}
+                height={50}
+              />
+              <h1 className="text-xl font-semibold">Image Eraser for PDF</h1>
+              <p className="text-center">
+                Extract Images to Obtain Image-Free PDF Documents
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
-  )
+      {/* Service Section */}
+
+      {/* Result Section */}
+      <div className="w-full bg-white py-10 relative overflow-hidden">
+        <div className="bg-white w-[200px] h-[200px] rounded-full  border-[15px] -bottom-[100px]  border-baby-blue -left-[100px] absolute z-10"></div>
+        {/* <div className="bg-baby-blue w-[200px] h-[200px] rounded-full  border-[15px] -bottom-[100px]  border-baby-blue -right-[100px] absolute z-10"></div> */}
+
+        <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt bottom-10 left-[60%] z-10"></div>
+
+        <div className="custom_container mx-auto h-full z-20">
+          <div className=" py-5 w-full">
+            <div className="flex justify-center items-center flex-col">
+              <h1 className="text-3xl font-bold text-slate-800 z-50">
+                Our Stats
+              </h1>
+              <p className="text-slate-800 text-lg">
+                Express your idea in a few words!
+              </p>
+            </div>
+          </div>
+          <div className="service-cards-containers grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 items-center  w-full justify-center mx-auto py-5 relative my-6">
+            <div className="bg-transparent w-[100px] h-[100px] rounded-full  border-[6px] top-[0px]  border-baby-blue -left-[50px] absolute z-10"></div>
+            <div className="flex  flex-col items-center  justify-center  rounded cursor-pointer text-slate-800 z-20 gap-4">
+              <h1 className="text-5xl font-semibold">
+                32 <span className="text-denim">K</span>
+              </h1>
+              <p className="text-xl font-semibold">Active User</p>
+              <p className="text-center">
+                Lorem ipsum dolor sit amet consectet adipiscing elit eget
+                quamumto.
+              </p>
+            </div>
+            <div className="flex  flex-col items-center  justify-center  rounded cursor-pointer text-slate-800 z-20 gap-4">
+              <h1 className="text-5xl font-semibold">
+                32 <span className="text-denim">M</span>
+              </h1>
+              <p className="text-xl font-semibold">Active User</p>
+              <p className="text-center">
+                Lorem ipsum dolor sit amet consectet adipiscing elit eget
+                quamumto.
+              </p>
+            </div>
+            <div className="flex  flex-col items-center  justify-center  rounded cursor-pointer text-slate-800 z-20 gap-4">
+              <h1 className="text-5xl font-semibold">
+                32 <span className="text-denim">%</span>
+              </h1>
+              <p className="text-xl font-semibold">Active User</p>
+              <p className="text-center">
+                Lorem ipsum dolor sit amet consectet adipiscing elit eget
+                quamumto.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Service Section */}
+    </div>
+  );
 }

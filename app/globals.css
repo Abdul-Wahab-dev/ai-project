@@ -15,7 +15,94 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+/* INDEX PAGE */
+.moveUpDownPdf {
+  animation: MoveUpDownPdf 3s linear infinite;
+  position: absolute;
+  top: 40%;
+}
+.moveUpDownImage {
+  animation: MoveUpDownImage 3s linear infinite;
+  position: absolute;
+  top: 55%;
+}
+.moveUpDownText {
+  animation: MoveUpDownText 3s linear infinite;
+  position: absolute;
+  top: 27%;
+}
+.moveUpDownAi {
+  animation: MoveUpDownAi 4s linear infinite;
+  position: absolute;
+  bottom: 17%;
+}
+.moveUpDownCompress {
+  animation: MoveUpDownCompress 4s linear infinite;
+  position: absolute;
+  top: 28%;
+}
+.moveUpDownSummary {
+  animation: MoveUpDownSummary 4s linear infinite;
+  position: absolute;
+  bottom: 20%;
+}
 
+@keyframes MoveUpDownSummary {
+  0%,
+  100% {
+    bottom: 20%;
+  }
+  50% {
+    bottom: 25%;
+  }
+}
+
+@keyframes MoveUpDownCompress {
+  0%,
+  100% {
+    top: 28%;
+  }
+  50% {
+    top: 32%;
+  }
+}
+@keyframes MoveUpDownAi {
+  0%,
+  100% {
+    bottom: 17%;
+  }
+  50% {
+    bottom: 20%;
+  }
+}
+@keyframes MoveUpDownText {
+  0%,
+  100% {
+    top: 27%;
+  }
+  50% {
+    top: 30%;
+  }
+}
+@keyframes MoveUpDownImage {
+  0%,
+  100% {
+    top: 55%;
+  }
+  50% {
+    top: 59%;
+  }
+}
+@keyframes MoveUpDownPdf {
+  0%,
+  100% {
+    top: 40%;
+  }
+  50% {
+    top: 43%;
+  }
+}
+/* INDEX PAGE */
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -24,4 +111,46 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+@media screen and (max-width: 576px) {
+  .custom_container {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .max-w-full {
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .custom_container {
+    width: 540px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .custom_container {
+    width: 720px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .custom_container {
+    width: 960px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .custom_container {
+    width: 1140px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .custom_container {
+    width: 1320px;
+  }
 }
