@@ -25,10 +25,10 @@ export default function Home() {
       </div>
       {/* Header */}
       {/* Hero Section */}
-      <div className="w-full bg-winter-wizard  md:h-[80vh] overflow-hidden">
+      <div className="w-full bg-winter-wizard  lg:h-[80vh] overflow-hidden">
         <div className="custom_container mx-auto h-full">
-          <div className="flex justify-between items-center md:h-full flex-col lg:flex-row">
-            <div className="flex-1 flex flex-col gap-5 relative h-[500px] lg:h-full justify-center">
+          <div className="block lg:flex justify-between items-center lg:h-full flex-col lg:flex-row">
+            <div className="flex-1 flex flex-col gap-5 relative h-[250px] lg:h-full justify-center">
               <div className="w-[100px] h-[100px] top-[50%]    absolute rounded-full border-4 border-baby-blue bg-winter-wizard z-10"></div>
               <div className="absolute bottom-[20%] left-[50%]  grid grid-cols-5 justify-center items-center w-[160px] h-[160px] gap-0 rotate-45 z-10">
                 {[
@@ -61,13 +61,14 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex-1 relative w-full lg:h-full h-[400px] overflow-hidden">
-              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[17%]  moveUpDownPdf z-20">
+            <div className="flex-1 relative w-full lg:h-full h-[300px] overflow-hidden">
+              <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-0 lg:left-[17%]  moveUpDownPdf z-20">
                 <Image
                   src={"/assests/index/icons/pdf.png"}
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
               <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  right-[12%] moveUpDownImage z-20">
@@ -76,6 +77,7 @@ export default function Home() {
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
               <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  left-[50%] -translate-x-[50%] moveUpDownText z-20">
@@ -84,6 +86,7 @@ export default function Home() {
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
               <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
@@ -92,6 +95,7 @@ export default function Home() {
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
               <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[75%] -translate-x-[50%] moveUpDownCompress z-20">
@@ -100,6 +104,7 @@ export default function Home() {
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
               <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
@@ -108,6 +113,7 @@ export default function Home() {
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
               <div className="bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[15%]  moveUpDownSummary z-20">
@@ -116,11 +122,12 @@ export default function Home() {
                   width={50}
                   height={60}
                   alt="ai-icon"
+                  className="md:w-[50px]  w-[40px]"
                 />
               </div>
-              <div className="w-[300px] h-[300px] top-[50%] left-[60%] -translate-x-[50%] -translate-y-[50%] absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
+              <div className="lg:w-[300px] sm:w-[240px] sm:h-[240px] lg:h-[300px] top-[50%] left-[60%] -translate-x-[50%] -translate-y-[50%] absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
               <div className="w-[100px] h-[100px] -bottom-10 right-0  absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
-              <div className="w-[250px] h-[250px] top-[50%] left-[60%] -translate-x-[50%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
+              <div className="lg:w-[250px] lg:h-[200px] md:w-[200px] md:h-[200px] top-[50%] left-[60%] -translate-x-[50%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
               <div className="w-[100px] h-[100px] top-[50%]   -translate-y-[50%]  absolute rounded-full border-2 border-baby-blue bg-winter-wizard z-10"></div>
               <div className="w-[150px] h-[150px] top-[60%] left-[40%] -translate-x-[60%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
               <div className="w-[70px] h-[70px] shadow top-[50%] left-[10%] -translate-x-[60%] -translate-y-[50%] absolute rounded-full bg-baby-blue z-10"></div>
@@ -293,6 +300,62 @@ export default function Home() {
         </div>
       </div>
       {/* Service Section */}
+      {/* Let's build  */}
+      <div className="w-full bg-white py-10 relative overflow-hidden">
+        {/* <div className="bg-baby-blue w-[200px] h-[200px] rounded-full  border-[15px] -bottom-[100px]  border-baby-blue -right-[100px] absolute z-10"></div> */}
+
+        {/* <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt bottom-10 left-[60%] z-10"></div> */}
+
+        <div className="custom_container mx-auto h-full  bg-winter-wizard z-50 rounded-md shadow-lg">
+          <div className="flex p-10 items-center flex-col lg:flex-row">
+            <div className="flex-1 h-full flex items-center">
+              <div className=" py-5 w-full">
+                <div className="flex  flex-col gap-5">
+                  <h1 className="text-3xl font-bold text-slate-800 z-50">
+                    Let's Create AI-Powered Content With A Single Click
+                  </h1>
+                  <p className="text-slate-800 text-lg ">
+                    To create powerful content, you need to know who you're
+                    targeting. Identify your target audience and understand
+                    their needs, interests, and pain points.
+                  </p>
+                  <ul>
+                    <li>
+                      <p className="text-slate-800 text-lg ">
+                        Start creating powerful content, for your next ads
+                      </p>
+                    </li>
+                    <li>
+                      <p className="text-slate-800 text-lg ">
+                        Start creating powerful content, for your next ads
+                      </p>
+                    </li>
+                    <li>
+                      <p className="text-slate-800 text-lg ">
+                        Start creating powerful content, for your next ads
+                      </p>
+                    </li>
+                    <li>
+                      <p className="text-slate-800 text-lg ">
+                        Start creating powerful content, for your next ads
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 flex items-center justify-center h-full">
+              <Image
+                src={"/assests/index/feature.svg"}
+                alt="let-build"
+                width={400}
+                height={100}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Let's build  */}
     </div>
   );
 }
