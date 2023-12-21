@@ -19,7 +19,7 @@
 .moveUpDownPdf {
   animation: MoveUpDownPdf 3s linear infinite;
   position: absolute;
-  top: 40%;
+  top: 30%;
 }
 .moveUpDownImage {
   animation: MoveUpDownImage 3s linear infinite;
@@ -44,16 +44,16 @@
 .moveUpDownSummary {
   animation: MoveUpDownSummary 4s linear infinite;
   position: absolute;
-  bottom: 20%;
+  bottom: 15%;
 }
 
 @keyframes MoveUpDownSummary {
   0%,
   100% {
-    bottom: 20%;
+    bottom: 15%;
   }
   50% {
-    bottom: 25%;
+    bottom: 20%;
   }
 }
 
@@ -96,10 +96,10 @@
 @keyframes MoveUpDownPdf {
   0%,
   100% {
-    top: 40%;
+    top: 30%;
   }
   50% {
-    top: 43%;
+    top: 33%;
   }
 }
 /* INDEX PAGE */

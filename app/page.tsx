@@ -324,7 +324,7 @@ export default function Home() {
 
         <div className="custom_container mx-auto h-full  bg-winter-wizard z-50 rounded-md shadow-lg">
           <div className="flex  items-center flex-col lg:flex-row">
-            <div className="flex-1 h-full flex items-center p-10 relative">
+            <div className="flex-1 h-full flex items-center p-4 md:p-10 relative">
               <div className="absolute bottom-[10%] rotate-[180] right-0 ">
                 <div
                   className="w-[100px] h-[100px] bg-transparent rounded-full flex justify-center items-center border-blue-bolt"
@@ -360,7 +360,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <div className=" py-5 w-full">
+              <div className=" py-5 w-full z-50">
                 <div className="flex  flex-col gap-5">
                   <h1 className="text-3xl font-bold text-slate-800 z-50">
                     Let's Create AI-Powered Content With A Single Click
@@ -395,20 +395,20 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex-1 flex items-center justify-center h-full relative overflow-hidden">
-              <div className="py-10 bg-transparent w-[600px] h-[600px] rounded-full z-10 top-[50%] -translate-y-[50%] -right-[35%] absolute border-baby-blue border-2 flex items-center justify-center">
-                <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt left-[50px] bottom-[100px] z-10"></div>
-                <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt left-[50px] top-[100px] z-10"></div>
-                <div className="bg-transparent w-[550px] h-[550px] rounded-full z-20  border-baby-blue border-2 flex items-center justify-center">
-                  <div className="bg-baby-blue-500 w-[500px] h-[500px] rounded-full z-20 flex items-center justify-center">
-                    <div className="bg-baby-blue-700 w-[450px] h-[450px] rounded-full z-30 flex items-center justify-center">
-                      <div className="bg-baby-blue w-[400px] h-[400px] rounded-full z-30"></div>
+            <div className="flex-1 flex items-center justify-center h-full w-full relative overflow-hidden">
+              <div className="py-10 bg-transparent w-[380px] lg:w-[600px] h-[380px] lg:h-[600px] rounded-full z-10 lg:top-[50%] lg:-translate-y-[50%] right-[50%]  translate-x-[50%] lg:translate-x-[-10%] lg:-right-[50%] absolute border-baby-blue border-2 flex items-center justify-center">
+                <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt left-[35px] lg:left-[50px] bottom-[100px] z-50"></div>
+                <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt left-[35px] lg:left-[50px] top-[100px] z-50"></div>
+                <div className="bg-transparent w-[330px] lg:w-[550px] h-[330px] lg:h-[550px] rounded-full z-20  border-baby-blue border-2 flex items-center justify-center">
+                  <div className="bg-baby-blue-500 w-[280px] lg:w-[500px] h-[280px] lg:h-[500px] rounded-full z-20 flex items-center justify-center">
+                    <div className="bg-baby-blue-700 w-[230px] lg:w-[450px] h-[230px] lg:h-[450px] rounded-full z-30 flex items-center justify-center">
+                      <div className="bg-baby-blue w-[180px] h-[180px] lg:w-[400px] lg:h-[400px] rounded-full z-30"></div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="notebook-page-container px-2 py-auto  flex h-[450px] w-[100%] relative">
-                <div className="w-[230px] h-[290px] bg-white rounded-xl shadow-md p-4 flex flex-col gap-5 absolute z-50 left-[30%] top-[50%] -translate-y-[50%]">
+                <div className="w-[170px] lg:w-[230px] h-[230px] lg:h-[290px] bg-white rounded-xl shadow-md p-4 flex flex-col gap-5 absolute z-50 top-[50%] left-[50%] -translate-x-[50%] lg:-translate-x-[30%] -translate-y-[50%] lg:left-[30%] lg:top-[50%] lg:-translate-y-[50%]">
                   <div className="flex gap-5">
                     {" "}
                     <div className="bg-white shadow-lg w-[40px] h-[40px] flex items-center justify-center rounded">
@@ -455,19 +455,12 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <div className="w-[230px] h-[280px] bg-white rounded-xl shadow-md p-4 flex flex-col gap-5 absolute z-40 -rotate-[25deg] left-[20%] top-[50%] -translate-y-[50%] ">
+                <div className=" w-[170px] lg:w-[230px]  h-[220px] lg:h-[280px] bg-white rounded-xl shadow-md p-4 flex flex-col gap-5 absolute z-40 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] -rotate-[25deg] lg:left-[20%] lg:top-[50%] lg:-translate-x-[20%] lg:-translate-y-[50%] ">
                   {[1, 2, 3, 4, 5].map((el) => (
                     <div
                       key={el}
                       className="check-section flex gap-3 items-center w-full"
                     >
-                      {/* <div className="checkbox-container">
-                        <div className="checkbox bg-transparent border-[2px] border-Platinum rounded w-[25px] h-[25px] flex items-center justify-center">
-                          <span className="text-Platinum text-lg font-semibold">
-                            &#10003;
-                          </span>
-                        </div>
-                      </div> */}
                       <div className="content w-[70%] flex flex-col gap-[5px]">
                         <div className="bg-Platinum w-[60%] h-[5px] rounded-sm"></div>
                         <div className="bg-Platinum w-[100%] h-[5px] rounded-sm"></div>
@@ -476,14 +469,6 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-
-              {/* <Image
-                src={"/assests/index/feature.svg"}
-                alt="let-build"
-                width={400}
-                height={100}
-                className="z-10"
-              /> */}
             </div>
           </div>
         </div>
@@ -497,7 +482,7 @@ export default function Home() {
           "
           >
             <div className="logo-section w-[30%]">
-              <h1>LOGO</h1>
+              <h1 className="text-lg font-bold">LOGO</h1>
               <div className="w-[70%]">
                 <p className="text-justify">
                   Lorem ipsum dolor, sit amet consectetur adipisicia asjdai
@@ -505,8 +490,8 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="links-section  flex gap-24 items-start justify-center flex-auto">
-              <div className="flex gap-5">
+            <div className="links-section  lg:gap-16 flex items-start ">
+              <div className="flex gap-5 lg:w-[25%] md:w-[50%]">
                 <div>
                   <h4 className="text-lg font-bold mb-5">Company</h4>
                   <ul className="flex flex-col">
@@ -515,20 +500,19 @@ export default function Home() {
                   </ul>
                 </div>
               </div>
-              <div className="flex gap-5">
+              <div className="flex gap-5 lg:w-[25%] md:w-[50%] ">
                 <div>
                   <h4 className="text-lg font-bold mb-5">Useful links</h4>
                   <ul className="flex flex-col">
                     <li> About</li>
                     <li> About</li>
                     <li> About</li>
-                    <li> About</li>
-                    <li> About</li>
+
                     <li> Contact us</li>
                   </ul>
                 </div>
               </div>
-              <div className="flex gap-5">
+              <div className="flex gap-5 lg:w-[25%] md:w-[50%] ">
                 <div>
                   <h4 className="text-lg font-bold mb-5">Legal</h4>
                   <ul className="flex flex-col">
@@ -536,6 +520,52 @@ export default function Home() {
                     <li> Contact us</li>
                   </ul>
                 </div>
+              </div>
+              <div className="flex gap-5 lg:w-[25%] md:w-[50%] ">
+                <ul className="flex flex-col gap-4 md:flex-row lg:flex-col">
+                  <li className="flex gap-3 items-center ">
+                    <div className="w-[40px] h-[40px] bg-white flex items-center justify-center shadow-lg rounded-md">
+                      <Image
+                        src={"/assests/index/icons/email.png"}
+                        width={23}
+                        height={60}
+                        alt="ai-icon"
+                      />
+                    </div>
+                    <div className="text-slate-800 leading-tight">
+                      <p className="font-semibold text-sm">Email</p>
+                      <p className="text-sm">abdulwahabdev0@gmail.com</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-3 items-center">
+                    <div className="w-[40px] h-[40px] bg-white flex items-center justify-center shadow-lg rounded-md">
+                      <Image
+                        src={"/assests/index/icons/telephone.png"}
+                        width={20}
+                        height={60}
+                        alt="ai-icon"
+                      />
+                    </div>
+                    <div className="text-slate-800 leading-tight">
+                      <p className="font-semibold text-sm">Phone</p>
+                      <p className="text-sm">+923096171080</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-3 items-center">
+                    <div className="w-[40px] h-[40px] bg-white flex items-center justify-center shadow-lg rounded-md border-gray-400">
+                      <Image
+                        src={"/assests/index/icons/location.png"}
+                        width={23}
+                        height={60}
+                        alt="ai-icon"
+                      />
+                    </div>
+                    <div className="text-slate-800 leading-tight">
+                      <p className="font-semibold text-sm">Address</p>
+                      <p className="text-sm">Lahore , Pakistan</p>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
