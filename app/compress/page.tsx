@@ -1,6 +1,33 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Header from "@/app/(components)/layout/header";
 const page = () => {
+  // useEffect(() => {
+  //   if (document.readyState) {
+  //     const sliderEl4 = document.querySelector("#range4");
+  //     const sliderValue4 = document.querySelector(".value4");
+
+  //     sliderEl4.addEventListener("input", (event) => {
+  //       const tempSliderValue = event.target.value;
+  //       // sliderValue4.textContent = tempSliderValue;
+
+  //       const progress = (tempSliderValue / sliderEl4.max) * 100;
+
+  //       sliderEl4.style.background = `linear-gradient(to right, #f50 ${progress}%, #ccc ${progress}%)`;
+  //     });
+  //   }
+  // }, []);
+  const [sliderValue, setSliderValue] = useState(0);
+
+  const handleSliderChange = (event) => {
+    console.log(event.target.value, "value");
+    const tempSliderValue = event.target.value;
+    setSliderValue(tempSliderValue);
+    const sliderEl4 = document.getElementById("range4");
+    console.log(sliderEl4.max, "max");
+    const progress = (tempSliderValue / sliderEl4.max) * 100;
+    sliderEl4.style.background = `linear-gradient(to right, rgba(0, 169, 255, 1) ${progress}%, #ccc ${progress}%)`;
+  };
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />
@@ -42,6 +69,38 @@ const page = () => {
                     </div>
                     <input id="dropzone-file" type="file" className="hidden" />
                   </label>
+
+                  <div className="wrapper">
+                    <div className="content">
+                      <div className="range">
+                        <div className="range-slider">
+                          <label htmlFor="range">
+                            Select a compression level:
+                          </label>
+                          <br />
+
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={sliderValue}
+                            className="range-input mt-5"
+                            id="range4"
+                            step="20"
+                            onChange={handleSliderChange}
+                          />
+                          <div className="sliderticks">
+                            <span>00</span>
+                            <span>20</span>
+                            <span>40</span>
+                            <span>60</span>
+                            <span>80</span>
+                            <span>100</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <button
                     type="button"
                     className="text-white bg-blue-bolt  px-4 py-3 rounded-xl shadow-lg"
