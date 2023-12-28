@@ -1,23 +1,18 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import sharp from "sharp";
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const formData = await req.formData();
 
   const file = formData.get("file");
+  // Read the file content into a Buffer
+  const bufferFile = await file.arrayBuffer();
 
-  // const type = file.type.split("/")[1];
-  console.log(file);
-  const compressedFile = await sharp(file.buffer)
-    .png({ quality: 60 })
+  const compressedBuffer = await sharp(bufferFile)
+    .jpeg({ quality: 10 })
     .toBuffer();
 
-  // console.log({compressedFile})
-  return NextResponse.json(
-    {
-      message: "success",
-    },
-    {
-      status: 200,
-    }
-  );
+  return NextResponse.json({
+    compressedBuffer,
+  });
 }

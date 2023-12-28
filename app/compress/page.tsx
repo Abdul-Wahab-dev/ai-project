@@ -6,7 +6,7 @@ import axios from "axios";
 const page = () => {
   const [file, setFile] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
-  const [filePreview, setFilePreview] = useState(null);
+  const [filePreview, setFilePreview] = useState("");
   const handleSliderChange = (event) => {
     const tempSliderValue = event.target.value;
     setSliderValue(tempSliderValue);
@@ -33,7 +33,25 @@ const page = () => {
         },
       };
       const response = await axios.post("/api/compress", formData, config);
+      console.log(response.data.compressedBuffer.data, "response");
+      const base64String = Buffer.from(
+        response.data.compressedBuffer.data
+      ).toString("base64");
+      console.log(base64String, "base64");
+      setFilePreview(base64String);
     }
+  };
+
+  // Function to handle download
+  const handleDownload = () => {
+    // Create a temporary anchor element to trigger download
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `data:image/jpeg;base64,${filePreview}`;
+    downloadLink.download = "image.jpeg"; // Set the file name
+    downloadLink.click();
+
+    // Clean up the temporary element
+    downloadLink.remove();
   };
 
   return (
@@ -82,9 +100,9 @@ const page = () => {
                         >
                           <path
                             stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                           />
                         </svg>
@@ -147,9 +165,38 @@ const page = () => {
 
                 <hr className="w-full h-[1px] bg-black opacity-50" />
                 <div className="flex-1 items-center justify-center flex-col py-5">
-                  <h1 className="text-gray-200 text-xl text-center">
-                    Please upload image
-                  </h1>
+                  {!filePreview.length ? (
+                    <div className="h-[350px] flex items-center justify-center">
+                      <h1 className="text-gray-200 text-xl text-center">
+                        Please upload image
+                      </h1>
+                    </div>
+                  ) : null}
+
+                  <div className="flex items-center justify-center w-full flex-col gap-5">
+                    {filePreview.length ? (
+                      <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                        <div
+                          className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                          onClick={handleDownload}
+                        >
+                          <Image
+                            src={"/assests/compress/icons/download.png"}
+                            width={16}
+                            height={16}
+                            alt="delete-icon"
+                          />
+                        </div>
+                        <Image
+                          src={`data:image/jpeg;base64,${filePreview}`}
+                          width={200}
+                          height={100}
+                          alt="image"
+                          className="rounded"
+                        />
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
