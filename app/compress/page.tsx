@@ -7,6 +7,8 @@ const page = () => {
   const [file, setFile] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
   const [filePreview, setFilePreview] = useState("");
+  const [mimeType, setMimeType] = useState("");
+
   const handleSliderChange = (event) => {
     const tempSliderValue = event.target.value;
     setSliderValue(tempSliderValue);
@@ -18,6 +20,7 @@ const page = () => {
   const handleFile = (event) => {
     if (event.target.files && event.target.files.length) {
       // const preview = URL.createObjectURL()
+      setMimeType(event.target.files[0].type);
       setFile(event.target.files[0]);
     }
   };
@@ -27,17 +30,17 @@ const page = () => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("compress", sliderValue.toString());
+      formData.append("mimeType", mimeType);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
       const response = await axios.post("/api/compress", formData, config);
-      console.log(response.data.compressedBuffer.data, "response");
       const base64String = Buffer.from(
         response.data.compressedBuffer.data
       ).toString("base64");
-      console.log(base64String, "base64");
+
       setFilePreview(base64String);
     }
   };
@@ -46,8 +49,9 @@ const page = () => {
   const handleDownload = () => {
     // Create a temporary anchor element to trigger download
     const downloadLink = document.createElement("a");
-    downloadLink.href = `data:image/jpeg;base64,${filePreview}`;
-    downloadLink.download = "image.jpeg"; // Set the file name
+    downloadLink.href = `data:${mimeType};base64,${filePreview}`;
+    const ext = mimeType.split("/")[1];
+    downloadLink.download = `image.${ext}`; // Set the file name
     downloadLink.click();
 
     // Clean up the temporary element
@@ -188,7 +192,7 @@ const page = () => {
                           />
                         </div>
                         <Image
-                          src={`data:image/jpeg;base64,${filePreview}`}
+                          src={`data:${mimeType};base64,${filePreview}`}
                           width={200}
                           height={100}
                           alt="image"

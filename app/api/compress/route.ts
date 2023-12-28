@@ -5,12 +5,41 @@ export async function POST(req: NextRequest) {
   const formData = await req.formData();
 
   const file = formData.get("file");
-  // Read the file content into a Buffer
-  const bufferFile = await file.arrayBuffer();
+  const mimeType = formData.get("mimeType");
+  let compress = parseInt(formData.get("compress")) ?? 60;
 
-  const compressedBuffer = await sharp(bufferFile)
-    .jpeg({ quality: 10 })
-    .toBuffer();
+  const bufferFile = await file.arrayBuffer();
+  let compressedBuffer;
+  switch (compress) {
+    case 20:
+      compress = 60;
+      break;
+    case 40:
+      compress = 50;
+      break;
+    case 60:
+      compress = 40;
+      break;
+    case 80:
+      compress = 30;
+      break;
+    case 100:
+      compress = 20;
+      break;
+    default:
+      compress = 70;
+      break;
+  }
+
+  if (mimeType?.toString().includes("jpeg")) {
+    compressedBuffer = await sharp(bufferFile)
+      .jpeg({ quality: compress })
+      .toBuffer();
+  } else if (mimeType?.toString().includes("png")) {
+    compressedBuffer = await sharp(bufferFile)
+      .png({ quality: compress })
+      .toBuffer();
+  }
 
   return NextResponse.json({
     compressedBuffer,
