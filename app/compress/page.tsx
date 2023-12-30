@@ -1,33 +1,63 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "@/app/(components)/layout/header";
+import Image from "next/image";
+import axios from "axios";
 const page = () => {
-  // useEffect(() => {
-  //   if (document.readyState) {
-  //     const sliderEl4 = document.querySelector("#range4");
-  //     const sliderValue4 = document.querySelector(".value4");
-
-  //     sliderEl4.addEventListener("input", (event) => {
-  //       const tempSliderValue = event.target.value;
-  //       // sliderValue4.textContent = tempSliderValue;
-
-  //       const progress = (tempSliderValue / sliderEl4.max) * 100;
-
-  //       sliderEl4.style.background = `linear-gradient(to right, #f50 ${progress}%, #ccc ${progress}%)`;
-  //     });
-  //   }
-  // }, []);
+  const [file, setFile] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
+  const [filePreview, setFilePreview] = useState("");
+  const [mimeType, setMimeType] = useState("");
 
   const handleSliderChange = (event) => {
-    console.log(event.target.value, "value");
     const tempSliderValue = event.target.value;
     setSliderValue(tempSliderValue);
     const sliderEl4 = document.getElementById("range4");
-    console.log(sliderEl4.max, "max");
+
     const progress = (tempSliderValue / sliderEl4.max) * 100;
     sliderEl4.style.background = `linear-gradient(to right, rgba(0, 169, 255, 1) ${progress}%, #ccc ${progress}%)`;
   };
+  const handleFile = (event) => {
+    if (event.target.files && event.target.files.length) {
+      // const preview = URL.createObjectURL()
+      setMimeType(event.target.files[0].type);
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleCompress = async () => {
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("compress", sliderValue.toString());
+      formData.append("mimeType", mimeType);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      const response = await axios.post("/api/compress", formData, config);
+      const base64String = Buffer.from(
+        response.data.compressedBuffer.data
+      ).toString("base64");
+
+      setFilePreview(base64String);
+    }
+  };
+
+  // Function to handle download
+  const handleDownload = () => {
+    // Create a temporary anchor element to trigger download
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `data:${mimeType};base64,${filePreview}`;
+    const ext = mimeType.split("/")[1];
+    downloadLink.download = `image.${ext}`; // Set the file name
+    downloadLink.click();
+
+    // Clean up the temporary element
+    downloadLink.remove();
+  };
+
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />
@@ -35,40 +65,67 @@ const page = () => {
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
           <div className="w-full bg-white shadow-xl rounded-3xl py-5">
-            <div></div>
             <div className=" py-16 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
                 <div className="flex items-center justify-center w-full flex-col gap-5">
-                  <label
-                    htmlFor="dropzone-file"
-                    className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-200 border-dashed rounded-lg cursor-pointer bg-white"
-                  >
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg
-                        className="w-8 h-8 mb-4 text-gray-200 dark:text-gray-200"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 20 16"
+                  {file ? (
+                    <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                      <div
+                        className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                        onClick={() => setFile(null)}
                       >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                        <Image
+                          src={"/assests/compress/icons/delete.png"}
+                          width={16}
+                          height={16}
+                          alt="delete-icon"
                         />
-                      </svg>
-                      <p className="mb-2 text-xl text-gray-300 dark:text-gray-300">
-                        <span className="font-semibold">Click to upload</span>{" "}
-                        or drag and drop
-                      </p>
-                      <p className="text-sm text-gray-300 dark:text-gray-300">
-                        PNG, JPG or GIF (MAX. 800x400px)
-                      </p>
+                      </div>
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        width={200}
+                        height={100}
+                        alt="image"
+                        className="rounded"
+                      />
                     </div>
-                    <input id="dropzone-file" type="file" className="hidden" />
-                  </label>
+                  ) : (
+                    <label
+                      htmlFor="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-[350px] border-2 border-gray-200 border-dashed rounded-lg cursor-pointer bg-white"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                          className="w-8 h-8 mb-4 text-gray-200 dark:text-gray-200"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 20 16"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                          />
+                        </svg>
+                        <p className="mb-2 text-xl text-gray-300 dark:text-gray-300">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          or drag and drop
+                        </p>
+                        <p className="text-sm text-gray-300 dark:text-gray-300">
+                          PNG, JPG or GIF (MAX. 800x400px)
+                        </p>
+                      </div>
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        onChange={handleFile}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
 
                   <div className="wrapper">
                     <div className="content">
@@ -103,6 +160,7 @@ const page = () => {
                   </div>
                   <button
                     type="button"
+                    onClick={handleCompress}
                     className="text-white bg-blue-bolt  px-4 py-3 rounded-xl shadow-lg"
                   >
                     Compress image
@@ -111,9 +169,38 @@ const page = () => {
 
                 <hr className="w-full h-[1px] bg-black opacity-50" />
                 <div className="flex-1 items-center justify-center flex-col py-5">
-                  <h1 className="text-gray-200 text-xl text-center">
-                    Please upload image
-                  </h1>
+                  {!filePreview.length ? (
+                    <div className="h-[350px] flex items-center justify-center">
+                      <h1 className="text-gray-200 text-xl text-center">
+                        Please upload image
+                      </h1>
+                    </div>
+                  ) : null}
+
+                  <div className="flex items-center justify-center w-full flex-col gap-5">
+                    {filePreview.length ? (
+                      <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                        <div
+                          className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                          onClick={handleDownload}
+                        >
+                          <Image
+                            src={"/assests/compress/icons/download.png"}
+                            width={16}
+                            height={16}
+                            alt="delete-icon"
+                          />
+                        </div>
+                        <Image
+                          src={`data:${mimeType};base64,${filePreview}`}
+                          width={200}
+                          height={100}
+                          alt="image"
+                          className="rounded"
+                        />
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
