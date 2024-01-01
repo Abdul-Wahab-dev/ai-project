@@ -3,20 +3,14 @@ import React, { useState } from "react";
 import Header from "@/app/(components)/layout/header";
 import Image from "next/image";
 import axios from "axios";
+import "@/app/globals.css";
 const page = () => {
   const [file, setFile] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
   const [filePreview, setFilePreview] = useState("");
   const [mimeType, setMimeType] = useState("");
+  const [conversionType, setConversionType] = useState("");
 
-  const handleSliderChange = (event) => {
-    const tempSliderValue = event.target.value;
-    setSliderValue(tempSliderValue);
-    const sliderEl4 = document.getElementById("range4");
-
-    const progress = (tempSliderValue / sliderEl4.max) * 100;
-    sliderEl4.style.background = `linear-gradient(to right, rgba(0, 169, 255, 1) ${progress}%, #ccc ${progress}%)`;
-  };
   const handleFile = (event) => {
     if (event.target.files && event.target.files.length) {
       // const preview = URL.createObjectURL()
@@ -25,20 +19,20 @@ const page = () => {
     }
   };
 
-  const handleCompress = async () => {
+  const handleConversion = async () => {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("compress", sliderValue.toString());
+      formData.append("conversionType", conversionType);
       formData.append("mimeType", mimeType);
       const config = {
         headers: {
           "content-type": "multipart/form-data",
         },
       };
-      const response = await axios.post("/api/compress", formData, config);
+      const response = await axios.post("/api/conversion", formData, config);
       const base64String = Buffer.from(
-        response.data.compressedBuffer.data
+        response.data.convertedBuffer.data
       ).toString("base64");
 
       setFilePreview(base64String);
@@ -49,9 +43,11 @@ const page = () => {
   const handleDownload = () => {
     // Create a temporary anchor element to trigger download
     const downloadLink = document.createElement("a");
-    downloadLink.href = `data:${mimeType};base64,${filePreview}`;
-    const ext = mimeType.split("/")[1];
-    downloadLink.download = `image.${ext}`; // Set the file name
+    const mimeTypeArr = mimeType.split("/");
+    const ext = mimeTypeArr[1];
+    const fileType = mimeTypeArr[0];
+    downloadLink.href = `data:${fileType}/${conversionType};base64,${filePreview}`;
+    downloadLink.download = `image.${conversionType}`; // Set the file name
     downloadLink.click();
 
     // Clean up the temporary element
@@ -65,9 +61,11 @@ const page = () => {
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
           <div className="w-full bg-white shadow-xl rounded-3xl py-10 px-3 flex flex-col">
-            <h1 className="text-3xl font-semibold mb-2">Compress Image</h1>
+            <h1 className="text-3xl font-semibold mb-2">
+              Transform Image Format
+            </h1>
             <p className="text-black text-center">
-              Shrink Image Sizes with High-Quality Image Compression
+              Efficiently Modify Image File Type
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
@@ -76,7 +74,11 @@ const page = () => {
                     <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
                       <div
                         className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
-                        onClick={() => setFile(null)}
+                        onClick={() => {
+                          setFile(null);
+                          setMimeType("");
+                          setConversionType("");
+                        }}
                       >
                         <Image
                           src={"/assests/compress/icons/delete.png"}
@@ -130,44 +132,36 @@ const page = () => {
                       />
                     </label>
                   )}
-
-                  <div className="wrapper">
-                    <div className="content">
-                      <div className="range">
-                        <div className="range-slider">
-                          <label htmlFor="range">
-                            Select a compression level:
-                          </label>
-                          <br />
-
-                          <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={sliderValue}
-                            className="range-input mt-5"
-                            id="range4"
-                            step="20"
-                            onChange={handleSliderChange}
-                          />
-                          <div className="sliderticks">
-                            <span>00</span>
-                            <span>20</span>
-                            <span>40</span>
-                            <span>60</span>
-                            <span>80</span>
-                            <span>100</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="flex gap-10 my-5">
+                    {["webp", "jpeg", "png"].map((el) => (
+                      <label
+                        className={`radio-btn-container text-black flex justify-center items-center ${
+                          mimeType.split("/")[1] === el
+                            ? "opacity-50"
+                            : "opacity-100"
+                        }`}
+                        key={el}
+                      >
+                        <span className="text-lg">{el}</span>
+                        <input
+                          type="radio"
+                          checked={conversionType === el}
+                          name="radio"
+                          onChange={() => setConversionType(el)}
+                          disabled={
+                            mimeType.split("/")[1] === el ? true : false
+                          }
+                        />
+                        <span className="checkmark"></span>
+                      </label>
+                    ))}
                   </div>
                   <button
                     type="button"
-                    onClick={handleCompress}
+                    onClick={handleConversion}
                     className="text-white bg-blue-bolt  px-4 py-3 rounded-xl shadow-lg"
                   >
-                    Compress image
+                    Convert image
                   </button>
                 </div>
 
@@ -196,7 +190,7 @@ const page = () => {
                           />
                         </div>
                         <Image
-                          src={`data:${mimeType};base64,${filePreview}`}
+                          src={`data:${mimeType}/${conversionType};base64,${filePreview}`}
                           width={200}
                           height={100}
                           alt="image"
