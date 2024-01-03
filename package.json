@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.484.0",
     "axios": "^1.6.2",
     "framer-motion": "^10.16.16",
     "multer": "^1.4.5-lts.1",
