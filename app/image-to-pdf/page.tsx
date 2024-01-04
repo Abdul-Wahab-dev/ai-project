@@ -34,6 +34,9 @@ const page = () => {
         },
       };
       const response = await axios.post("/api/image-to-pdf", formData, config);
+      if (response) {
+        setFilePreview(response.data.pdfLink);
+      }
       // const base64String = Buffer.from(
       //   response.data.convertedBuffer.data
       // ).toString("base64");
@@ -43,18 +46,21 @@ const page = () => {
   };
 
   // Function to handle download
-  const handleDownload = () => {
+  const handleDownload = async () => {
     // Create a temporary anchor element to trigger download
-    const downloadLink = document.createElement("a");
-    const mimeTypeArr = mimeType.split("/");
-    const ext = mimeTypeArr[1];
-    const fileType = mimeTypeArr[0];
-    downloadLink.href = `data:${fileType}/${conversionType};base64,${filePreview}`;
-    downloadLink.download = `image.${conversionType}`; // Set the file name
-    downloadLink.click();
+    const downloadedBuffer = await (
+      await fetch(filePreview, { method: "GET", headers: {} })
+    ).arrayBuffer();
+    // window.location.href = response.pdfLink;
+    const url = window.URL.createObjectURL(new Blob([downloadedBuffer]));
+    const link = document.createElement("a");
+    link.href = url;
+
+    link.download = "images-to-pdf.pdf";
+    link.click();
 
     // Clean up the temporary element
-    downloadLink.remove();
+    link.remove();
   };
 
   return (
@@ -178,13 +184,17 @@ const page = () => {
                             alt="delete-icon"
                           />
                         </div>
-                        <Image
-                          src={`data:${mimeType}/${conversionType};base64,${filePreview}`}
-                          width={200}
-                          height={100}
-                          alt="image"
-                          className="rounded"
-                        />
+                        <div className="bg-white p-4 flex items-center gap-5 shadow rounded">
+                          <div>
+                            <Image
+                              src={"/assests/index/icons/pdf.png"}
+                              width={40}
+                              height={60}
+                              alt="pdf-icon"
+                            />
+                          </div>
+                          <div className="text-black">images-to-pdf.pdf</div>
+                        </div>
                       </div>
                     ) : null}
                   </div>
