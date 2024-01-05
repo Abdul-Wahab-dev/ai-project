@@ -14,7 +14,7 @@ class S3Client {
         const fileBuffer = await files[i].arrayBuffer();
 
         const command = new PutObjectCommand({
-          Bucket: "image-to-pdf-images",
+          Bucket: process.env.AWS_BUCKET_IMAGE_PDF,
           Body: fileBuffer,
           Key: imageKey,
           ContentType: files[i].type,
@@ -30,7 +30,7 @@ class S3Client {
       const fileBuffer = await files.arrayBuffer();
 
       const command = new PutObjectCommand({
-        Bucket: "image-to-pdf-images",
+        Bucket: process.env.AWS_BUCKET_IMAGE_PDF,
         Body: fileBuffer,
         Key: imageKey,
         ContentType: files.type,
