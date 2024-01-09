@@ -13,6 +13,8 @@
     "@langchain/community": "^0.0.15",
     "@langchain/openai": "^0.0.10",
     "@pinecone-database/pinecone": "^1.1.2",
+    "ai": "^2.2.31",
+    "ai-stream-experimental": "^2.2.2",
     "axios": "^1.6.2",
     "framer-motion": "^10.16.16",
     "langchain": "^0.1.0",
