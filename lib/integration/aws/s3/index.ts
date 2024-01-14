@@ -41,6 +41,22 @@ class S3Client {
     }
   }
 
+  async uploadBufferToS3(fileBuffer: Buffer) {
+    const image: string = "";
+
+    const objectKey = `temp/pdf/${Date.now()}.pdf`;
+
+    const command = new PutObjectCommand({
+      Bucket: "image-to-pdf-images",
+      Body: fileBuffer,
+      Key: objectKey,
+      ContentType: "application/pdf",
+    });
+    await s3Client.send(command);
+
+    return objectKey;
+  }
+
   async deleteObjects(keys: string[] | string) {
     if (Array.isArray(keys)) {
       if (!keys.length) return;
