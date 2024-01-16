@@ -17,8 +17,6 @@ export const POST = async (req: NextRequest) => {
     result.push({
       name: file.name,
       base64: pdfBase64,
-      width: firstPageCopy.getWidth(),
-      height: firstPageCopy.getHeight(),
     });
   }
 

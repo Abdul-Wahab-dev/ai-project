@@ -6,11 +6,9 @@ import axios from "axios";
 import "@/app/globals.css";
 const page = () => {
   const [files, setFiles] = useState([]);
-  const [sliderValue, setSliderValue] = useState(0);
-  const [filePreview, setFilePreview] = useState("");
-  const [mimeType, setMimeType] = useState("");
-  const [conversionType, setConversionType] = useState("");
 
+  const [filePreview, setFilePreview] = useState("");
+  const [resltPdfPreview, setResultPdfPreview] = useState("");
   const handleFile = (event) => {
     if (event.target.files && event.target.files.length) {
       setFiles([...event.target.files]);
@@ -30,13 +28,16 @@ const page = () => {
     });
 
     if (response.data) {
-      for (const preview of response.data.previews) {
-        if (document.getElementById(preview.name)) {
+      for (let i = 0; i < response.data.previews.length; i++) {
+        if (i < 1) {
+          setResultPdfPreview(
+            `${response.data.previews[i].base64}#toolbar=0&navpanes=0`
+          );
+        }
+        if (document.getElementById(response.data.previews[i].name)) {
           document.getElementById(
-            preview.name
-          ).src = `${preview.base64}#toolbar=0&navpanes=0`;
-          // const calWidth = Math.floor(preview.width / 2);
-          // document.getElementById(preview.name)?.style.width = calWidth + "px";
+            response.data.previews[i].name
+          ).src = `${response.data.previews[i].base64}#toolbar=0&navpanes=0`;
         }
       }
     }
@@ -60,6 +61,14 @@ const page = () => {
     }
   };
 
+  useEffect(() => {
+    if (filePreview) {
+      console.log(resltPdfPreview);
+      if (document.getElementById("merged-pdf-preview")) {
+        document.getElementById("merged-pdf-preview").src = resltPdfPreview;
+      }
+    }
+  }, [filePreview]);
   // Function to handle download
   const handleDownload = async () => {
     // Create a temporary anchor element to trigger download
@@ -102,11 +111,11 @@ const page = () => {
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
                 <div className="flex items-center justify-center w-full flex-col gap-5">
-                  <div className="flex items-center justify-center gap-5 w-full">
+                  <div className=" flex items-center justify-center gap-5 w-full">
                     {files.length ? (
-                      <>
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3  items-center justify-center gap-5 w-full">
                         {files.map((file) => (
-                          <div className="h-[370px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                          <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
                             <div
                               className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                               onClick={() => {
@@ -126,10 +135,11 @@ const page = () => {
                             <iframe
                               className="w-full h-full"
                               id={file.name}
+                              scrolling="no"
                             ></iframe>
                           </div>
                         ))}
-                      </>
+                      </div>
                     ) : (
                       <label
                         htmlFor="dropzone-file"
@@ -158,7 +168,7 @@ const page = () => {
                             or drag and drop
                           </p>
                           <p className="text-sm text-gray-300 dark:text-gray-300">
-                            PNG, JPG or GIF (MAX. 800x400px)
+                            PDF
                           </p>
                         </div>
                         <input
@@ -173,7 +183,7 @@ const page = () => {
                   </div>
 
                   <div className="flex items-center justify-center gap-5">
-                    {files.length < 3 ? (
+                    {files.length < 3 && files.length !== 0 ? (
                       <div>
                         {" "}
                         <label className="flex gap-3 items-center px-4 py-3 border  bg-white text-blue rounded-xl shadow-lg  cursor-pointer">
@@ -226,7 +236,7 @@ const page = () => {
 
                   <div className="flex items-center justify-center w-full flex-col gap-5">
                     {filePreview ? (
-                      <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                      <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
                         <div
                           className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                           onClick={handleDownload}
@@ -238,17 +248,11 @@ const page = () => {
                             alt="delete-icon"
                           />
                         </div>
-                        <div className="bg-white p-4 flex items-center gap-5 shadow rounded">
-                          <div>
-                            <Image
-                              src={"/assests/index/icons/pdf.png"}
-                              width={40}
-                              height={60}
-                              alt="pdf-icon"
-                            />
-                          </div>
-                          <div className="text-black">images-to-pdf.pdf</div>
-                        </div>
+                        <iframe
+                          className="w-full h-full"
+                          scrolling="no"
+                          id="merged-pdf-preview"
+                        ></iframe>
                       </div>
                     ) : null}
                   </div>
