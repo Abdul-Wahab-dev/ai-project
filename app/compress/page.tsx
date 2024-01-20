@@ -8,7 +8,9 @@ const page = () => {
   const [sliderValue, setSliderValue] = useState(0);
   const [filePreview, setFilePreview] = useState("");
   const [mimeType, setMimeType] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const [fileUploadLoading, setFileUploadLoading] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
   const handleSliderChange = (event) => {
     const tempSliderValue = event.target.value;
     setSliderValue(tempSliderValue);
@@ -18,14 +20,19 @@ const page = () => {
     sliderEl4.style.background = `linear-gradient(to right, rgba(0, 169, 255, 1) ${progress}%, #ccc ${progress}%)`;
   };
   const handleFile = (event) => {
+    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
       // const preview = URL.createObjectURL()
-      setMimeType(event.target.files[0].type);
-      setFile(event.target.files[0]);
+      setTimeout(() => {
+        setMimeType(event.target.files[0].type);
+        setFile(event.target.files[0]);
+        setFileUploadLoading(false);
+      }, 1000);
     }
   };
 
   const handleCompress = async () => {
+    setLoading(true);
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
@@ -43,11 +50,13 @@ const page = () => {
 
       setFilePreview(base64String);
     }
+    setLoading(false);
   };
 
   // Function to handle download
   const handleDownload = () => {
     // Create a temporary anchor element to trigger download
+    setDownloadLoading(true);
     const downloadLink = document.createElement("a");
     downloadLink.href = `data:${mimeType};base64,${filePreview}`;
     const ext = mimeType.split("/")[1];
@@ -56,6 +65,7 @@ const page = () => {
 
     // Clean up the temporary element
     downloadLink.remove();
+    setDownloadLoading(false);
   };
 
   return (
@@ -92,6 +102,10 @@ const page = () => {
                         alt="image"
                         className="rounded"
                       />
+                    </div>
+                  ) : fileUploadLoading ? (
+                    <div className="flex flex-col items-center justify-center w-full h-[350px] bg-white">
+                      <div className="upload-loader"></div>
                     </div>
                   ) : (
                     <label
@@ -162,24 +176,29 @@ const page = () => {
                       </div>
                     </div>
                   </div>
+
                   <button
                     type="button"
                     onClick={handleCompress}
-                    className="text-white bg-blue-bolt  px-4 py-3 rounded-xl shadow-lg"
+                    className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                    disabled={loading}
                   >
-                    Compress image
+                    <span> Compress image</span>
+                    {loading ? <div className="loader"></div> : null}
                   </button>
                 </div>
 
-                <hr className="w-full h-[1px] bg-black opacity-50" />
+                {filePreview.length ? (
+                  <hr className="w-full h-[1px] bg-black opacity-50" />
+                ) : null}
                 <div className="flex-1 items-center justify-center flex-col py-5">
-                  {!filePreview.length ? (
+                  {/* {!filePreview.length ? (
                     <div className="h-[350px] flex items-center justify-center">
                       <h1 className="text-gray-200 text-xl text-center">
                         Please upload image
                       </h1>
                     </div>
-                  ) : null}
+                  ) : null} */}
 
                   <div className="flex items-center justify-center w-full flex-col gap-5">
                     {filePreview.length ? (
@@ -188,12 +207,16 @@ const page = () => {
                           className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                           onClick={handleDownload}
                         >
-                          <Image
-                            src={"/assests/compress/icons/download.png"}
-                            width={16}
-                            height={16}
-                            alt="delete-icon"
-                          />
+                          {downloadLoading ? (
+                            <div className="download-loader"></div>
+                          ) : (
+                            <Image
+                              src={"/assests/compress/icons/download.png"}
+                              width={16}
+                              height={16}
+                              alt="delete-icon"
+                            />
+                          )}
                         </div>
                         <Image
                           src={`data:${mimeType};base64,${filePreview}`}

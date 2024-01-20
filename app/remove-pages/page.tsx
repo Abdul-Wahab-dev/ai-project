@@ -15,14 +15,22 @@ const page = () => {
   }>(null);
   const [filePreview, setFilePreview] = useState("");
   const [resltPdfPreview, setResultPdfPreview] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
+  const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const handleFile = (event) => {
+    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      setFile(event.target.files[0]);
+      setTimeout(() => {
+        setFile(event.target.files[0]);
+        setFileUploadLoading(false);
+      }, 1000);
     }
   };
 
   const handleRemovePages = async () => {
     if (!file) return null;
+    setLoading(true);
     const formData = new FormData();
     const getPageNumbers = pages.map((el) => el.number);
 
@@ -37,18 +45,10 @@ const page = () => {
     });
     if (response) {
       setFilePreview(response.data.key);
-      //   const pagesCount = [];
-      //   const getPageNumbers = pages.map((el) => el.number);
-      //   for (let i = 0; i < currentFileData.totalPages; i++) {
-      //     if (!getPageNumbers.includes(i)) {
-      //       pagesCount.push(i);
-      //     }
-      //   }
+
       setResultPdfPreview(response.data.pdfPreview);
-      //   await fetchFileData(pagesCount[0], (data) => {
-      //     setResultPdfPreview(data.preview);
-      //   });
     }
+    setLoading(false);
   };
   useEffect(() => {
     if (filePreview) {
@@ -59,6 +59,7 @@ const page = () => {
   }, [filePreview]);
   // Function to handle download
   const handleDownload = async () => {
+    setDownloadLoading(true);
     // Create a temporary anchor element to trigger download
     // const downloadedBuffer = Buffer.from(filePreview);
     const mappedUrl = `https://image-to-pdf-images.s3.us-east-2.amazonaws.com/${filePreview}`;
@@ -76,6 +77,7 @@ const page = () => {
 
     // Clean up the temporary element
     link.remove();
+    setDownloadLoading(false);
   };
 
   const fetchFileData = async (
@@ -207,6 +209,10 @@ const page = () => {
                           ></iframe>
                         </div>
                       </div>
+                    ) : fileUploadLoading ? (
+                      <div className="flex flex-col items-center justify-center w-full h-[350px] bg-white">
+                        <div className="upload-loader"></div>
+                      </div>
                     ) : (
                       <label
                         htmlFor="dropzone-file"
@@ -265,13 +271,13 @@ const page = () => {
                           </label>
                           <input
                             type="number"
-                            className="bg-transparent border border-gray-200 text-gray-900 rounded-lg px-4 py-3 w-[300px] focus:border-gray-200 outline-none"
+                            className=" bg-transparent border border-gray-200 text-gray-900 rounded-lg px-4 py-3 w-[300px] focus:border-gray-200 outline-none"
                             value={pageNumber}
                             onChange={(e) => setPageNumber(e.target.value * 1)}
                           />
                         </div>
                         <button
-                          className="text-white bg-blue-bolt  px-4 py-3 rounded-lg shadow-lg"
+                          className="outline-none text-white bg-blue-bolt  px-4 py-3 rounded-lg shadow-lg"
                           type="submit"
                         >
                           Add
@@ -282,23 +288,27 @@ const page = () => {
                       <button
                         type="button"
                         onClick={handleRemovePages}
-                        className="text-white bg-blue-bolt  px-4 py-3 rounded-xl shadow-lg"
+                        className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                        disabled={loading}
                       >
-                        Remove Pages
+                        <span> Remove Page(s)</span>
+                        {loading ? <div className="loader"></div> : null}
                       </button>
                     ) : null}
                   </div>
                 </div>
 
-                <hr className="w-full h-[1px] bg-black opacity-50" />
+                {filePreview && resltPdfPreview ? (
+                  <hr className="w-full h-[1px] bg-black opacity-50" />
+                ) : null}
                 <div className="flex-1 items-center justify-center flex-col py-5">
-                  {!filePreview ? (
+                  {/* {!filePreview ? (
                     <div className="h-[350px] flex items-center justify-center">
                       <h1 className="text-gray-200 text-xl text-center">
                         Please upload image
                       </h1>
                     </div>
-                  ) : null}
+                  ) : null} */}
 
                   <div className="flex items-center justify-center w-full flex-col gap-5">
                     {filePreview && resltPdfPreview ? (
@@ -307,12 +317,16 @@ const page = () => {
                           className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                           onClick={handleDownload}
                         >
-                          <Image
-                            src={"/assests/compress/icons/download.png"}
-                            width={16}
-                            height={16}
-                            alt="delete-icon"
-                          />
+                          {downloadLoading ? (
+                            <div className="download-loader"></div>
+                          ) : (
+                            <Image
+                              src={"/assests/compress/icons/download.png"}
+                              width={16}
+                              height={16}
+                              alt="delete-icon"
+                            />
+                          )}
                         </div>
                         <iframe
                           className="w-full h-full"

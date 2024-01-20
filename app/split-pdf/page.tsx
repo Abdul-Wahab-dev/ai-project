@@ -5,7 +5,8 @@ import Image from "next/image";
 import axios from "axios";
 import "@/app/globals.css";
 const page = () => {
-  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [ranges, setRanges] = useState([]);
   const [pageFrom, setPageFrom] = useState(null);
@@ -21,13 +22,18 @@ const page = () => {
   const [filePreview, setFilePreview] = useState("");
   const [resltPdfPreview, setResultPdfPreview] = useState("");
   const handleFile = (event) => {
+    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      setFile(event.target.files[0]);
+      setTimeout(() => {
+        setFile(event.target.files[0]);
+        setFileUploadLoading(false);
+      }, 1000);
     }
   };
 
   const handleSplitPdf = async () => {
     if (!file) return null;
+    setLoading(true);
     const formData = new FormData();
     const getPageNumbers = pages.map((el) => el.number);
     const sortedRanges = ranges.map((range) => {
@@ -49,9 +55,8 @@ const page = () => {
     });
     if (response) {
       setSplittedPdfs(response.data.splittedPdf);
-      // setFilePreview(response.data.key);
-      // setResultPdfPreview(response.data.pdfPreview);
     }
+    setLoading(false);
   };
   useEffect(() => {
     if (filePreview) {
@@ -359,6 +364,10 @@ const page = () => {
                           </div>
                         ))}
                       </div>
+                    ) : fileUploadLoading ? (
+                      <div className="flex flex-col items-center justify-center w-full h-[350px] bg-white">
+                        <div className="upload-loader"></div>
+                      </div>
                     ) : (
                       <label
                         htmlFor="dropzone-file"
@@ -460,7 +469,7 @@ const page = () => {
                           </div>
                         </div>
                         <button
-                          className="text-white bg-blue-bolt  px-4 py-3 rounded-lg shadow-lg"
+                          className="text-white outline-none bg-blue-bolt  px-4 py-3 rounded-lg shadow-lg"
                           type="submit"
                         >
                           Add
@@ -487,9 +496,11 @@ const page = () => {
                           <button
                             type="button"
                             onClick={handleSplitPdf}
-                            className="text-white text-xl bg-blue-bolt border-2 border-blue-bolt px-7 py-3 rounded-xl shadow-lg"
+                            className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                            disabled={loading}
                           >
-                            Split Pdf
+                            <span>Split Pdf</span>
+                            {loading ? <div className="loader"></div> : null}
                           </button>
                         </div>
                       </>
