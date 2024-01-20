@@ -14,6 +14,7 @@ const page = () => {
   const [isNew, setIsNew] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [pages, setPages] = useState<{ path: string; number: number }[]>([]);
+  const [splittedPdfs, setSplittedPdfs] = useState([]);
   const [currentFileData, setCurrentFileData] = useState<{
     totalPages: number;
   }>(null);
@@ -25,24 +26,31 @@ const page = () => {
     }
   };
 
-  const handleRemovePages = async () => {
+  const handleSplitPdf = async () => {
     if (!file) return null;
     const formData = new FormData();
     const getPageNumbers = pages.map((el) => el.number);
+    const sortedRanges = ranges.map((range) => {
+      const tempRange = [];
+      tempRange.push(range.pageFrom.pageNumber ?? 1);
+      tempRange.push(range.pageTo.pageNumber ?? 1);
+
+      return tempRange.sort((a, b) => a - b);
+    });
 
     formData.append("file", file);
-    formData.append("pages", JSON.stringify(getPageNumbers));
+    formData.append("ranges", JSON.stringify(sortedRanges));
 
-    const response = await axios.post("/api/remove-pages", formData, {
+    const response = await axios.post("/api/split-pdf", formData, {
       responseType: "json",
       headers: {
         "content-type": "multipart/form-data",
       },
     });
     if (response) {
-      setFilePreview(response.data.key);
-
-      setResultPdfPreview(response.data.pdfPreview);
+      setSplittedPdfs(response.data.splittedPdf);
+      // setFilePreview(response.data.key);
+      // setResultPdfPreview(response.data.pdfPreview);
     }
   };
   useEffect(() => {
@@ -53,10 +61,10 @@ const page = () => {
     }
   }, [filePreview]);
   // Function to handle download
-  const handleDownload = async () => {
+  const handleDownload = async (key) => {
     // Create a temporary anchor element to trigger download
     // const downloadedBuffer = Buffer.from(filePreview);
-    const mappedUrl = `https://image-to-pdf-images.s3.us-east-2.amazonaws.com/${filePreview}`;
+    const mappedUrl = `https://image-to-pdf-images.s3.us-east-2.amazonaws.com/${key}`;
     const downloadedBuffer = await (
       await fetch(mappedUrl, { method: "GET" })
     ).arrayBuffer();
@@ -135,9 +143,6 @@ const page = () => {
       pageFrom <= currentFileData.totalPages &&
       pageTo <= currentFileData.totalPages
     ) {
-      if (isEdit) {
-      } else {
-      }
       fetchFileData(
         [pageFrom, pageTo],
         (data: {
@@ -186,6 +191,48 @@ const page = () => {
       );
     }
   };
+
+  const handlePagesChanges = (currentRange, value, rangeFor) => {
+    const tempCurrentRange = { ...currentRange };
+
+    if (rangeFor === "from") {
+      tempCurrentRange.pageFrom.pageNumber = value < 1 ? 1 : value;
+    }
+
+    if (rangeFor === "to") {
+      tempCurrentRange.pageTo.pageNumber = value < 1 ? 1 : value;
+    }
+
+    fetchFileData(
+      [
+        tempCurrentRange.pageFrom.pageNumber,
+        tempCurrentRange.pageTo.pageNumber,
+      ],
+      (data: {
+        pageFromPreview: string;
+        totalPages: number;
+        pageToPreview: string;
+      }) => {
+        tempCurrentRange.pageFrom.preview = data.pageFromPreview;
+        tempCurrentRange.pageTo.preview = data.pageToPreview;
+        const temp = ranges.map((range) =>
+          range.rangeNumber == tempCurrentRange.rangeNumber
+            ? tempCurrentRange
+            : range
+        );
+
+        setRanges([...temp]);
+      }
+    );
+
+    const tempRanges = ranges.map((range) =>
+      range.rangeNumber == tempCurrentRange.rangeNumber
+        ? tempCurrentRange
+        : range
+    );
+
+    setRanges([...tempRanges]);
+  };
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />
@@ -207,13 +254,13 @@ const page = () => {
                       <div className="flex flex-col  items-center justify-center gap-5 w-full">
                         {ranges.map((range, index) => (
                           <div className="flex flex-col relative gap-3 items-center justify-center">
-                            <div className="p-3 flex flex-col items-center justify-center gap-5 bg-[#f9f9f9] rounded-lg shadow-md">
+                            <div className="px-1 py-2 sm:p-3 flex flex-col items-center justify-center gap-5 bg-[#f9f9f9] rounded-lg shadow-lg">
                               <span className="text-gray-400 text-sm">
                                 Range No {range.rangeNumber ?? 0}
                               </span>
-                              <div className="h-[400px]  mx-auto  gap-5   flex justify-center items-center relative">
+                              <div className=" mx-auto  gap-5 md:flex-row flex-col   flex justify-center items-center relative">
                                 {range.pageFrom.preview && (
-                                  <div className="w-[290px] bg-white p-4 rounded-md shadow h-full flex items-center justify-between gap-3 flex-col">
+                                  <div className="w-[290px] h-[300px] md:h-[400px]  bg-white p-4 rounded-md shadow  flex items-center justify-between gap-3 flex-col">
                                     <iframe
                                       className="w-full h-full"
                                       src={
@@ -227,13 +274,13 @@ const page = () => {
                                     </span>
                                   </div>
                                 )}
-                                <span className="flex items-center justify-center gap-1">
+                                <span className="flex items-center flex-col md:flex-row justify-center gap-1">
                                   <span className="w-[7px] h-[7px] bg-black opacity-50 rounded-full"></span>
                                   <span className="w-[7px] h-[7px] bg-black opacity-50 rounded-full"></span>
                                   <span className="w-[7px] h-[7px] bg-black opacity-50 rounded-full"></span>
                                 </span>
                                 {range.pageTo.preview && (
-                                  <div className="w-[290px] bg-white p-4 rounded-md shadow h-full flex items-center justify-between gap-3 flex-col">
+                                  <div className="w-[290px] bg-white p-4 rounded-md shadow h-[350px] md:h-[400px]  flex items-center justify-between gap-3 flex-col">
                                     <iframe
                                       className="w-full h-full"
                                       src={
@@ -248,33 +295,65 @@ const page = () => {
                                   </div>
                                 )}
                               </div>
-                              <div className="flex items-center justify-center gap-3">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setIsEdit(true);
-                                    setSelectedRange(range);
-                                    setPageFrom(range.pageFrom.pageNumber);
-                                    setPageTo(range.pageTo.pageNumber);
-                                  }}
-                                  className=" bg-white border text-gray-400 px-4 py-3 rounded-xl shadow-lg"
-                                >
-                                  Edit Range
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const temp = [...ranges].filter(
-                                      (el) =>
-                                        el.rangeNumber !== range.rangeNumber
-                                    );
-                                    console.log(temp, "temp array");
-                                    setRanges([...temp]);
-                                  }}
-                                  className=" bg-white border text-gray-400 px-4 py-3 rounded-xl shadow-lg"
-                                >
-                                  Delete Range
-                                </button>
+                              <div className="flex items-center justify-center gap-5 ">
+                                <div className="border border-gray-200 rounded-lg w-[130px]  sm:w-[150px] flex bg-white items-center shadow">
+                                  <span className="text-black text-xs sm:text-base opacity-60 px-3 py-2 border-r h-full">
+                                    From
+                                  </span>
+                                  <input
+                                    type="text"
+                                    className="bg-transparent w-full  text-gray-900 rounded-lg px-2 py-3  focus:border-gray-200 outline-none"
+                                    value={range.pageFrom.pageNumber}
+                                    max={currentFileData.totalPages}
+                                    onChange={(e) => {
+                                      const isNumber = isNaN(e.target.value * 1)
+                                        ? null
+                                        : e.target.value * 1;
+                                      if (!isNumber) return;
+                                      if (
+                                        isNumber <= currentFileData.totalPages
+                                      ) {
+                                        handlePagesChanges(
+                                          range,
+                                          isNumber,
+                                          "from"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </div>
+                                <div className="border border-gray-200 rounded-lg  w-[130px]  sm:w-[150px] flex bg-white items-center shadow">
+                                  <span className="text-black text-xs sm:text-base opacity-60 px-3 py-2 border-r h-full">
+                                    To
+                                  </span>
+                                  <input
+                                    type="text"
+                                    className="bg-transparent w-full  text-gray-900 rounded-lg px-2 py-3  focus:border-gray-200 outline-none"
+                                    value={range.pageTo.pageNumber}
+                                    max={currentFileData.totalPages}
+                                    onChange={(e) => {
+                                      const isNumber = isNaN(e.target.value * 1)
+                                        ? null
+                                        : e.target.value * 1;
+                                      if (!isNumber) return;
+                                      if (
+                                        isNumber > currentFileData.totalPages
+                                      ) {
+                                        handlePagesChanges(
+                                          range,
+                                          currentFileData.totalPages * 1,
+                                          "to"
+                                        );
+                                      } else {
+                                        handlePagesChanges(
+                                          range,
+                                          isNumber,
+                                          "to"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -323,7 +402,7 @@ const page = () => {
                   </div>
 
                   <div className="flex flex-col items-center justify-center gap-5">
-                    {isEdit || isNew ? (
+                    {isNew ? (
                       <form
                         className="flex items-end justify-center gap-3"
                         onSubmit={addRange}
@@ -332,13 +411,13 @@ const page = () => {
                           {" "}
                           <label
                             htmlFor="first_name"
-                            className="block mb-2 mt-10  text-sm font-medium text-gray-900"
+                            className="block mb-2 mt-5  text-sm font-medium text-gray-900"
                           >
                             Enter the Range to split
                           </label>
                           <div className="flex items-center justify-center gap-5 ">
-                            <div className="border border-gray-200 rounded-lg  w-[150px] flex bg-white items-center shadow">
-                              <span className="text-black opacity-60 px-3 py-2 border-r h-full">
+                            <div className="border border-gray-200 rounded-lg  w-[130px] sm:w-[150px] flex bg-white items-center shadow">
+                              <span className="text-black text-xs sm:text-base opacity-60 px-3 py-2 border-r h-full">
                                 From
                               </span>
                               <input
@@ -357,8 +436,8 @@ const page = () => {
                                 }}
                               />
                             </div>
-                            <div className="border border-gray-200 rounded-lg  w-[150px] flex bg-white items-center shadow">
-                              <span className="text-black opacity-60 px-3 py-2 border-r h-full">
+                            <div className="border border-gray-200 rounded-lg  w-[130px] sm:w-[150px] flex bg-white items-center shadow">
+                              <span className="text-black text-xs sm:text-base opacity-60 px-3 py-2 border-r h-full">
                                 To
                               </span>
                               <input
@@ -384,67 +463,72 @@ const page = () => {
                           className="text-white bg-blue-bolt  px-4 py-3 rounded-lg shadow-lg"
                           type="submit"
                         >
-                          {isEdit ? "Edit" : "Add"}
+                          Add
                         </button>
                       </form>
                     ) : null}
                     {ranges.length ? (
-                      <div className="flex items-center justify-center gap-5">
-                        {!isNew && !isEdit ? (
+                      <>
+                        <div className="flex items-center justify-center gap-5">
+                          {!isNew ? (
+                            <button
+                              type="button"
+                              onClick={() => setIsNew(true)}
+                              className=" bg-transparent border-2 flex items-center justify-center gap-2 border-blue-bolt text-blue-bolt px-4 py-2 rounded-xl"
+                            >
+                              <span className="text-xl text-blue-bolt font-semibold">
+                                +
+                              </span>{" "}
+                              <span>Range</span>
+                            </button>
+                          ) : null}
+                        </div>
+                        <div className="flex items-center justify-center mt-10">
                           <button
                             type="button"
-                            onClick={() => setIsNew(true)}
-                            className=" bg-transparent border-2 border-blue-bolt text-blue-bolt px-4 py-3 rounded-xl"
+                            onClick={handleSplitPdf}
+                            className="text-white text-xl bg-blue-bolt border-2 border-blue-bolt px-7 py-3 rounded-xl shadow-lg"
                           >
-                            Add Range
+                            Split Pdf
                           </button>
-                        ) : null}
-
-                        <button
-                          type="button"
-                          onClick={handleRemovePages}
-                          className="text-white bg-blue-bolt border-2 border-blue-bolt px-4 py-3 rounded-xl shadow-lg"
-                        >
-                          Split Pdf
-                        </button>
-                      </div>
+                        </div>
+                      </>
                     ) : null}
                   </div>
                 </div>
 
                 <hr className="w-full h-[1px] bg-black opacity-50" />
-                <div className="flex-1 items-center justify-center flex-col py-5">
-                  {!filePreview ? (
-                    <div className="h-[350px] flex items-center justify-center">
-                      <h1 className="text-gray-200 text-xl text-center">
-                        Please upload image
-                      </h1>
-                    </div>
-                  ) : null}
-
-                  <div className="flex items-center justify-center w-full flex-col gap-5">
-                    {filePreview && resltPdfPreview ? (
-                      <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
-                        <div
-                          className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
-                          onClick={handleDownload}
-                        >
-                          <Image
-                            src={"/assests/compress/icons/download.png"}
-                            width={16}
-                            height={16}
-                            alt="delete-icon"
-                          />
+                {splittedPdfs.length ? (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3  items-center justify-center gap-5 w-full">
+                    {splittedPdfs.map((el) => (
+                      <div className="flex flex-col gap-3 items-center justify-center">
+                        <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                          <div
+                            className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                            onClick={() => {
+                              handleDownload(el.key);
+                            }}
+                          >
+                            <Image
+                              src={"/assests/compress/icons/download.png"}
+                              width={16}
+                              height={16}
+                              alt="delete-icon"
+                            />
+                          </div>
+                          <iframe
+                            className="w-full h-full"
+                            src={el.preview + "#toolbar=0&navpanes=0"}
+                            scrolling="no"
+                          ></iframe>
                         </div>
-                        <iframe
-                          className="w-full h-full"
-                          scrolling="no"
-                          src={resltPdfPreview + "#toolbar=0&navpanes=0"}
-                        ></iframe>
+                        <span className="text-gray-500 text-sm">
+                          Range {el.range[0]} - {el.range[1]}
+                        </span>
                       </div>
-                    ) : null}
+                    ))}
                   </div>
-                </div>
+                ) : null}
               </div>
             </div>
           </div>

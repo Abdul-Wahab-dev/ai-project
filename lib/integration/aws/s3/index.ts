@@ -41,10 +41,10 @@ class S3Client {
     }
   }
 
-  async uploadBufferToS3(fileBuffer: Buffer) {
+  async uploadBufferToS3(fileBuffer: Buffer, key?: string) {
     const image: string = "";
 
-    const objectKey = `temp/pdf/${Date.now()}.pdf`;
+    const objectKey = key ? key : `temp/pdf/${Date.now()}.pdf`;
 
     const command = new PutObjectCommand({
       Bucket: "image-to-pdf-images",
