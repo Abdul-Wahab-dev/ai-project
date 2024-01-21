@@ -331,6 +331,16 @@ body {
   -webkit-animation: spin 0.5s linear infinite; /* Safari */
   animation: spin 0.5s linear infinite;
 }
+/* HOW IT WORKS SECTION */
+.how-it-works .image-1 {
+  background-image: url("../public/assests/index/select-file.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  border-radius: 20px;
+  z-index: 10;
+}
+/* HOW IT WORKS SECTION */
 /* Safari */
 @-webkit-keyframes spin {
   0% {
