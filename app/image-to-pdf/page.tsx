@@ -6,21 +6,23 @@ import axios from "axios";
 import "@/app/globals.css";
 const page = () => {
   const [files, setFiles] = useState([]);
-  const [sliderValue, setSliderValue] = useState(0);
   const [filePreview, setFilePreview] = useState("");
-  const [mimeType, setMimeType] = useState("");
-  const [conversionType, setConversionType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
+  const [fileUploadLoading, setFileUploadLoading] = useState(false);
 
   const handleFile = (event) => {
+    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      // const preview = URL.createObjectURL()
-      // setMimeType(event.target.files[0].type);
-
-      setFiles([...event.target.files]);
+      setTimeout(() => {
+        setFiles([...event.target.files]);
+        setFileUploadLoading(false);
+      }, 1000);
     }
   };
   // console.log(files, " files");
   const handleConversion = async () => {
+    setLoading(true);
     if (files.length) {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
@@ -37,16 +39,13 @@ const page = () => {
       if (response) {
         setFilePreview(response.data.pdfLink);
       }
-      // const base64String = Buffer.from(
-      //   response.data.convertedBuffer.data
-      // ).toString("base64");
-
-      // setFilePreview(base64String);
     }
+    setLoading(false);
   };
 
   // Function to handle download
   const handleDownload = async () => {
+    setDownloadLoading(true);
     // Create a temporary anchor element to trigger download
     const downloadedBuffer = await (
       await fetch(filePreview, { method: "GET", headers: {} })
@@ -61,6 +60,7 @@ const page = () => {
 
     // Clean up the temporary element
     link.remove();
+    setDownloadLoading(false);
   };
 
   return (
@@ -109,6 +109,10 @@ const page = () => {
                           />
                         </div>
                       ))
+                    ) : fileUploadLoading ? (
+                      <div className="flex flex-col items-center justify-center w-full h-[350px] bg-white">
+                        <div className="upload-loader"></div>
+                      </div>
                     ) : (
                       <label
                         htmlFor="dropzone-file"
@@ -154,22 +158,18 @@ const page = () => {
                   <button
                     type="button"
                     onClick={handleConversion}
-                    className="text-white bg-blue-bolt  px-4 py-3 rounded-xl shadow-lg"
+                    className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                    disabled={loading}
                   >
-                    Convert PDF
+                    <span>Convert PDF</span>
+                    {loading ? <div className="loader"></div> : null}
                   </button>
                 </div>
 
-                <hr className="w-full h-[1px] bg-black opacity-50" />
+                {!filePreview.length ? null : (
+                  <hr className="w-full h-[1px] bg-black opacity-50" />
+                )}
                 <div className="flex-1 items-center justify-center flex-col py-5">
-                  {!filePreview.length ? (
-                    <div className="h-[350px] flex items-center justify-center">
-                      <h1 className="text-gray-200 text-xl text-center">
-                        Please upload image
-                      </h1>
-                    </div>
-                  ) : null}
-
                   <div className="flex items-center justify-center w-full flex-col gap-5">
                     {filePreview.length ? (
                       <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
@@ -177,12 +177,16 @@ const page = () => {
                           className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                           onClick={handleDownload}
                         >
-                          <Image
-                            src={"/assests/compress/icons/download.png"}
-                            width={16}
-                            height={16}
-                            alt="delete-icon"
-                          />
+                          {downloadLoading ? (
+                            <div className="download-loader"></div>
+                          ) : (
+                            <Image
+                              src={"/assests/compress/icons/download.png"}
+                              width={16}
+                              height={16}
+                              alt="delete-icon"
+                            />
+                          )}
                         </div>
                         <div className="bg-white p-4 flex items-center gap-5 shadow rounded">
                           <div>
