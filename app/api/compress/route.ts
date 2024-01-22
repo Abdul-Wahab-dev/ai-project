@@ -39,6 +39,10 @@ export async function POST(req: NextRequest) {
     compressedBuffer = await sharp(bufferFile)
       .png({ quality: compress })
       .toBuffer();
+  } else {
+    compressedBuffer = await sharp(bufferFile)
+      .webp({ quality: compress })
+      .toBuffer();
   }
 
   return NextResponse.json({
