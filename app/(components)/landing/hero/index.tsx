@@ -37,21 +37,23 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="z-50">
-              <Heading
-                classes={"text-3xl font-bold text-slate-800 z-20"}
-                delay={0.25}
+              <h1
+                className={
+                  "text-3xl font-bold text-slate-800 z-20 text-justify"
+                }
               >
-                Transform your{" "}
-                <span className="text-space-cadet">imagination </span> into a
-                story-based learning workbook
-              </Heading>
-              <Paragraph classes="text-slate-800 text-lg z-20" delay={0.5}>
-                Express your idea in a few words!{" "}
-              </Paragraph>
+                Unlock the Power of Digital Transformation with Our Online Tools
+              </h1>
+              <p className="text-slate-800 text-lg z-20">
+                Empower Your Digital Experience: A Comprehensive Suite of FREE
+                and User-Friendly Tools at Your Fingertips! Compress Image,
+                Image Type Conversation, Image to PDF, Split PDF, Merge PDFs and
+                More with Just a Few Clicks
+              </p>
             </div>
           </div>
 
-          <div className="flex-1 relative w-full lg:h-full h-[300px] overflow-hidden">
+          <div className="flex-1 relative w-full lg:h-full  h-[300px] overflow-hidden">
             <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-0 lg:left-[17%]  moveUpDownPdf z-20">
               <FramerImage delay={0.25}>
                 <Image
