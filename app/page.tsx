@@ -17,12 +17,13 @@ export default function Home() {
       <ToolSection />
       {/* Service Section */}
       <HowItWorks />
-      {/* Result Section */}
-      <StatSection />
-      {/* Service Section */}
+
       {/* Let's build  */}
       <BuildSection />
       {/* Let's build  */}
+      {/* Result Section */}
+      <StatSection />
+      {/* Service Section */}
     </div>
   );
 }

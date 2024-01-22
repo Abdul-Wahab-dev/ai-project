@@ -18,31 +18,85 @@ const HowItWorks = () => {
             <p className="text-slate-800 text-lg">Try our cutting-edge tools</p>
           </div>
         </div>
-        {/* <FramerDiv delay={0.25}> */}
-        <div className="how-it-works text-black">
-          <div className=" w-full h-full flex items-center justify-center">
-            <div className="flex-1 relative z-50">
-              <div className="w-[80%] bg-white flex items-center justify-between py-14 px-3 shadow-xl rounded-2xl absolute z-50 -right-16 top-[50%] -translate-y-[50%]">
-                <div className="w-[70%] px-5">
-                  <h1 className="text-3xl font-semibold">
-                    New potential clients
-                  </h1>
-                  <p>
-                    Sit back and relax. You'll get a notification as a steady
-                    stream of new leads get added to your account every few days
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <div className="bg-blue-bolt w-[70px] h-[70px] shadow-2xl rounded-full flex items-center justify-center text-2xl text-white">
-                    <span>1</span>
+        <div className="how-it-works text-black flex flex-col gap-24">
+          <FramerDiv delay={0.25}>
+            <div className=" w-full flex-col-reverse lg:flex-row h-full flex items-center justify-center">
+              <div className="flex-1 relative z-50  h-[400px] w-full lg:h-full">
+                <div className="w-[60%] sm:w-[60%] lg:w-[85%] xl:w-[70%] flex-col-reverse lg:flex-row bg-white flex items-center justify-between py-6 lg:py-10 px-3 shadow-xl rounded-2xl absolute z-50 left-[50%] gap-5 lg:gap-0 -top-16 -translate-x-[50%] lg:-right-16 lg:top-[50%] lg:-translate-y-[50%] lg:-translate-x-0">
+                  <div className=" lg:w-[85%] xl:w-[70%] px-5">
+                    <h1 className="text-2xl font-semibold text-left">
+                      Upload File
+                    </h1>
+                    <p>
+                      Sit back and relax. You'll get a notification as a steady
+                      stream of new leads get added to your account every few
+                      days
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="bg-blue-bolt w-[70px] h-[70px] shadow-2xl rounded-full flex items-center justify-center text-2xl text-white">
+                      <span>1</span>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className="w-full h-full flex-1 flex items-center">
+                <div className="image-1 shadow-lg md:h-[350px] xl:h-[400px] w-full"></div>
+              </div>
             </div>
-            <div className="w-full h-full flex-1 flex items-center">
-              <div className="image-1 shadow-lg h-[400px] w-full"></div>
+          </FramerDiv>
+          <FramerDiv delay={0.25}>
+            <div className=" w-full flex-col-reverse lg:flex-row-reverse h-full flex items-center justify-center">
+              <div className="flex-1 relative z-50  h-[400px] w-full lg:h-full">
+                <div className="w-[60%] sm:w-[60%] lg:w-[85%] xl:w-[70%] flex-col-reverse lg:flex-row-reverse bg-white flex items-center justify-between py-6 lg:py-10 px-3 shadow-xl rounded-2xl absolute z-50 left-[50%] gap-5 lg:gap-0 -top-16 -translate-x-[50%] lg:-left-16 lg:top-[50%] lg:-translate-y-[50%] lg:-translate-x-0">
+                  <div className=" lg:w-[85%] xl:w-[70%] px-5">
+                    <h1 className="text-2xl font-semibold text-left">
+                      Upload File
+                    </h1>
+                    <p>
+                      Sit back and relax. You'll get a notification as a steady
+                      stream of new leads get added to your account every few
+                      days
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="bg-blue-bolt w-[70px] h-[70px] shadow-2xl rounded-full flex items-center justify-center text-2xl text-white">
+                      <span>1</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full h-full flex-1 flex items-center">
+                <div className="image-2 shadow-lg md:h-[350px] xl:h-[400px] w-full"></div>
+              </div>
             </div>
-          </div>
+          </FramerDiv>
+          <FramerDiv delay={0.25}>
+            <div className=" w-full flex-col-reverse lg:flex-row h-full flex items-center justify-center">
+              <div className="flex-1 relative z-50  h-[400px] w-full lg:h-full">
+                <div className="w-[60%] sm:w-[60%] lg:w-[85%] xl:w-[70%] flex-col-reverse lg:flex-row bg-white flex items-center justify-between py-6 lg:py-10 px-3 shadow-xl rounded-2xl absolute z-50 left-[50%] gap-5 lg:gap-0 -top-16 -translate-x-[50%] lg:-right-16 lg:top-[50%] lg:-translate-y-[50%] lg:-translate-x-0">
+                  <div className=" lg:w-[85%] xl:w-[70%] px-5">
+                    <h1 className="text-2xl font-semibold text-left">
+                      Upload File
+                    </h1>
+                    <p>
+                      Sit back and relax. You'll get a notification as a steady
+                      stream of new leads get added to your account every few
+                      days
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="bg-blue-bolt w-[70px] h-[70px] shadow-2xl rounded-full flex items-center justify-center text-2xl text-white">
+                      <span>1</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full h-full flex-1 flex items-center">
+                <div className="image-2 shadow-lg md:h-[350px] xl:h-[400px] w-full"></div>
+              </div>
+            </div>
+          </FramerDiv>
         </div>
         {/* </FramerDiv> */}
       </div>
