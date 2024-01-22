@@ -395,9 +395,9 @@ const page = () => {
                             </span>{" "}
                             or drag and drop
                           </p>
-                          <p className="text-sm text-gray-300 dark:text-gray-300">
+                          {/* <p className="text-sm text-gray-300 dark:text-gray-300">
                             PDF
-                          </p>
+                          </p> */}
                         </div>
                         <input
                           id="dropzone-file"
@@ -508,7 +508,9 @@ const page = () => {
                   </div>
                 </div>
 
-                <hr className="w-full h-[1px] bg-black opacity-50" />
+                {splittedPdfs.length ? (
+                  <hr className="w-full h-[1px] bg-black opacity-50" />
+                ) : null}
                 {splittedPdfs.length ? (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3  items-center justify-center gap-5 w-full">
                     {splittedPdfs.map((el) => (
