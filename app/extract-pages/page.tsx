@@ -138,11 +138,9 @@ const page = () => {
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
           <div className="w-full bg-white shadow-xl rounded-3xl py-10 px-3 flex flex-col">
-            <h1 className="text-3xl font-semibold mb-2">
-              Transform Image Format
-            </h1>
+            <h1 className="text-3xl font-semibold mb-2">Extract Pages</h1>
             <p className="text-black text-center">
-              Efficiently Modify Image File Type
+              Precision Extraction: Retrieve Specific Pages with Our PDF Tool{" "}
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">

@@ -15,10 +15,12 @@ const HowItWorks = () => {
             <h1 className="text-3xl font-bold text-slate-800 z-50">
               How it works
             </h1>
-            <p className="text-slate-800 text-lg">Try our cutting-edge tools</p>
+            <p className="text-slate-800 text-lg">
+              Navigate Through the Magic – Explore Our Step-by-Step Guide{" "}
+            </p>
           </div>
         </div>
-        <div className="how-it-works text-black flex flex-col gap-24">
+        <div className="how-it-works text-black flex flex-col gap-24 mt-10">
           <FramerDiv delay={0.25}>
             <div className=" w-full flex-col-reverse lg:flex-row h-full flex items-center justify-center">
               <div className="flex-1 relative z-50  h-[400px] w-full lg:h-full">
@@ -28,9 +30,8 @@ const HowItWorks = () => {
                       Upload File
                     </h1>
                     <p>
-                      Sit back and relax. You'll get a notification as a steady
-                      stream of new leads get added to your account every few
-                      days
+                      Step 1: Effortless Start – Upload Your File for Instant
+                      Transformation!
                     </p>
                   </div>
                   <div className="flex items-center">
@@ -51,17 +52,16 @@ const HowItWorks = () => {
                 <div className="w-[60%] sm:w-[60%] lg:w-[85%] xl:w-[70%] flex-col-reverse lg:flex-row-reverse bg-white flex items-center justify-between py-6 lg:py-10 px-3 shadow-xl rounded-2xl absolute z-50 left-[50%] gap-5 lg:gap-0 -top-16 -translate-x-[50%] lg:-left-16 lg:top-[50%] lg:-translate-y-[50%] lg:-translate-x-0">
                   <div className=" lg:w-[85%] xl:w-[70%] px-5">
                     <h1 className="text-2xl font-semibold text-left">
-                      Upload File
+                      Refine Your Preferences
                     </h1>
                     <p>
-                      Sit back and relax. You'll get a notification as a steady
-                      stream of new leads get added to your account every few
-                      days
+                      Step 2: Customize Your Journey – Adjust Settings for
+                      Results with Our Tools!"
                     </p>
                   </div>
                   <div className="flex items-center">
                     <div className="bg-blue-bolt w-[70px] h-[70px] shadow-2xl rounded-full flex items-center justify-center text-2xl text-white">
-                      <span>1</span>
+                      <span>2</span>
                     </div>
                   </div>
                 </div>
@@ -77,23 +77,22 @@ const HowItWorks = () => {
                 <div className="w-[60%] sm:w-[60%] lg:w-[85%] xl:w-[70%] flex-col-reverse lg:flex-row bg-white flex items-center justify-between py-6 lg:py-10 px-3 shadow-xl rounded-2xl absolute z-50 left-[50%] gap-5 lg:gap-0 -top-16 -translate-x-[50%] lg:-right-16 lg:top-[50%] lg:-translate-y-[50%] lg:-translate-x-0">
                   <div className=" lg:w-[85%] xl:w-[70%] px-5">
                     <h1 className="text-2xl font-semibold text-left">
-                      Upload File
+                      See the Transformation
                     </h1>
                     <p>
-                      Sit back and relax. You'll get a notification as a steady
-                      stream of new leads get added to your account every few
-                      days
+                      "Step 3: Instant Joy – See the Transformation with Your
+                      Optimized Content Quickly and Effortlessly!
                     </p>
                   </div>
                   <div className="flex items-center">
                     <div className="bg-blue-bolt w-[70px] h-[70px] shadow-2xl rounded-full flex items-center justify-center text-2xl text-white">
-                      <span>1</span>
+                      <span>3</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="w-full h-full flex-1 flex items-center">
-                <div className="image-2 shadow-lg md:h-[350px] xl:h-[400px] w-full"></div>
+                <div className="image-3 shadow-lg md:h-[350px] xl:h-[400px] w-full"></div>
               </div>
             </div>
           </FramerDiv>

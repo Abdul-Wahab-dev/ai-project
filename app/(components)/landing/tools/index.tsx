@@ -1,5 +1,4 @@
-import React from "react";
-import FramerDiv from "@/app/(components)/framermotion/divblock";
+import Link from "next/link";
 import Image from "next/image";
 const ToolSection = () => {
   return (
@@ -18,150 +17,177 @@ const ToolSection = () => {
             <p className="text-slate-800 text-lg">Try our cutting-edge tools</p>
           </div>
         </div>
-        <FramerDiv delay={0.25}>
-          <div className="service-cards-containers grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-center  w-full md:w-[90%] xl:w-[80%] justify-center mx-auto py-5 relative">
-            <div className="bg-water w-[100px] h-[100px] rounded-full  border-[6px] bottom-[0px]  border-baby-blue -left-[50px] absolute z-10"></div>
-            <div
-              className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.09 }}
-            >
-              <Image
-                src={"/assests/index/icons/compress.png"}
-                alt="compressor"
-                width={45}
-                height={50}
-              />
-              <h1 className="text-xl font-semibold">Compress Image</h1>
-              <p className="text-center">
-                Shrink Image Sizes with High-Quality Image Compression
-              </p>
-            </div>
-            <div
-              className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <Image
-                src={"/assests/index/icons/format.png"}
-                alt="compressor"
-                width={60}
-                height={70}
-              />
-              <h1 className="text-xl font-semibold">Transform Image Format</h1>
-              <p className="text-center">Efficiently Modify Image File Types</p>
-            </div>
-            <div
-              className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
-              <div className="flex gap-4">
-                <Image
-                  src={"/assests/index/icons/image.png"}
-                  alt="compressor"
-                  width={50}
-                  height={30}
-                />
-                <Image
-                  src={"/assests/index/icons/one-way.png"}
-                  alt="compressor"
-                  width={40}
-                  height={100}
-                />
-
-                <Image
-                  src={"/assests/index/icons/pdf.png"}
-                  alt="compressor"
-                  width={50}
-                  height={50}
-                />
-              </div>
-              <h1 className="text-xl font-semibold">Image to PDF</h1>
-              <p className="text-center">
-                Create PDF Documents from Images with Ease
-              </p>
-            </div>
-            <div
-              className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Image
-                src={"/assests/index/icons/summary.png"}
-                alt="compressor"
-                width={45}
-                height={50}
-              />
-              <h1 className="text-xl font-semibold">Text Summarization</h1>
-              <p className="text-center">
-                Generate Precise Summaries of Lengthy Texts
-              </p>
-            </div>
-            <div
-              className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.25 }}
-            >
-              <Image
-                src={"/assests/index/icons/text-q.png"}
-                alt="compressor"
-                width={65}
-                height={50}
-              />
-              <h1 className="text-xl font-semibold">Text-to-Q&A</h1>
-              <p className="text-center">
-                Instantly Create Q&A from Your Textual Resources
-              </p>
-            </div>
-            <div
-              className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Image
-                src={"/assests/index/icons/delete.png"}
-                alt="compressor"
-                width={50}
-                height={50}
-              />
-              <h1 className="text-xl font-semibold">Image Eraser for PDF</h1>
-              <p className="text-center">
-                Extract Images to Obtain Image-Free PDF Documents
-              </p>
-            </div>
-          </div>
-        </FramerDiv>
+        <div className="service-cards-containers grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-center  w-full md:w-[90%] xl:w-[80%] justify-center mx-auto py-5 relative">
+          <div className="bg-water w-[100px] h-[100px] rounded-full  border-[6px] bottom-[0px]  border-baby-blue -left-[50px] absolute z-10"></div>
+          <Link
+            href={"/compress"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.09 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/compress.png"}
+              alt="compressor"
+              width={55}
+              height={50}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Compress Image</h1>
+            <p className="text-center">
+              Optimize Your Visuals: Effortless Image Compression
+            </p>
+          </Link>
+          <Link
+            href={"/conversion"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/format.png"}
+              alt="compressor"
+              width={50}
+              height={50}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Transform Image Format</h1>
+            <p className="text-center">
+              Versatile Image Transformation: Convert Formats Seamlessly
+            </p>
+          </Link>
+          <Link
+            href={"/image-to-pdf"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/image-to-pdf.png"}
+              alt="compressor"
+              width={70}
+              height={70}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Image to PDF</h1>
+            <p className="text-center">
+              Instantly Convert Images to PDF. A Quick and Free Solution
+            </p>
+          </Link>
+          <Link
+            href={"/merge-pdf"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/merge.png"}
+              alt="compressor"
+              width={65}
+              height={50}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Merge PDF</h1>
+            <p className="text-center">
+              Unify Your Documents: Merge PDFs with Ease.
+            </p>
+          </Link>
+          <Link
+            href={"/split-pdf"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.25 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/split.png"}
+              alt="compressor"
+              width={65}
+              height={50}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Split PDF</h1>
+            <p className="text-center">
+              Precision at Your Fingertips: Split PDFs with Ease
+            </p>
+          </Link>
+          <Link
+            href={"/remove-pages"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/remove-pages.png"}
+              alt="compressor"
+              width={55}
+              height={50}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Remove Pages</h1>
+            <p className="text-center">
+              Refine Your Content: Easily Remove Pages from PDF
+            </p>
+          </Link>
+          <Link
+            href={"/extract-pages"}
+            className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            {/* <FramerDiv delay={0.25}> */}
+            <Image
+              src={"/assests/index/icons/extract-pages.png"}
+              alt="compressor"
+              width={50}
+              height={50}
+            />
+            {/* </FramerDiv> */}
+            <h1 className="text-xl font-semibold">Extract Pages</h1>
+            <p className="text-center">
+              Precision Extraction: Retrieve Specific Pages with Our PDF Tool
+            </p>
+          </Link>
+        </div>
       </div>
     </div>
   );

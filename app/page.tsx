@@ -22,7 +22,7 @@ export default function Home() {
       <BuildSection />
       {/* Let's build  */}
       {/* Result Section */}
-      <StatSection />
+      {/* <StatSection /> */}
       {/* Service Section */}
     </div>
   );
