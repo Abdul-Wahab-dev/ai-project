@@ -77,7 +77,7 @@ const page = () => {
           <div className="w-full bg-white shadow-xl rounded-3xl py-10 px-3 flex flex-col">
             <h1 className="text-3xl font-semibold mb-2">Compress Image</h1>
             <p className="text-black text-center">
-              Shrink Image Sizes with High-Quality Image Compression
+              Optimize Your Visuals: Effortless Image Compression
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
