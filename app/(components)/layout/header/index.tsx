@@ -12,12 +12,12 @@ const Header = () => {
               <li className="cursor-pointer">Tools</li>
             </ul>
           </div>
-          <div>
+          {/* <div>
             <ul className="flex justify-center items-center gap-4 text-lg font-semibold">
               <li className="cursor-pointer">Login</li>
               <li className="cursor-pointer">Sign up</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
