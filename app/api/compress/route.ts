@@ -12,19 +12,19 @@ export async function POST(req: NextRequest) {
   let compressedBuffer;
   switch (compress) {
     case 20:
-      compress = 60;
-      break;
-    case 40:
       compress = 50;
       break;
-    case 60:
+    case 40:
       compress = 40;
       break;
-    case 80:
+    case 60:
       compress = 30;
       break;
-    case 100:
+    case 80:
       compress = 20;
+      break;
+    case 100:
+      compress = 10;
       break;
     default:
       compress = 70;

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Header from "@/app/(components)/layout/header";
 import Image from "next/image";
 import axios from "axios";
+import { formatBytes } from "@/utils/formatBytes";
 const page = () => {
   const [file, setFile] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
@@ -11,6 +12,7 @@ const page = () => {
   const [loading, setLoading] = useState(false);
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
+  const [size, setSize] = useState("");
   const handleSliderChange = (event) => {
     const tempSliderValue = event.target.value;
     setSliderValue(tempSliderValue);
@@ -22,8 +24,8 @@ const page = () => {
   const handleFile = (event) => {
     if (event.target.files && event.target.files.length) {
       const type = event.target.files[0].type;
-      console.log(event.target.files[0], "event.target.files[0]");
-      const size = event.target.files[0].size;
+
+      if (event.target.files[0].size > 20000000) return;
       if (type === "image/png" || type === "image/jpeg") {
         setFileUploadLoading(true);
         setTimeout(() => {
@@ -51,7 +53,9 @@ const page = () => {
       const base64String = Buffer.from(
         response.data.compressedBuffer.data
       ).toString("base64");
+      const bufferSize = Buffer.byteLength(base64String, "base64");
 
+      setSize(formatBytes(bufferSize));
       setFilePreview(base64String);
     }
     setLoading(false);
@@ -108,9 +112,9 @@ const page = () => {
                           className="rounded"
                         />
                       </div>
-                      <p className="text-gray-400 text-xs">
-                        size : {Math.round(file.size / 1000)}MB
-                      </p>
+                      <p className="text-gray-400 text-xs mt-2">
+                        size {formatBytes(file.size)}
+                      </p>{" "}
                     </div>
                   ) : fileUploadLoading ? (
                     <div className="flex flex-col items-center justify-center w-full h-[350px] bg-white">
@@ -214,29 +218,34 @@ const page = () => {
 
                   <div className="flex items-center justify-center w-full flex-col gap-5">
                     {filePreview.length ? (
-                      <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
-                        <div
-                          className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
-                          onClick={handleDownload}
-                        >
-                          {downloadLoading ? (
-                            <div className="download-loader"></div>
-                          ) : (
-                            <Image
-                              src={"/assests/compress/icons/download.png"}
-                              width={16}
-                              height={16}
-                              alt="delete-icon"
-                            />
-                          )}
+                      <div className="flex items-center justify-center flex-col">
+                        <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                          <div
+                            className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                            onClick={handleDownload}
+                          >
+                            {downloadLoading ? (
+                              <div className="download-loader"></div>
+                            ) : (
+                              <Image
+                                src={"/assests/compress/icons/download.png"}
+                                width={16}
+                                height={16}
+                                alt="delete-icon"
+                              />
+                            )}
+                          </div>
+                          <Image
+                            src={`data:${mimeType};base64,${filePreview}`}
+                            width={200}
+                            height={100}
+                            alt="image"
+                            className="rounded"
+                          />
                         </div>
-                        <Image
-                          src={`data:${mimeType};base64,${filePreview}`}
-                          width={200}
-                          height={100}
-                          alt="image"
-                          className="rounded"
-                        />
+                        <p className="text-gray-400 text-xs mt-2">
+                          size {size}
+                        </p>{" "}
                       </div>
                     ) : null}
                   </div>

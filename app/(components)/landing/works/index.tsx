@@ -1,6 +1,5 @@
 import React from "react";
 import FramerDiv from "@/app/(components)/framermotion/divblock";
-import Image from "next/image";
 const HowItWorks = () => {
   return (
     <div className="w-full bg-white py-10 relative overflow-hidden">
@@ -56,7 +55,7 @@ const HowItWorks = () => {
                     </h1>
                     <p>
                       Step 2: Customize Your Journey – Adjust Settings for
-                      Results with Our Tools!"
+                      Results with Our Tools!
                     </p>
                   </div>
                   <div className="flex items-center">
@@ -80,7 +79,7 @@ const HowItWorks = () => {
                       See the Transformation
                     </h1>
                     <p>
-                      "Step 3: Instant Joy – See the Transformation with Your
+                      Step 3: Instant Joy – See the Transformation with Your
                       Optimized Content Quickly and Effortlessly!
                     </p>
                   </div>
