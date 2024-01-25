@@ -22,12 +22,18 @@ const page = () => {
   const [filePreview, setFilePreview] = useState("");
   const [resltPdfPreview, setResultPdfPreview] = useState("");
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      setTimeout(() => {
-        setFile(event.target.files[0]);
-        setFileUploadLoading(false);
-      }, 1000);
+      if (event.target.files[0].size > 20000000) return;
+      const type = event.target.files[0].type;
+
+      if (type === "application/pdf") {
+        setFileUploadLoading(true);
+
+        setTimeout(() => {
+          setFile(event.target.files[0]);
+          setFileUploadLoading(false);
+        }, 1000);
+      }
     }
   };
 
@@ -393,9 +399,9 @@ const page = () => {
                             </span>{" "}
                             or drag and drop
                           </p>
-                          {/* <p className="text-sm text-gray-300 dark:text-gray-300">
-                            PDF
-                          </p> */}
+                          <p className="text-sm text-gray-300 dark:text-gray-300">
+                            PDF (MAX. 20MB)
+                          </p>
                         </div>
                         <input
                           id="dropzone-file"

@@ -19,12 +19,16 @@ const page = () => {
   const [resltPdfPreview, setResultPdfPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      setTimeout(() => {
-        setFile(event.target.files[0]);
-        setFileUploadLoading(false);
-      }, 1000);
+      if (event.target.files[0].size > 20000000) return;
+      const type = event.target.files[0].type;
+      if (type === "application/pdf") {
+        setFileUploadLoading(true);
+        setTimeout(() => {
+          setFile(event.target.files[0]);
+          setFileUploadLoading(false);
+        }, 1000);
+      }
     }
   };
 
