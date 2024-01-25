@@ -12,8 +12,22 @@ const page = () => {
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
 
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
+      const tempFiles = [];
+      for (const tempFile of event.target.files) {
+        const tempType = tempFile.type;
+
+        if (
+          (tempType === "image/png" ||
+            tempType === "image/jpeg" ||
+            tempType === "image/webp") &&
+          tempFile.size <= 20000000
+        ) {
+          tempFiles.push(tempFile);
+        }
+      }
+      if (!tempFiles.length) return;
+      setFileUploadLoading(true);
       setTimeout(() => {
         setFiles([...event.target.files]);
         setFileUploadLoading(false);
@@ -139,7 +153,7 @@ const page = () => {
                             or drag and drop
                           </p>
                           <p className="text-sm text-gray-300 dark:text-gray-300">
-                            PNG, JPG or GIF (MAX. 800x400px)
+                            PNG, JPG or WEBP (MAX. 20MB)
                           </p>
                         </div>
                         <input
@@ -152,16 +166,17 @@ const page = () => {
                       </label>
                     )}
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={handleConversion}
-                    className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
-                    disabled={loading}
-                  >
-                    <span>Convert PDF</span>
-                    {loading ? <div className="loader"></div> : null}
-                  </button>
+                  {files.length ? (
+                    <button
+                      type="button"
+                      onClick={handleConversion}
+                      className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                      disabled={loading}
+                    >
+                      <span>Convert PDF</span>
+                      {loading ? <div className="loader"></div> : null}
+                    </button>
+                  ) : null}
                 </div>
 
                 {!filePreview.length ? null : (
