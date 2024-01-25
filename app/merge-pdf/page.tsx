@@ -14,8 +14,17 @@ const page = () => {
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
 
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
+      const tempFiles = [];
+      for (const tempFile of event.target.files) {
+        const tempType = tempFile.type;
+
+        if (tempType === "application/pdf" && tempFile.size <= 20000000) {
+          tempFiles.push(tempFile);
+        }
+      }
+      if (!tempFiles.length) return;
+      setFileUploadLoading(true);
       setTimeout(() => {
         setFiles([...event.target.files]);
         setFileUploadLoading(false);
@@ -73,7 +82,6 @@ const page = () => {
 
   useEffect(() => {
     if (filePreview) {
-      console.log(resltPdfPreview);
       if (document.getElementById("merged-pdf-preview")) {
         document.getElementById("merged-pdf-preview").src = resltPdfPreview;
       }
@@ -90,7 +98,7 @@ const page = () => {
     ).arrayBuffer();
     // window.location.href = response.pdfLink;
     const url = window.URL.createObjectURL(new Blob([downloadedBuffer]));
-    console.log(url, "url");
+
     const link = document.createElement("a");
     link.href = url;
 
@@ -125,7 +133,10 @@ const page = () => {
                     {files.length ? (
                       <div className="grid md:grid-cols-2 lg:grid-cols-3  items-center justify-center gap-5 w-full">
                         {files.map((file) => (
-                          <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                          <div
+                            key={file.name + file.lastModified}
+                            className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative"
+                          >
                             <div
                               className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                               onClick={() => {
@@ -229,15 +240,17 @@ const page = () => {
                         </label>
                       </div>
                     ) : null}
-                    <button
-                      type="button"
-                      onClick={handleConversion}
-                      className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
-                      disabled={loading}
-                    >
-                      <span> Merge PDF</span>
-                      {loading ? <div className="loader"></div> : null}
-                    </button>
+                    {files.length > 1 ? (
+                      <button
+                        type="button"
+                        onClick={handleConversion}
+                        className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                        disabled={loading}
+                      >
+                        <span> Merge PDF</span>
+                        {loading ? <div className="loader"></div> : null}
+                      </button>
+                    ) : null}
                   </div>
                 </div>
 
