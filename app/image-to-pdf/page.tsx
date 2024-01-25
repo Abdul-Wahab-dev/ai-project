@@ -12,8 +12,22 @@ const page = () => {
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
 
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
+      const tempFiles = [];
+      for (const tempFile of event.target.files) {
+        const tempType = tempFile.type;
+
+        if (
+          (tempType === "image/png" ||
+            tempType === "image/jpeg" ||
+            tempType === "image/webp") &&
+          tempFile.size <= 20000000
+        ) {
+          tempFiles.push(tempFile);
+        }
+      }
+      if (!tempFiles.length) return;
+      setFileUploadLoading(true);
       setTimeout(() => {
         setFiles([...event.target.files]);
         setFileUploadLoading(false);
@@ -70,11 +84,9 @@ const page = () => {
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
           <div className="w-full bg-white shadow-xl rounded-3xl py-10 px-3 flex flex-col">
-            <h1 className="text-3xl font-semibold mb-2">
-              Transform Image Format
-            </h1>
+            <h1 className="text-3xl font-semibold mb-2">Image to PDF</h1>
             <p className="text-black text-center">
-              Efficiently Modify Image File Type
+              Instantly Convert Images to PDF. A Quick and Free Solution
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
@@ -141,7 +153,7 @@ const page = () => {
                             or drag and drop
                           </p>
                           <p className="text-sm text-gray-300 dark:text-gray-300">
-                            PNG, JPG or GIF (MAX. 800x400px)
+                            PNG, JPG or WEBP (MAX. 20MB)
                           </p>
                         </div>
                         <input
@@ -154,16 +166,17 @@ const page = () => {
                       </label>
                     )}
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={handleConversion}
-                    className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
-                    disabled={loading}
-                  >
-                    <span>Convert PDF</span>
-                    {loading ? <div className="loader"></div> : null}
-                  </button>
+                  {files.length ? (
+                    <button
+                      type="button"
+                      onClick={handleConversion}
+                      className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                      disabled={loading}
+                    >
+                      <span>Convert PDF</span>
+                      {loading ? <div className="loader"></div> : null}
+                    </button>
+                  ) : null}
                 </div>
 
                 {!filePreview.length ? null : (

@@ -1,7 +1,7 @@
 import React from "react";
-import Heading from "@/app/(components)/framermotion/heading";
+
 import Image from "next/image";
-import Paragraph from "@/app/(components)/framermotion/paragraph";
+import Link from "next/link";
 import Graph from "@/public/assests/index/graph.png";
 import FramerImage from "@/app/(components)/framermotion/image";
 const HeroSection = () => {
@@ -37,99 +37,115 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="z-50">
-              <Heading
-                classes={"text-3xl font-bold text-slate-800 z-20"}
-                delay={0.25}
+              <h1
+                className={
+                  "text-3xl font-bold text-slate-800 z-20 text-justify"
+                }
               >
-                Transform your{" "}
-                <span className="text-space-cadet">imagination </span> into a
-                story-based learning workbook
-              </Heading>
-              <Paragraph classes="text-slate-800 text-lg z-20" delay={0.5}>
-                Express your idea in a few words!{" "}
-              </Paragraph>
+                Unlock the Power of Digital Transformation with Our Online Tools
+              </h1>
+              <p className="text-slate-800 text-lg z-20">
+                Empower Your Digital Experience: A Comprehensive Suite of FREE
+                and User-Friendly Tools at Your Fingertips! Compress Image,
+                Image Type Conversation, Image to PDF, Split PDF, Merge PDFs and
+                More with Just a Few Clicks
+              </p>
             </div>
           </div>
 
-          <div className="flex-1 relative w-full lg:h-full h-[300px] overflow-hidden">
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-0 lg:left-[17%]  moveUpDownPdf z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/pdf.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
+          <div className="flex-1 relative w-full lg:h-full  h-[300px] overflow-hidden">
+            <Link href={"/extract-pages"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-0 lg:left-[17%]  moveUpDownPdf z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/extract-pages.png"}
+                    width={30}
+                    height={30}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
+            <Link href={"/conversion"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  right-[12%] moveUpDownImage z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/format.png"}
+                    width={50}
+                    height={60}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
 
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  right-[12%] moveUpDownImage z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/image.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  left-[50%] -translate-x-[50%] moveUpDownText z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/text.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/ai.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[75%] -translate-x-[50%] moveUpDownCompress z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/compress.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/ai.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
-            <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[15%]  moveUpDownSummary z-20">
-              <FramerImage delay={0.25}>
-                <Image
-                  src={"/assests/index/icons/summary.png"}
-                  width={50}
-                  height={60}
-                  alt="ai-icon"
-                  className="md:w-[50px]  w-[40px]"
-                />
-              </FramerImage>
-            </div>
+            <Link href={"/split-pdf"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer  left-[50%] -translate-x-[50%] moveUpDownText z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/split.png"}
+                    width={50}
+                    height={60}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
+            <Link href={"/merge-pdf"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/merge.png"}
+                    width={50}
+                    height={60}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
+            <Link href={"/compress"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[75%] -translate-x-[50%] moveUpDownCompress z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/compress.png"}
+                    width={50}
+                    height={60}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
+            <Link href={"/merge-pdf"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[50%] -translate-x-[50%] moveUpDownAi z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/merge.png"}
+                    width={50}
+                    height={60}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
+            <Link href={"/remove-pages"}>
+              <div className="overflow-hidden bg-white p-4 rounded-lg flex justify-center items-center w-auto absolute shadow-md cursor-pointer left-[15%]  moveUpDownSummary z-20">
+                <FramerImage delay={0.25}>
+                  <Image
+                    src={"/assests/index/icons/remove-pages.png"}
+                    width={50}
+                    height={60}
+                    alt="ai-icon"
+                    className="md:w-[50px]  w-[40px]"
+                  />
+                </FramerImage>
+              </div>
+            </Link>
             <Image
               src={Graph}
               width={500}

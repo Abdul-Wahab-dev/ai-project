@@ -22,12 +22,18 @@ const page = () => {
   const [filePreview, setFilePreview] = useState("");
   const [resltPdfPreview, setResultPdfPreview] = useState("");
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      setTimeout(() => {
-        setFile(event.target.files[0]);
-        setFileUploadLoading(false);
-      }, 1000);
+      if (event.target.files[0].size > 20000000) return;
+      const type = event.target.files[0].type;
+
+      if (type === "application/pdf") {
+        setFileUploadLoading(true);
+
+        setTimeout(() => {
+          setFile(event.target.files[0]);
+          setFileUploadLoading(false);
+        }, 1000);
+      }
     }
   };
 
@@ -245,11 +251,9 @@ const page = () => {
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
           <div className="w-full bg-white shadow-xl rounded-3xl py-10 px-3 flex flex-col">
-            <h1 className="text-3xl font-semibold mb-2">
-              Transform Image Format
-            </h1>
+            <h1 className="text-3xl font-semibold mb-2">Split PDF</h1>
             <p className="text-black text-center">
-              Efficiently Modify Image File Type
+              Precision at Your Fingertips: Split PDFs with Ease
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
@@ -396,7 +400,7 @@ const page = () => {
                             or drag and drop
                           </p>
                           <p className="text-sm text-gray-300 dark:text-gray-300">
-                            PDF
+                            PDF (MAX. 20MB)
                           </p>
                         </div>
                         <input
@@ -508,7 +512,9 @@ const page = () => {
                   </div>
                 </div>
 
-                <hr className="w-full h-[1px] bg-black opacity-50" />
+                {splittedPdfs.length ? (
+                  <hr className="w-full h-[1px] bg-black opacity-50" />
+                ) : null}
                 {splittedPdfs.length ? (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3  items-center justify-center gap-5 w-full">
                     {splittedPdfs.map((el) => (

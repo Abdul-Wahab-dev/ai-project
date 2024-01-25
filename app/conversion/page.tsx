@@ -14,14 +14,23 @@ const page = () => {
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
 
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
       // const preview = URL.createObjectURL()
-      setTimeout(() => {
-        setMimeType(event.target.files[0].type);
-        setFile(event.target.files[0]);
-        setFileUploadLoading(false);
-      }, 1000);
+      if (event.target.files[0].size > 20000000) return;
+      const type = event.target.files[0].type;
+
+      if (
+        type === "image/png" ||
+        type === "image/jpeg" ||
+        type === "image/webp"
+      ) {
+        setFileUploadLoading(true);
+        setTimeout(() => {
+          setMimeType(event.target.files[0].type);
+          setFile(event.target.files[0]);
+          setFileUploadLoading(false);
+        }, 1000);
+      }
     }
   };
 
@@ -75,35 +84,40 @@ const page = () => {
               Transform Image Format
             </h1>
             <p className="text-black text-center">
-              Efficiently Modify Image File Type
+              Versatile Image Transformation: Convert Formats Seamlessly
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">
                 <div className="flex items-center justify-center w-full flex-col gap-5">
                   {file ? (
-                    <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
-                      <div
-                        className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
-                        onClick={() => {
-                          setFile(null);
-                          setMimeType("");
-                          setConversionType("");
-                        }}
-                      >
+                    <div className="flex items-center justify-center flex-col">
+                      <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                        <div
+                          className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                          onClick={() => {
+                            setFile(null);
+                            setMimeType("");
+                            setConversionType("");
+                          }}
+                        >
+                          <Image
+                            src={"/assests/compress/icons/delete.png"}
+                            width={16}
+                            height={16}
+                            alt="delete-icon"
+                          />
+                        </div>
                         <Image
-                          src={"/assests/compress/icons/delete.png"}
-                          width={16}
-                          height={16}
-                          alt="delete-icon"
+                          src={URL.createObjectURL(file)}
+                          width={200}
+                          height={100}
+                          alt="image"
+                          className="rounded"
                         />
                       </div>
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        width={200}
-                        height={100}
-                        alt="image"
-                        className="rounded"
-                      />
+                      <p className="text-gray-400 text-xs mt-2">
+                        Type {file.type.split("/")[1]}
+                      </p>{" "}
                     </div>
                   ) : fileUploadLoading ? (
                     <div className="flex flex-col items-center justify-center w-full h-[350px] bg-white">
@@ -135,7 +149,7 @@ const page = () => {
                           or drag and drop
                         </p>
                         <p className="text-sm text-gray-300 dark:text-gray-300">
-                          PNG, JPG or GIF (MAX. 800x400px)
+                          PNG, JPG or WEBP (MAX. 20MB)
                         </p>
                       </div>
                       <input
@@ -195,29 +209,34 @@ const page = () => {
 
                   <div className="flex items-center justify-center w-full flex-col gap-5">
                     {filePreview.length ? (
-                      <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
-                        <div
-                          className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
-                          onClick={handleDownload}
-                        >
-                          {downloadLoading ? (
-                            <div className="download-loader"></div>
-                          ) : (
-                            <Image
-                              src={"/assests/compress/icons/download.png"}
-                              width={16}
-                              height={16}
-                              alt="delete-icon"
-                            />
-                          )}
+                      <div className="flex items-center justify-center flex-col">
+                        <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+                          <div
+                            className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
+                            onClick={handleDownload}
+                          >
+                            {downloadLoading ? (
+                              <div className="download-loader"></div>
+                            ) : (
+                              <Image
+                                src={"/assests/compress/icons/download.png"}
+                                width={16}
+                                height={16}
+                                alt="delete-icon"
+                              />
+                            )}
+                          </div>
+                          <Image
+                            src={`data:${mimeType}/${conversionType};base64,${filePreview}`}
+                            width={200}
+                            height={100}
+                            alt="image"
+                            className="rounded"
+                          />
                         </div>
-                        <Image
-                          src={`data:${mimeType}/${conversionType};base64,${filePreview}`}
-                          width={200}
-                          height={100}
-                          alt="image"
-                          className="rounded"
-                        />
+                        <p className="text-gray-400 text-xs mt-2">
+                          Type {conversionType}
+                        </p>{" "}
                       </div>
                     ) : null}
                   </div>

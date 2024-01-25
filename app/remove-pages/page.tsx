@@ -19,12 +19,16 @@ const page = () => {
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const handleFile = (event) => {
-    setFileUploadLoading(true);
     if (event.target.files && event.target.files.length) {
-      setTimeout(() => {
-        setFile(event.target.files[0]);
-        setFileUploadLoading(false);
-      }, 1000);
+      if (event.target.files[0].size > 20000000) return;
+      const type = event.target.files[0].type;
+      if (type === "application/pdf") {
+        setFileUploadLoading(true);
+        setTimeout(() => {
+          setFile(event.target.files[0]);
+          setFileUploadLoading(false);
+        }, 1000);
+      }
     }
   };
 
@@ -139,11 +143,9 @@ const page = () => {
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
           <div className="w-full bg-white shadow-xl rounded-3xl py-10 px-3 flex flex-col">
-            <h1 className="text-3xl font-semibold mb-2">
-              Transform Image Format
-            </h1>
+            <h1 className="text-3xl font-semibold mb-2">Remove Pages</h1>
             <p className="text-black text-center">
-              Efficiently Modify Image File Type
+              Refine Your Content: Easily Remove Pages from PDF
             </p>
             <div className=" py-10 px-3 overflow-hidden">
               <div className="flex flex-col px-5 gap-10">

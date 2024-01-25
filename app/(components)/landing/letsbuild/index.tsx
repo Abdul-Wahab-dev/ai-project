@@ -60,33 +60,40 @@ const BuildSection = () => {
               </div>
               <div className=" py-5 w-full z-50">
                 <div className="flex  flex-col gap-5">
-                  <h1 className="text-3xl font-bold text-slate-800 z-50">
-                    Let's Create AI-Powered Content With A Single Click
+                  <h1 className="text-3xl font-bold text-slate-800 z-50 text-left">
+                    Experience Excellence at Zero Cost: Unleash the Power of Our
+                    Free Tools!
                   </h1>
-                  <p className="text-slate-800 text-lg ">
-                    To create powerful content, you need to know who you're
-                    targeting. Identify your target audience and understand
-                    their needs, interests, and pain points.
-                  </p>
-                  <ul>
+                  {/* <p className="text-slate-800 text-lg ">
+                    Benefit from our state-of-the-art tools that leverage the
+                    latest technology, ensuring top-notch performance and
+                    results.
+                  </p> */}
+                  <ul className="list-disc	text-slate-800">
                     <li>
                       <p className="text-slate-800 text-lg ">
-                        Start creating powerful content, for your next ads
+                        Benefit from our state-of-the-art tools that leverage
+                        the latest technology, ensuring top-notch performance
+                        and results.
                       </p>
                     </li>
                     <li>
                       <p className="text-slate-800 text-lg ">
-                        Start creating powerful content, for your next ads
+                        Experience seamless navigation with our user-friendly
+                        interface, designed for both beginners and seasoned
+                        users alike.
                       </p>
                     </li>
                     <li>
                       <p className="text-slate-800 text-lg ">
-                        Start creating powerful content, for your next ads
+                        All our features are completely free and easily
+                        accessible to everyone
                       </p>
                     </li>
                     <li>
                       <p className="text-slate-800 text-lg ">
-                        Start creating powerful content, for your next ads
+                        Streamline your tasks with our efficient tools that
+                        deliver speedy results without compromising on quality
                       </p>
                     </li>
                   </ul>
