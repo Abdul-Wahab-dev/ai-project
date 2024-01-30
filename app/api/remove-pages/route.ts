@@ -21,27 +21,14 @@ export const POST = async (req: NextRequest) => {
     }
   }
 
-  //     const pageCount = loadedPdf.getPageCount();
-  //     const pageArray = [];
-
-  //     for (let i = 0; i < pageCount; i++) {
-  //       pageArray.push(i);
-  //     }
-
-  //     const pages = await pdf.copyPages(loadedPdf, pageArray);
-
-  //     for (let i = 0; i < pages.length; i++) {
-  //       pdf.addPage(pages[i]);
-  //     }
   const [tempCopyPage] = await tempPdf.copyPages(pdf, [0]);
   tempPdf.addPage(tempCopyPage);
   const pdfBase64 = await tempPdf.saveAsBase64({ dataUri: true });
   const pdfBytes = await pdf.save();
 
   const bufferPdf = Buffer.from(pdfBytes);
-  const objectKey = await s3FileHandling.uploadBufferToS3(bufferPdf);
   return NextResponse.json({
-    key: objectKey,
+    bufferPdf,
     pdfPreview: pdfBase64,
   });
 };

@@ -28,9 +28,8 @@ export const POST = async (req: NextRequest) => {
 
   const pdfBytes = await pdf.save();
   const bufferPdf = Buffer.from(pdfBytes);
-  const objectKey = await s3FileHandling.uploadBufferToS3(bufferPdf);
   return NextResponse.json({
-    key: objectKey,
+    bufferPdf,
   });
 };
 
