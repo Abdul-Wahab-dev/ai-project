@@ -94,7 +94,7 @@ const Footer = () => {
           </div>
         </FramerDiv>
       </div>
-      <div className="bg-winter-wizard p-5">
+      <div className="bg-water p-5">
         <div className="custom_container mx-auto flex items-center justify-center text-gray-800">
           <p>Toolefy © 2023. All Rights Reserved.</p>
         </div>

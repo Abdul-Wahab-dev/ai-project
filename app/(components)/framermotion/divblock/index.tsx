@@ -18,7 +18,7 @@ const FramerDiv = ({
     if (isInView) {
       mainControllers.start("visible");
     }
-  }, [isInView]);
+  }, [isInView, mainControllers]);
   return (
     <motion.div
       ref={ref}
