@@ -48,7 +48,11 @@ const page = () => {
       },
     });
     if (response) {
-      setFilePreview(response.data.key);
+      const base64String = Buffer.from(response.data.bufferPdf.data).toString(
+        "base64"
+      );
+
+      setFilePreview(base64String);
       setResultPdfPreview(response.data.pdfPreview);
     }
     setLoading(false);
@@ -64,22 +68,16 @@ const page = () => {
   const handleDownload = async () => {
     setDownloadLoading(true);
     // Create a temporary anchor element to trigger download
-    // const downloadedBuffer = Buffer.from(filePreview);
-    const mappedUrl = `https://image-to-pdf-images.s3.us-east-2.amazonaws.com/${filePreview}`;
-    const downloadedBuffer = await (
-      await fetch(mappedUrl, { method: "GET" })
-    ).arrayBuffer();
-    // window.location.href = response.pdfLink;
-    const url = window.URL.createObjectURL(new Blob([downloadedBuffer]));
+    // Create a temporary anchor element to trigger download
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `data:application/pdf;base64,${filePreview}`;
 
-    const link = document.createElement("a");
-    link.href = url;
-
-    link.download = `${Date.now()}.pdf`;
-    link.click();
+    downloadLink.download = `${Date.now()}.pdf`;
+    downloadLink.click();
 
     // Clean up the temporary element
-    link.remove();
+    downloadLink.remove();
+
     setDownloadLoading(false);
   };
 
@@ -152,8 +150,11 @@ const page = () => {
                   <div className=" flex items-center justify-center gap-5 w-full">
                     {pages.length ? (
                       <div className="grid md:grid-cols-2 lg:grid-cols-3  items-center justify-center gap-5 w-full">
-                        {pages.map((el) => (
-                          <div className="flex flex-col gap-3 items-center justify-center">
+                        {pages.map((el, index) => (
+                          <div
+                            className="flex flex-col gap-3 items-center justify-center"
+                            key={`extract-page-${index}`}
+                          >
                             <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
                               <div
                                 className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
