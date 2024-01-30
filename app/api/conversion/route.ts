@@ -4,8 +4,7 @@ import sharp from "sharp";
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
 
-  const file = formData.get("file");
-  const mimeType = formData.get("mimeType")?.toString();
+  const file = formData.get("file") as File;
   let conversionType = formData.get("conversionType")?.toString() ?? "jpeg";
 
   const bufferFile = await file.arrayBuffer();

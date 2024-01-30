@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Versatile Image Transformation: Convert Formats Seamlessly",
 };
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />

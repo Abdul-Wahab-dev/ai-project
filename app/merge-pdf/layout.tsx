@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Unify Your Documents: Merge PDFs with Ease.",
 };
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />

@@ -4,7 +4,7 @@ import { PDFDocument } from "pdf-lib";
 
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
-  const file = formData.get("file");
+  const file = formData.get("file") as File;
   const pageNumber = formData.get("pageNumber");
 
   if (!file) {

@@ -80,7 +80,7 @@ const Page = () => {
       <div className="flex items-center justify-center w-full flex-col gap-5">
         {file ? (
           <div className="flex items-center justify-center flex-col">
-            <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+            <div className="h-[350px] overflow-hidden p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
               <div
                 className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                 onClick={() => setFile(null)}
@@ -194,18 +194,10 @@ const Page = () => {
         <hr className="w-full h-[1px] bg-black opacity-50" />
       ) : null}
       <div className="flex-1 items-center justify-center flex-col py-5">
-        {/* {!filePreview.length ? (
-        <div className="h-[350px] flex items-center justify-center">
-          <h1 className="text-gray-200 text-xl text-center">
-            Please upload image
-          </h1>
-        </div>
-      ) : null} */}
-
         <div className="flex items-center justify-center w-full flex-col gap-5">
           {filePreview.length ? (
             <div className="flex items-center justify-center flex-col">
-              <div className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
+              <div className="h-[350px] overflow-hidden p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
                 <div
                   className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                   onClick={handleDownload}

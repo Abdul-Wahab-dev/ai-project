@@ -4,9 +4,9 @@ import sharp from "sharp";
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
 
-  const file = formData.get("file");
+  const file = formData.get("file") as File;
   const mimeType = formData.get("mimeType");
-  let compress = parseInt(formData.get("compress")) ?? 60;
+  let compress = parseInt(formData.get("compress") as string) ?? 60;
 
   const bufferFile = await file.arrayBuffer();
   let compressedBuffer;

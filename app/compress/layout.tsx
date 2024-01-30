@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Optimize Your Visuals: Effortless Image Compression",
 };
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />

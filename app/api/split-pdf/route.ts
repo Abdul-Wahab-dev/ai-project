@@ -4,8 +4,11 @@ import { PDFDocument } from "pdf-lib";
 import { s3FileHandling } from "@/lib/integration/aws/s3";
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
-  const file = formData.get("file");
-  let ranges = JSON.parse(formData.get("ranges"));
+  const file = formData.get("file") as File;
+  const rangesValue: FormDataEntryValue | null = formData.get("ranges");
+
+  let ranges: number[][] =
+    typeof rangesValue === "string" ? JSON.parse(rangesValue) : [];
 
   const formatRanges = [];
 

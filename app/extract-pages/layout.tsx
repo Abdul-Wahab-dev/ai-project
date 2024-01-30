@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Precision Extraction: Retrieve Specific Pages with Our PDF Tool",
 };
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />

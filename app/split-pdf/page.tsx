@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import Image from "next/image";
 import axios from "axios";
@@ -92,31 +92,34 @@ const Page = () => {
     link.remove();
   };
 
-  const fetchFileData = async (
-    pageNumbers: [number],
-    callback: (data: {
-      pageFromPreview: string;
-      totalPages: number;
-      pageToPreview: string;
-    }) => void
-  ) => {
-    if (!file) return null;
-    const formData = new FormData();
+  const fetchFileData = useCallback(
+    async (
+      pageNumbers: [number],
+      callback: (data: {
+        pageFromPreview: string;
+        totalPages: number;
+        pageToPreview: string;
+      }) => void
+    ) => {
+      if (!file) return null;
+      const formData = new FormData();
 
-    formData.append("file", file);
-    formData.append("pageNumbers", JSON.stringify(pageNumbers));
+      formData.append("file", file);
+      formData.append("pageNumbers", JSON.stringify(pageNumbers));
 
-    const response = await axios.post("/api/split-pdf/file-data", formData, {
-      responseType: "json",
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-    if (response.data) {
-      console.log(response.data);
-      callback(response.data);
-    }
-  };
+      const response = await axios.post("/api/split-pdf/file-data", formData, {
+        responseType: "json",
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      if (response.data) {
+        console.log(response.data);
+        callback(response.data);
+      }
+    },
+    [file]
+  );
   useEffect(() => {
     if (file) {
       fetchFileData(

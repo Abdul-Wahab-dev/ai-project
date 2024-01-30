@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import axios from "axios";
 import "@/app/globals.css";
@@ -83,26 +83,33 @@ const Page = () => {
     setDownloadLoading(false);
   };
 
-  const fetchFileData = async (
-    pageNumber: number,
-    callback: (data: { preview: string; totalPages: number }) => void
-  ) => {
-    if (!file) return null;
-    const formData = new FormData();
+  const fetchFileData = useCallback(
+    async (
+      pageNumber: number,
+      callback: (data: { preview: string; totalPages: number }) => void
+    ) => {
+      if (!file) return null;
+      const formData = new FormData();
 
-    formData.append("file", file);
-    formData.append("pageNumber", pageNumber.toString());
+      formData.append("file", file);
+      formData.append("pageNumber", pageNumber.toString());
 
-    const response = await axios.post("/api/remove-pages/file-data", formData, {
-      responseType: "json",
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-    if (response.data) {
-      callback(response.data);
-    }
-  };
+      const response = await axios.post(
+        "/api/remove-pages/file-data",
+        formData,
+        {
+          responseType: "json",
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data) {
+        callback(response.data);
+      }
+    },
+    [file]
+  );
   useEffect(() => {
     if (file) {
       fetchFileData(0, (data: { preview: string; totalPages: number }) =>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import axios from "axios";
 import "@/app/globals.css";
@@ -31,7 +31,7 @@ const Page = () => {
     }
   };
 
-  const fetchPdfPreview = async () => {
+  const fetchPdfPreview = useCallback(async () => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
@@ -57,7 +57,7 @@ const Page = () => {
         }
       }
     }
-  };
+  }, [files]);
 
   const handleConversion = async () => {
     setLoading(true);

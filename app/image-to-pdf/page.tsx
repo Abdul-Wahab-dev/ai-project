@@ -84,7 +84,7 @@ const Page = () => {
             files.map((file, index) => (
               <div
                 key={file + index}
-                className="h-[350px] p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative"
+                className="h-[350px] overflow-hidden p-7 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative"
               >
                 <div
                   className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"

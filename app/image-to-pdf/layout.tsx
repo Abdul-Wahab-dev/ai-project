@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Instantly Convert Images to PDF. A Quick and Free Solution",
 };
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-winter-wizard">
       <Header />
