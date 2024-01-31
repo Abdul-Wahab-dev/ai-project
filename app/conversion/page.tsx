@@ -75,7 +75,6 @@ const page = () => {
 
   return (
     <div className="min-h-screen bg-winter-wizard">
-      <Header />
       {/* Compress Section */}
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
@@ -160,39 +159,43 @@ const page = () => {
                       />
                     </label>
                   )}
-                  <div className="flex gap-10 my-5">
-                    {["webp", "jpeg", "png"].map((el) => (
-                      <label
-                        className={`radio-btn-container text-black flex justify-center items-center ${
-                          mimeType.split("/")[1] === el
-                            ? "opacity-50"
-                            : "opacity-100"
-                        }`}
-                        key={el}
+                  {file ? (
+                    <>
+                      <div className="flex gap-10 my-5">
+                        {["webp", "jpeg", "png"].map((el) => (
+                          <label
+                            className={`radio-btn-container text-black flex justify-center items-center ${
+                              mimeType.split("/")[1] === el
+                                ? "opacity-50"
+                                : "opacity-100"
+                            }`}
+                            key={el}
+                          >
+                            <span className="text-lg">{el}</span>
+                            <input
+                              type="radio"
+                              checked={conversionType === el}
+                              name="radio"
+                              onChange={() => setConversionType(el)}
+                              disabled={
+                                mimeType.split("/")[1] === el ? true : false
+                              }
+                            />
+                            <span className="checkmark"></span>
+                          </label>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleConversion}
+                        className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+                        disabled={loading}
                       >
-                        <span className="text-lg">{el}</span>
-                        <input
-                          type="radio"
-                          checked={conversionType === el}
-                          name="radio"
-                          onChange={() => setConversionType(el)}
-                          disabled={
-                            mimeType.split("/")[1] === el ? true : false
-                          }
-                        />
-                        <span className="checkmark"></span>
-                      </label>
-                    ))}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleConversion}
-                    className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
-                    disabled={loading}
-                  >
-                    <span>Convert image</span>
-                    {loading ? <div className="loader"></div> : null}
-                  </button>
+                        <span>Convert image</span>
+                        {loading ? <div className="loader"></div> : null}
+                      </button>
+                    </>
+                  ) : null}
                 </div>
 
                 {filePreview.length ? (
