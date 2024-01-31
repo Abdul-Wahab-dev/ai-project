@@ -63,38 +63,11 @@ const Footer = () => {
                   </div>
                 </li>
               </ul>
-
-              {/* <div className="links-section flex flex-col  lg:flex-row gap-5 lg:gap-14 xl:gap-14 items-start pb-5">
-              <div className="flex-1 flex  w-full justify-between sm:justify-normal sm:gap-28 lg:gap-14 ">
-                <div className="flex gap-5">
-                  <div>
-                    <h4 className="text-lg font-bold mb-5">Company</h4>
-                    <ul className="flex flex-col">
-                      <li> About</li>
-                      <li> Contact us</li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex gap-5  ">
-                  <div>
-                    <h4 className="text-lg font-bold mb-5">Useful links</h4>
-                    <ul className="flex flex-col">
-                      <li> About</li>
-                      <li> About</li>
-                      <li> About</li>
-
-                      <li> Contact us</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-            </div> */}
             </div>
           </div>
         </FramerDiv>
       </div>
-      <div className="bg-winter-wizard p-5">
+      <div className="bg-water p-5">
         <div className="custom_container mx-auto flex items-center justify-center text-gray-800">
           <p>Toolefy © 2023. All Rights Reserved.</p>
         </div>

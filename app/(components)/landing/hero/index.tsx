@@ -36,7 +36,7 @@ const HeroSection = () => {
                 <div className="w-[60px] h-[60px]   bg-baby-blue rounded-full"></div>
               </div>
             </div>
-            <div className="z-50">
+            <div className="z-40">
               <h1
                 className={
                   "text-3xl font-bold text-slate-800 z-20 text-justify"

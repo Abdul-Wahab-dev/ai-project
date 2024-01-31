@@ -240,7 +240,6 @@ const page = () => {
   };
   return (
     <div className="min-h-screen bg-winter-wizard">
-      <Header />
       {/* Compress Section */}
       <div className="h-full">
         <div className="custom_container mx-auto h-full py-10 px-3">
