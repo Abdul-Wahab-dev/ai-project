@@ -2,7 +2,10 @@ import React from "react";
 import FramerDiv from "@/app/(components)/framermotion/divblock";
 const HowItWorks = () => {
   return (
-    <div className="w-full bg-white py-10 relative overflow-hidden">
+    <section
+      className="w-full bg-white py-10 relative overflow-hidden"
+      id="how_it_works"
+    >
       {/* <div className="bg-water w-[200px] h-[200px] rounded-full  border-[15px] -top-[100px]  border-baby-blue -left-[100px] absolute z-10"></div> */}
       {/* <div className="bg-baby-blue w-[200px] h-[200px] rounded-full  border-[15px] -bottom-[100px]  border-baby-blue -right-[100px] absolute z-10"></div> */}
 
@@ -98,7 +101,7 @@ const HowItWorks = () => {
         </div>
         {/* </FramerDiv> */}
       </div>
-    </div>
+    </section>
   );
 };
 

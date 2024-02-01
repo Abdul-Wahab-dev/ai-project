@@ -2,7 +2,10 @@ import Image from "next/image";
 import FramerDiv from "@/app/(components)/framermotion/divblock";
 const BuildSection = () => {
   return (
-    <div className="w-full bg-white py-10 relative overflow-hidden">
+    <section
+      className="w-full bg-white py-10 relative overflow-hidden"
+      id="why_toolefy"
+    >
       {/* <div className="bg-baby-blue w-[200px] h-[200px] rounded-full  border-[15px] -bottom-[100px]  border-baby-blue -right-[100px] absolute z-10"></div> */}
 
       {/* <div className="w-[25px] h-[25px] shadow-[3px_10px_10px_rgb(0,169,255,0.4)] rounded-full absolute bg-blue-bolt bottom-10 left-[60%] z-10"></div> */}
@@ -64,11 +67,7 @@ const BuildSection = () => {
                     Experience Excellence at Zero Cost: Unleash the Power of Our
                     Free Tools!
                   </h1>
-                  {/* <p className="text-slate-800 text-lg ">
-                    Benefit from our state-of-the-art tools that leverage the
-                    latest technology, ensuring top-notch performance and
-                    results.
-                  </p> */}
+
                   <ul className="list-disc	text-slate-800">
                     <li>
                       <p className="text-slate-800 text-lg ">
@@ -178,7 +177,7 @@ const BuildSection = () => {
           </div>
         </FramerDiv>
       </div>
-    </div>
+    </section>
   );
 };
 
