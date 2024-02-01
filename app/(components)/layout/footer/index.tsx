@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import FramerDiv from "@/app/(components)/framermotion/divblock";
 const Footer = () => {
   return (
@@ -7,8 +8,15 @@ const Footer = () => {
         <FramerDiv delay={0.25}>
           <div className="custom_container mx-auto overflow-hidden">
             <div className="flex justify-between text-slate-800 flex-col items-center gap-10">
-              <div className="w-[100%]">
-                <h1 className="text-lg font-bold">LOGO</h1>
+              <div className="w-[100%] flex flex-col items-center justify-center gap-5">
+                <Link href="/">
+                  <Image
+                    src="/assests/logo.png"
+                    width={160}
+                    height={100}
+                    alt="logo"
+                  />
+                </Link>
                 <p className="text-center mt-3 text-lg">
                   Empowering Digital Excellence for Free – Simplified.
                 </p>
