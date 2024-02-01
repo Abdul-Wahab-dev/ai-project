@@ -9,7 +9,7 @@ const HeroSection = () => {
     <div className="w-full bg-winter-wizard  lg:h-[80vh] overflow-hidden">
       <div className="custom_container mx-auto h-full">
         <div className="block lg:flex justify-between items-center lg:h-full flex-col lg:flex-row">
-          <div className="flex-1 flex flex-col gap-5 relative h-[250px] lg:h-full justify-center">
+          <div className="flex-1 flex flex-col gap-5 relative md:h-[250px] lg:h-full justify-center">
             <div className="w-[100px] h-[100px] top-[50%]    absolute rounded-full border-4 border-baby-blue bg-winter-wizard z-10"></div>
 
             <div className="absolute bottom-[20%] left-[50%]  grid grid-cols-5 justify-center items-center w-[160px] h-[160px] gap-0 rotate-45 z-10">
@@ -36,7 +36,7 @@ const HeroSection = () => {
                 <div className="w-[60px] h-[60px]   bg-baby-blue rounded-full"></div>
               </div>
             </div>
-            <div className="z-50">
+            <div className="z-40">
               <h1
                 className={
                   "text-3xl font-bold text-slate-800 z-20 text-justify"

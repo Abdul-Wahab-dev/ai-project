@@ -47,7 +47,10 @@ const Page = () => {
       },
     });
     if (response) {
-      setFilePreview(response.data.key);
+      const base64String = Buffer.from(response.data.bufferPdf.data).toString(
+        "base64"
+      );
+      setFilePreview(base64String);
 
       setResultPdfPreview(response.data.pdfPreview);
     }
@@ -64,22 +67,15 @@ const Page = () => {
   const handleDownload = async () => {
     setDownloadLoading(true);
     // Create a temporary anchor element to trigger download
-    // const downloadedBuffer = Buffer.from(filePreview);
-    const mappedUrl = `https://image-to-pdf-images.s3.us-east-2.amazonaws.com/${filePreview}`;
-    const downloadedBuffer = await (
-      await fetch(mappedUrl, { method: "GET" })
-    ).arrayBuffer();
-    // window.location.href = response.pdfLink;
-    const url = window.URL.createObjectURL(new Blob([downloadedBuffer]));
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `data:application/pdf;base64,${filePreview}`;
 
-    const link = document.createElement("a");
-    link.href = url;
-
-    link.download = `${Date.now()}.pdf`;
-    link.click();
+    downloadLink.download = "merged.pdf";
+    downloadLink.click();
 
     // Clean up the temporary element
-    link.remove();
+    downloadLink.remove();
+    setDownloadLoading(false);
     setDownloadLoading(false);
   };
 

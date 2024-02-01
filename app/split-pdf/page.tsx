@@ -72,24 +72,18 @@ const Page = () => {
     }
   }, [filePreview, resltPdfPreview]);
   // Function to handle download
-  const handleDownload = async (key) => {
+  const handleDownload = async (preview) => {
     // Create a temporary anchor element to trigger download
     // const downloadedBuffer = Buffer.from(filePreview);
-    const mappedUrl = `https://image-to-pdf-images.s3.us-east-2.amazonaws.com/${key}`;
-    const downloadedBuffer = await (
-      await fetch(mappedUrl, { method: "GET" })
-    ).arrayBuffer();
-    // window.location.href = response.pdfLink;
-    const url = window.URL.createObjectURL(new Blob([downloadedBuffer]));
+    const base64String = Buffer.from(preview).toString("base64");
+    // Create a temporary anchor element to trigger download
+    const downloadLink = document.createElement("a");
+    downloadLink.href = `data:application/pdf;base64,${base64String}`;
 
-    const link = document.createElement("a");
-    link.href = url;
-
-    link.download = `${Date.now()}.pdf`;
-    link.click();
-
+    downloadLink.download = "split.pdf";
+    downloadLink.click();
     // Clean up the temporary element
-    link.remove();
+    downloadLink.remove();
   };
 
   const fetchFileData = useCallback(

@@ -49,13 +49,13 @@ export const POST = async (req: NextRequest) => {
       previewFile.addPage(copyPreviewPage);
 
       const base64Preview = await previewFile.saveAsBase64({ dataUri: true });
-      const key = `temp/pdf/${Date.now()}.pdf`;
+
       const bufferPdf = Buffer.from(pdfBytes);
-      s3FileHandling.uploadBufferToS3(bufferPdf, key);
+
       formatRanges.push({
         range,
         preview: base64Preview,
-        key,
+        bufferPdf,
       });
     }
   }
