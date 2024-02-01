@@ -192,7 +192,10 @@ const Header = () => {
                 >
                   <div className="bg-white p-10 grid items-center sm:grid-cols-2 md:grid-cols-3 justify-center gap-5 w-full lg:w-[80%] mx-auto">
                     {links.map((el) => (
-                      <div className=" flex items-center justify-start">
+                      <div
+                        className=" flex items-center justify-start"
+                        key={el.id}
+                      >
                         <Link
                           className="flex pr-6 pl-3 py-2 transition-all cursor-pointer gap-2 items-center justify-center hover:bg-slate-100 rounded-md"
                           href={el.link}
