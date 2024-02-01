@@ -22,13 +22,6 @@ const ToolSection = () => {
           <Link
             href={"/compress"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.09 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image
@@ -46,13 +39,6 @@ const ToolSection = () => {
           <Link
             href={"/conversion"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.1 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image
@@ -70,13 +56,6 @@ const ToolSection = () => {
           <Link
             href={"/image-to-pdf"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.15 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image
@@ -94,13 +73,6 @@ const ToolSection = () => {
           <Link
             href={"/merge-pdf"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.2 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image
@@ -118,13 +90,6 @@ const ToolSection = () => {
           <Link
             href={"/split-pdf"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.25 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image
@@ -142,13 +107,6 @@ const ToolSection = () => {
           <Link
             href={"/remove-pages"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.3 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image
@@ -166,13 +124,6 @@ const ToolSection = () => {
           <Link
             href={"/extract-pages"}
             className="flex gap-3 bg-white flex-col items-center shadow-sm hover:shadow-md transition-all justify-center w-full h-[250px] mx-auto text-center rounded cursor-pointer text-slate-800 z-20 p-7"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.5, delay: 0.3 }}
           >
             {/* <FramerDiv delay={0.25}> */}
             <Image

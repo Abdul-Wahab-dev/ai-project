@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, ReactNode } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 const FramerDiv = ({
   children,
@@ -8,17 +8,18 @@ const FramerDiv = ({
   duration = 0.5,
 }: {
   delay: number;
-  classes: string;
-  duration: number;
+  classes?: string;
+  duration?: number;
+  children: ReactNode;
 }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
   const mainControllers = useAnimation();
   useEffect(() => {
     if (isInView) {
       mainControllers.start("visible");
     }
-  }, [isInView]);
+  }, [isInView, mainControllers]);
   return (
     <motion.div
       ref={ref}

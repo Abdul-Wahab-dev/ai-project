@@ -1,12 +1,23 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
-const Heading = ({ children, delay, classes, duration = 0.5 }) => {
-  const ref = useRef(null);
+const Heading = ({
+  children,
+  delay,
+  classes,
+  duration = 0.5,
+}: {
+  delay: number;
+  classes?: string;
+  duration?: number;
+  children: ReactNode;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
   return (
     <motion.h1
+      ref={ref}
       className={classes}
       variants={{
         hidden: { opacity: 0, y: 50 },

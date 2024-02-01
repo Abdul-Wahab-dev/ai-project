@@ -30,7 +30,12 @@ export async function POST(req: NextRequest) {
   });
 }
 
-async function lambdaFunctionPdf(pageContent, width, height, margin) {
+async function lambdaFunctionPdf(
+  pageContent: string,
+  width: number,
+  height: number,
+  margin: number
+) {
   const res = await (
     await fetch(
       "https://ekz3qjo4jq5q7k27gu6vzsjbp40yuqan.lambda-url.us-east-2.on.aws/",

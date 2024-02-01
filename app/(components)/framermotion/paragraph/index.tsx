@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 const Paragraph = ({
   children,
@@ -8,15 +8,16 @@ const Paragraph = ({
   duration = 0.5,
 }: {
   delay: number;
-  classes: string;
-  duration: number;
+  classes?: string;
+  duration?: number;
+  children: ReactNode;
 }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
   return (
     <motion.p
-      rel={ref}
+      ref={ref}
       className={classes}
       variants={{
         hidden: { opacity: 0, y: 50 },
