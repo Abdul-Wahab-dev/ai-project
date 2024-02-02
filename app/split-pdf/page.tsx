@@ -75,9 +75,7 @@ const Page = () => {
   // Function to handle download
   const handleDownload = async (preview) => {
     // Create a temporary anchor element to trigger download
-    // const downloadedBuffer = Buffer.from(filePreview);
     const base64String = Buffer.from(preview).toString("base64");
-    // Create a temporary anchor element to trigger download
     const downloadLink = document.createElement("a");
     downloadLink.href = `data:application/pdf;base64,${base64String}`;
 
@@ -109,7 +107,6 @@ const Page = () => {
         },
       });
       if (response.data) {
-        console.log(response.data);
         callback(response.data);
       }
     },
@@ -462,7 +459,7 @@ const Page = () => {
                 <div
                   className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
                   onClick={() => {
-                    handleDownload(el.key);
+                    handleDownload(el.bufferPdf);
                   }}
                 >
                   <Image

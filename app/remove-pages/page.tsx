@@ -237,7 +237,15 @@ const Page = () => {
                   type="number"
                   className=" bg-transparent border border-gray-200 text-gray-900 rounded-lg px-4 py-3 w-[300px] focus:border-gray-200 outline-none"
                   value={pageNumber}
-                  onChange={(e) => setPageNumber(e.target.value * 1)}
+                  max={currentFileData && currentFileData.totalPages}
+                  onChange={(e) => {
+                    const isNumber = isNaN(e.target.value * 1)
+                      ? null
+                      : e.target.value * 1;
+                    if (!isNumber) return;
+                    if (isNumber <= currentFileData.totalPages)
+                      setPageNumber(isNumber);
+                  }}
                 />
               </div>
               <button

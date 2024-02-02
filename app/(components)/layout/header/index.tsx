@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import "@/app/globals.css";
@@ -55,6 +56,7 @@ const links = [
   },
 ];
 const Header = () => {
+  const pathname = usePathname();
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [isSubMenuOpenMob, setIsSubMenuOpenMob] = useState(false);
   const handleMouseEnter = () => {
@@ -200,18 +202,23 @@ const Header = () => {
 
           {/* MOBILE MENU */}
           <div className="h-full sm:flex hidden gap-5 ">
-            <a
-              href="#why_toolefy"
-              className="cursor-pointer h-full text-lg  flex items-center justify-center inner-scroll"
-            >
-              Why toolefy
-            </a>
-            <a
-              href="#how_it_works"
-              className="cursor-pointer h-full text-lg  flex items-center justify-center inner-scroll"
-            >
-              How it works
-            </a>
+            {pathname === "/" ? (
+              <a
+                href="#why_toolefy"
+                className="cursor-pointer h-full text-lg  flex items-center justify-center inner-scroll"
+              >
+                Why toolefy
+              </a>
+            ) : null}
+            {pathname === "/" ? (
+              <a
+                href="#how_it_works"
+                className="cursor-pointer h-full text-lg  flex items-center justify-center inner-scroll"
+              >
+                How it works
+              </a>
+            ) : null}
+
             <div
               className="cursor-pointer h-full text-lg  flex items-center justify-center tools"
               id="tools"
