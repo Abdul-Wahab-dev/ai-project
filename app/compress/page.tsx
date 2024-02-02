@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { formatBytes } from "@/utils/formatBytes";
+import FilesDragAndDrop from "@/app/(components)/global/dragDrop/fileDragAndDrop";
 const Page = () => {
   const [file, setFile] = useState(null);
   const [sliderValue, setSliderValue] = useState(0);
@@ -20,16 +21,20 @@ const Page = () => {
     const progress = (tempSliderValue / sliderEl4.max) * 100;
     sliderEl4.style.background = `linear-gradient(to right, rgba(0, 169, 255, 1) ${progress}%, #ccc ${progress}%)`;
   };
-  const handleFile = (event) => {
-    if (event.target.files && event.target.files.length) {
-      const type = event.target.files[0].type;
+  const handleFile = (fileList) => {
+    if (fileList && fileList.length) {
+      const type = fileList[0].type;
 
-      if (event.target.files[0].size > 20000000) return;
-      if (type === "image/png" || type === "image/jpeg") {
+      if (fileList[0].size > 20000000) return;
+      if (
+        type === "image/png" ||
+        type === "image/jpeg" ||
+        type === "image/webp"
+      ) {
         setFileUploadLoading(true);
         setTimeout(() => {
-          setMimeType(event.target.files[0].type);
-          setFile(event.target.files[0]);
+          setMimeType(fileList[0].type);
+          setFile(fileList[0]);
           setFileUploadLoading(false);
         }, 1000);
       }
@@ -109,41 +114,11 @@ const Page = () => {
             <div className="upload-loader"></div>
           </div>
         ) : (
-          <label
-            htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-[350px] border-2 border-gray-200 border-dashed rounded-lg cursor-pointer bg-white"
-          >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg
-                className="w-8 h-8 mb-4 text-gray-200 dark:text-gray-200"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 16"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                />
-              </svg>
-              <p className="mb-2 text-xl text-gray-300 dark:text-gray-300">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
-              </p>
-              <p className="text-sm text-gray-300 dark:text-gray-300">
-                PNG or JPG (MAX. 20MB)
-              </p>
-            </div>
-            <input
-              id="dropzone-file"
-              type="file"
-              onChange={handleFile}
-              className="hidden"
-            />
-          </label>
+          <FilesDragAndDrop
+            onUpload={handleFile}
+            content="PNG or JPG or WEBP(MAX. 20MB)"
+            multiple={false}
+          />
         )}
         {file ? (
           <>
