@@ -129,7 +129,7 @@ const Header = () => {
       <div className="bg-winter-wizard h-[60px] text-gray-900 focus:outline-none z-50">
         <div className="flex items-center justify-between gap-5 mx-auto h-full w-full custom_container">
           <Link href="/">
-            <img src="/assests/logo.png" width={160} height={100} alt="logo" />
+            <img src="/assests/logo.png" width={160} alt="logo" />
           </Link>
           <div
             className="sm:hidden block"
@@ -157,7 +157,7 @@ const Header = () => {
               } bg-white h-full fixed py-5 px-2 z-50 transition-all submenu-list w-[300px] overflow-auto`}
             >
               <div className="flex items-center justify-between px-2">
-                <h1></h1>
+                <h1 className="text-lg">Toolefy</h1>
                 <div
                   className="w-[30px] h-[30px] flex items-center justify-center shadow-lg border rounded-md border-slate-50 bg-white"
                   onClick={() => {
@@ -169,6 +169,7 @@ const Header = () => {
                     src="/assests/index/icons/close.png"
                     width={10}
                     height={10}
+                    alt="close icon"
                   />
                 </div>
               </div>
@@ -179,8 +180,9 @@ const Header = () => {
                     key={el.id}
                     className=" flex items-center justify-start"
                     onClick={() => {
-                      setIsSubMenuOpen(false);
+                      setIsSubMenuOpenMob(false);
                       hideBodyOverflow("auto");
+                      console.log("close link");
                     }}
                   >
                     <div className="flex transition-all cursor-pointer gap-2 items-center justify-center">

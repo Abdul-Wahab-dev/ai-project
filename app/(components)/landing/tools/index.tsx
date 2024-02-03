@@ -11,7 +11,7 @@ const ToolSection = () => {
       <div className="custom_container mx-auto h-full z-20">
         <div className=" py-5 w-full">
           <div className="flex justify-center items-center flex-col">
-            <h1 className="text-3xl font-bold text-slate-800 z-50">
+            <h1 className="text-3xl font-bold text-slate-800 z-40">
               Our Tools
             </h1>
             <p className="text-slate-800 text-lg">Try our cutting-edge tools</p>

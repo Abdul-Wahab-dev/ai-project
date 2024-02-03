@@ -75,7 +75,7 @@ const HowItWorks = () => {
           </FramerDiv>
           <FramerDiv delay={0.25}>
             <div className=" w-full flex-col-reverse lg:flex-row h-full flex items-center justify-center">
-              <div className="lg:flex-1 relative z-50 h-[150px] md:h-[220px] w-full lg:h-full">
+              <div className="lg:flex-1 relative z-50 h-[230px] md:h-[220px] w-full lg:h-full">
                 <div className="w-[85%] sm:w-[75%] lg:w-[85%] xl:w-[70%] flex-col-reverse lg:flex-row bg-white flex items-center justify-between py-6 lg:py-10 px-3 shadow-xl rounded-2xl absolute z-50 left-[50%] gap-5 lg:gap-0 -top-16 -translate-x-[50%] lg:-right-16 lg:top-[50%] lg:-translate-y-[50%] lg:-translate-x-0">
                   <div className=" lg:w-[85%] xl:w-[70%] px-5">
                     <h1 className="text-2xl font-semibold text-left">
