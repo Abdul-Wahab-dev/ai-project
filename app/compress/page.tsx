@@ -81,7 +81,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col px-5 gap-10">
+    <div className="flex flex-col sm:px-5 gap-10">
       <div className="flex items-center justify-center w-full flex-col gap-5">
         {file ? (
           <div className="flex items-center justify-center flex-col">

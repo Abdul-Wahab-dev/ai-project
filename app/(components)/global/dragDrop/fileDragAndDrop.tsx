@@ -41,7 +41,7 @@ export default function FilesDragAndDrop({
     <label
       ref={drop}
       htmlFor="dropzone-file"
-      className="flex flex-col items-center justify-center w-full h-[350px] border-2 border-gray-200 border-dashed rounded-lg cursor-pointer bg-white FilesDragAndDrop__area"
+      className="flex text-center flex-col items-center justify-center w-full h-[350px] border-2 border-gray-200 border-dashed rounded-lg cursor-pointer bg-white FilesDragAndDrop__area"
     >
       <div className="flex flex-col items-center justify-center pt-5 pb-6">
         <svg
