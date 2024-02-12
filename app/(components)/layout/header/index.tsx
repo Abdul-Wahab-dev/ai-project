@@ -4,57 +4,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import "@/app/globals.css";
-const links = [
-  {
-    id: 1,
-    name: "Compress Image",
-    src: "/assests/index/icons/compress.png",
-    link: "/compress",
-    alt: "menu-compress",
-  },
-  {
-    id: 2,
-    name: "Image Format",
-    src: "/assests/index/icons/format.png",
-    link: "/conversion",
-    alt: "menu-conversion",
-  },
-  {
-    id: 3,
-    name: "Image to PDF",
-    src: "/assests/index/icons/image-to-pdf.png",
-    link: "/image-to-pdf",
-    alt: "menu-image-to-pdf",
-  },
-  {
-    id: 4,
-    name: "Merge PDF",
-    src: "/assests/index/icons/merge.png",
-    link: "/merge-pdf",
-    alt: "menu-merge-pdf",
-  },
-  {
-    id: 5,
-    name: "Split PDF",
-    src: "/assests/index/icons/split.png",
-    link: "/split-pdf",
-    alt: "menu-split-pdf",
-  },
-  {
-    id: 6,
-    name: "Remove Pages",
-    src: "/assests/index/icons/remove-pages.png",
-    link: "/remove-pages",
-    alt: "menu-remove-pages",
-  },
-  {
-    id: 7,
-    name: "Extract Pages",
-    src: "/assests/index/icons/extract-pages.png",
-    link: "/extract-pages",
-    alt: "menu-extract-pages",
-  },
-];
+import { NavLinks } from "@/contants";
+
 const Header = () => {
   const pathname = usePathname();
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
@@ -174,7 +125,7 @@ const Header = () => {
                 </div>
               </div>
               <div className="bg-white flex flex-col justify-center gap-5 mt-5 w-full mx-auto">
-                {links.map((el) => (
+                {NavLinks.map((el) => (
                   <Link
                     href={el.link}
                     key={el.id}
@@ -241,13 +192,13 @@ const Header = () => {
                   className={`relative bg-white z-50 transition-all submenu-list`}
                 >
                   <div className="bg-white p-10 grid items-center sm:grid-cols-2 md:grid-cols-3 justify-center gap-5 w-full lg:w-[80%] mx-auto">
-                    {links.map((el) => (
+                    {NavLinks.map((el) => (
                       <div
                         className=" flex items-center justify-start"
                         key={el.id}
                       >
                         <Link
-                          className="flex pr-6 pl-3 py-2 transition-all cursor-pointer gap-2 items-center justify-center hover:bg-slate-100 rounded-md"
+                          className="flex pr-6 pl-3 py-2 transition-all cursor-pointer gap-2 items-center justify-center hover:bg-slate-50 rounded-md"
                           href={el.link}
                           key={el.id}
                           onClick={() => {
