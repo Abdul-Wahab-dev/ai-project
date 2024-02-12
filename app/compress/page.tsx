@@ -155,11 +155,29 @@ const Page = () => {
             <button
               type="button"
               onClick={handleCompress}
-              className="text-white outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
+              className="text-white text-xl font-semibold outline-none bg-blue-bolt flex items-center justify-center gap-3  px-4 py-3 rounded-xl shadow-lg"
               disabled={loading}
             >
               <span> Compress image</span>
-              {loading ? <div className="loader"></div> : null}
+
+              {loading ? (
+                <div className="loader"></div>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 26 26"
+                  width="21"
+                  height="21"
+                  fill="#FFF"
+                  fill-rule="evenodd"
+                >
+                  <path
+                    d="M13 26C5.82 26 0 20.18 0 13S5.82 0 13 0s13 5.82 13 13-5.82 13-13 13zm0-2c6.075 0 11-4.925 11-11S19.075 2 13 2 2 6.925 2 13s4.925 11 11 11z"
+                    fill-rule="nonzero"
+                  ></path>
+                  <path d="M18.684 13.105a.55.55 0 0 1-.148.378l-5.263 5.263a.55.55 0 0 1-.378.148.54.54 0 0 1-.526-.526V15.21H7.842a.54.54 0 0 1-.526-.526v-3.158A.54.54 0 0 1 7.842 11h4.526V7.842a.52.52 0 0 1 .526-.526c.148 0 .28.066.395.164l5.247 5.247a.55.55 0 0 1 .148.378z"></path>
+                </svg>
+              )}
             </button>
           </>
         ) : null}

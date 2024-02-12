@@ -317,8 +317,8 @@ body {
   border: 2px solid transparent;
   border-radius: 50%;
   border-top: 2px solid #ffffff;
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   -webkit-animation: spin 0.5s linear infinite; /* Safari */
   animation: spin 0.5s linear infinite;
 }
