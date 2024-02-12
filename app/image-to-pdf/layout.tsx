@@ -1,5 +1,4 @@
-import Header from "@/app/(components)/layout/header";
-
+import MoreTools from "@/app/(components)/moreTools";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,6 +20,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             <div className=" py-10 px-3 overflow-hidden">{children}</div>
           </div>
         </div>
+        <MoreTools url="image-to-pdf" />
       </div>
     </div>
   );

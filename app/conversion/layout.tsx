@@ -1,6 +1,5 @@
-import Header from "@/app/(components)/layout/header";
-
 import { Metadata } from "next";
+import MoreTools from "@/app/(components)/moreTools";
 
 export const metadata: Metadata = {
   title: "Transform Image Format",
@@ -24,6 +23,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             <div className=" py-10 px-3 overflow-hidden">{children}</div>
           </div>
         </div>
+        <MoreTools url="conversion" />
       </div>
     </div>
   );

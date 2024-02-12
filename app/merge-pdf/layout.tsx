@@ -1,4 +1,4 @@
-import Header from "@/app/(components)/layout/header";
+import MoreTools from "@/app/(components)/moreTools";
 
 import { Metadata } from "next";
 
@@ -21,6 +21,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             <div className=" py-10 px-3 overflow-hidden">{children}</div>
           </div>
         </div>
+        <MoreTools url="merge" />
       </div>
     </div>
   );
