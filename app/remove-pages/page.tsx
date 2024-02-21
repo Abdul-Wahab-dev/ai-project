@@ -4,6 +4,7 @@ import Image from "next/image";
 import axios from "axios";
 import FilesDragAndDrop from "@/app/(components)/global/dragDrop/fileDragAndDrop";
 import "@/app/globals.css";
+// import { renderPDF } from "@/utils/pdfPreview";
 const Page = () => {
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState(null);
@@ -20,12 +21,13 @@ const Page = () => {
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const handleFile = (fileList) => {
     if (fileList && fileList.length) {
-      if (fileList[0].size > 20000000) return;
+      // if (fileList[0].size > 20000000) return;
       const type = fileList[0].type;
       if (type === "application/pdf") {
         setFileUploadLoading(true);
         setTimeout(() => {
           setFile(fileList[0]);
+          // renderPDF(fileList[0]);
           setFileUploadLoading(false);
         }, 1000);
       }
@@ -102,15 +104,47 @@ const Page = () => {
         }
       );
       if (response.data) {
-        callback(response.data);
+        await callback(response.data);
       }
     },
     [file]
   );
   useEffect(() => {
     if (file) {
-      fetchFileData(0, (data: { preview: string; totalPages: number }) =>
-        setCurrentFileData(data)
+      fetchFileData(
+        0,
+        async (data: { preview: string; totalPages: number }) => {
+          setCurrentFileData(data);
+          // Get the canvas element and its 2D rendering context
+          const canvas = document.getElementById("myCanvas");
+          const ctx = canvas.getContext("2d");
+          const pdfData = await file.arrayBuffer();
+          // Load the PDF data
+          const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+
+          // Once the PDF is loaded, render it to the canvas
+          loadingTask.promise
+            .then((pdf) => {
+              // Get the first page of the PDF
+              return pdf.getPage(1);
+            })
+            .then((page) => {
+              // Set the canvas size to match the page size
+              const viewport = page.getViewport({ scale: 1 });
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+
+              // Render the page to the canvas
+              const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport,
+              };
+              return page.render(renderContext);
+            })
+            .catch((error) => {
+              console.error("Error rendering PDF:", error);
+            });
+        }
       );
     }
   }, [file, fetchFileData]);
@@ -126,7 +160,7 @@ const Page = () => {
     ) {
       fetchFileData(
         pageNumber - 1,
-        (data: { preview: string; totalPages: number }) => {
+        async (data: { preview: string; totalPages: number }) => {
           setPages([
             ...pages,
             {
@@ -195,7 +229,8 @@ const Page = () => {
                     alt="delete-icon"
                   />
                 </div>
-                <iframe
+                <canvas id="myCanvas" className="w-full h-full"></canvas>
+                {/* <iframe
                   className="w-full h-full"
                   id="target-pdf"
                   src={
@@ -203,7 +238,7 @@ const Page = () => {
                     currentFileData.preview + "#toolbar=0&navpanes=0"
                   }
                   scrolling="no"
-                ></iframe>
+                ></iframe> */}
               </div>
             </div>
           ) : fileUploadLoading ? (
