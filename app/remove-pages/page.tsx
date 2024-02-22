@@ -4,30 +4,26 @@ import Image from "next/image";
 import axios from "axios";
 import FilesDragAndDrop from "@/app/(components)/global/dragDrop/fileDragAndDrop";
 import "@/app/globals.css";
-// import { renderPDF } from "@/utils/pdfPreview";
+import { renderPDFPreview } from "@/utils/pdfPreview";
 const Page = () => {
-  const [files, setFiles] = useState([]);
   const [file, setFile] = useState(null);
   const [pages, setPages] = useState<{ path: string; number: number }[]>([]);
   const [pageNumber, setPageNumber] = useState("");
   const [currentFileData, setCurrentFileData] = useState<{
-    preview: string;
     totalPages: number;
   }>(null);
   const [filePreview, setFilePreview] = useState("");
-  const [resltPdfPreview, setResultPdfPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const handleFile = (fileList) => {
     if (fileList && fileList.length) {
-      // if (fileList[0].size > 20000000) return;
+      if (fileList[0].size > 20000000) return;
       const type = fileList[0].type;
       if (type === "application/pdf") {
         setFileUploadLoading(true);
         setTimeout(() => {
           setFile(fileList[0]);
-          // renderPDF(fileList[0]);
           setFileUploadLoading(false);
         }, 1000);
       }
@@ -54,18 +50,18 @@ const Page = () => {
         "base64"
       );
       setFilePreview(base64String);
-
-      setResultPdfPreview(response.data.pdfPreview);
+      const tempPages = [];
+      for (let i = 0; i < currentFileData.totalPages; i++) {
+        if (!pages.find((pag) => pag.number === i)) {
+          tempPages.push(i + 1);
+        }
+      }
+      setTimeout(() => {
+        renderPDFPreview(file, "result-remove-page", tempPages[0]);
+      }, 1);
     }
     setLoading(false);
   };
-  useEffect(() => {
-    if (filePreview) {
-      if (document.getElementById("merged-pdf-preview")) {
-        document.getElementById("merged-pdf-preview").src = resltPdfPreview;
-      }
-    }
-  }, [filePreview, resltPdfPreview]);
   // Function to handle download
   const handleDownload = async () => {
     setDownloadLoading(true);
@@ -73,7 +69,7 @@ const Page = () => {
     const downloadLink = document.createElement("a");
     downloadLink.href = `data:application/pdf;base64,${filePreview}`;
 
-    downloadLink.download = "merged.pdf";
+    downloadLink.download = file.name ?? "remove-pages.pdf";
     downloadLink.click();
 
     // Clean up the temporary element
@@ -85,7 +81,7 @@ const Page = () => {
   const fetchFileData = useCallback(
     async (
       pageNumber: number,
-      callback: (data: { preview: string; totalPages: number }) => void
+      callback: (data: { totalPages: number }) => void
     ) => {
       if (!file) return null;
       const formData = new FormData();
@@ -111,44 +107,17 @@ const Page = () => {
   );
   useEffect(() => {
     if (file) {
-      fetchFileData(
-        0,
-        async (data: { preview: string; totalPages: number }) => {
-          setCurrentFileData(data);
-          // Get the canvas element and its 2D rendering context
-          const canvas = document.getElementById("myCanvas");
-          const ctx = canvas.getContext("2d");
-          const pdfData = await file.arrayBuffer();
-          // Load the PDF data
-          const loadingTask = pdfjsLib.getDocument({ data: pdfData });
-
-          // Once the PDF is loaded, render it to the canvas
-          loadingTask.promise
-            .then((pdf) => {
-              // Get the first page of the PDF
-              return pdf.getPage(1);
-            })
-            .then((page) => {
-              // Set the canvas size to match the page size
-              const viewport = page.getViewport({ scale: 1 });
-              canvas.width = viewport.width;
-              canvas.height = viewport.height;
-
-              // Render the page to the canvas
-              const renderContext = {
-                canvasContext: ctx,
-                viewport: viewport,
-              };
-              return page.render(renderContext);
-            })
-            .catch((error) => {
-              console.error("Error rendering PDF:", error);
-            });
-        }
-      );
+      fetchFileData(0, async (data: { totalPages: number }) => {
+        setCurrentFileData(data);
+        await renderPDFPreview(file, "remove-pdf");
+      });
     }
   }, [file, fetchFileData]);
-
+  useEffect(() => {
+    if (pages.length < 2) {
+      renderPDFPreview(file, "remove-pdf");
+    }
+  }, [pages]);
   const addPageNumber = (event) => {
     event.preventDefault();
     const isPageExist = pages.every((el) => el.number !== pageNumber - 1);
@@ -158,18 +127,20 @@ const Page = () => {
       pageNumber &&
       pages.length <= Math.ceil(currentFileData.totalPages / 2)
     ) {
-      fetchFileData(
-        pageNumber - 1,
-        async (data: { preview: string; totalPages: number }) => {
-          setPages([
-            ...pages,
-            {
-              path: data.preview,
-              number: pageNumber - 1,
-            },
-          ]);
-        }
-      );
+      setPages([
+        ...pages,
+        {
+          path: `remove-page-number-${pageNumber - 1}`,
+          number: pageNumber - 1,
+        },
+      ]);
+      setTimeout(() => {
+        renderPDFPreview(
+          file,
+          `remove-page-number-${pageNumber - 1}`,
+          pageNumber
+        );
+      }, 1);
     }
     setPageNumber("");
   };
@@ -201,11 +172,12 @@ const Page = () => {
                         alt="delete-icon"
                       />
                     </div>
-                    <iframe
+                    <canvas id={el.path} className="w-full h-full"></canvas>
+                    {/* <iframe
                       className="w-full h-full"
                       src={el.path + "#toolbar=0&navpanes=0"}
                       scrolling="no"
-                    ></iframe>
+                    ></iframe> */}
                   </div>
                   <span className="text-gray-500 text-sm">
                     Page No {el.number + 1}
@@ -229,16 +201,7 @@ const Page = () => {
                     alt="delete-icon"
                   />
                 </div>
-                <canvas id="myCanvas" className="w-full h-full"></canvas>
-                {/* <iframe
-                  className="w-full h-full"
-                  id="target-pdf"
-                  src={
-                    currentFileData &&
-                    currentFileData.preview + "#toolbar=0&navpanes=0"
-                  }
-                  scrolling="no"
-                ></iframe> */}
+                <canvas id="remove-pdf" className="w-full h-full"></canvas>
               </div>
             </div>
           ) : fileUploadLoading ? (
@@ -322,20 +285,12 @@ const Page = () => {
         </div>
       </div>
 
-      {filePreview && resltPdfPreview ? (
+      {filePreview ? (
         <hr className="w-full h-[1px] bg-black opacity-50" />
       ) : null}
       <div className="flex-1 items-center justify-center flex-col py-5">
-        {/* {!filePreview ? (
-      <div className="h-[350px] flex items-center justify-center">
-        <h1 className="text-gray-200 text-xl text-center">
-          Please upload image
-        </h1>
-      </div>
-    ) : null} */}
-
         <div className="flex items-center justify-center w-full flex-col gap-5">
-          {filePreview && resltPdfPreview ? (
+          {filePreview ? (
             <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
               <div
                 className="p-2 bg-white absolute top-2 right-2 rounded-md shadow-md cursor-pointer"
@@ -352,11 +307,11 @@ const Page = () => {
                   />
                 )}
               </div>
-              <iframe
+
+              <canvas
+                id="result-remove-page"
                 className="w-full h-full"
-                scrolling="no"
-                src={resltPdfPreview + "#toolbar=0&navpanes=0"}
-              ></iframe>
+              ></canvas>
             </div>
           ) : null}
         </div>

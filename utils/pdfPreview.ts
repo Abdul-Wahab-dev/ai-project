@@ -1,45 +1,37 @@
-import PDFJSStaticWorker from "pdfjs-dist/build/pdf.worker.entry";
-import * as pdfjsLib from "pdfjs-dist";
+export async function renderPDFPreview(
+  file: File,
+  canvasId: string,
+  pageNumber: number = 1
+) {
+  // Get the canvas element and its 2D rendering context
+  const canvas = document.getElementById(canvasId)!;
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const fileBuffer = await file.arrayBuffer();
+  // Load the PDF data
+  const loadingTask = pdfjsLib.getDocument({ data: fileBuffer });
 
-const { createCanvas } = require("canvas");
-pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJSStaticWorker;
+  // Once the PDF is loaded, render it to the canvas
+  console.log(pageNumber, "pageNumber");
+  loadingTask.promise
+    .then((pdf) => {
+      // Get the first page of the PDF
+      return pdf.getPage(pageNumber);
+    })
+    .then((page) => {
+      // Set the canvas size to match the page size
+      const viewport = page.getViewport({ scale: 1 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      // Render the page to the canvas
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport,
+      };
 
-export async function renderPDF(file) {
-  try {
-    // Create PDF doc object from uploaded file
-    const pdfData = await file.arrayBuffer(); // Assuming file is a File object
-    const pdf = pdfjsLib.getDocument({
-      data: pdfData,
+      return page.render(renderContext);
+    })
+    .catch((error) => {
+      console.error("Error rendering PDF:", error);
     });
-    console.log("hello");
-    const pdfInfo = await pdf.promise;
-
-    // Get desired page
-
-    const page = await pdfInfo.getPage(1); // Adjust page number as needed
-
-    // Get viewport for scaling
-    const viewport = page.getViewport({ scale: 1 }); // Adjust scale as needed
-
-    // Prepare canvas
-    // const canvas = document.getElementById("pdf-preview");
-    const canvas = createCanvas(200, 200);
-    const context = canvas.getContext("2d");
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-
-    // Render page into canvas
-    const renderContext = {
-      canvasContext: context,
-      viewport: viewport,
-    };
-
-    page.render(renderContext);
-
-    // Update navigation controls (if applicable)
-    // ...
-  } catch (error) {
-    console.error("Error rendering PDF:", error);
-    // Handle error gracefully, e.g., display an error message
-  }
 }
