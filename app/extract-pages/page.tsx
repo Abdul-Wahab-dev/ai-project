@@ -17,7 +17,7 @@ const Page = () => {
   }>(null);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [filePreview, setFilePreview] = useState("");
-  const [resltPdfPreview, setResultPdfPreview] = useState("");
+
   const [loading, setLoading] = useState(false);
   const handleFile = (fileList) => {
     if (fileList && fileList.length) {
