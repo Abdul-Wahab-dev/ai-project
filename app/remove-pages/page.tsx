@@ -75,7 +75,6 @@ const Page = () => {
     // Clean up the temporary element
     downloadLink.remove();
     setDownloadLoading(false);
-    setDownloadLoading(false);
   };
 
   const fetchFileData = useCallback(
@@ -100,7 +99,7 @@ const Page = () => {
         }
       );
       if (response.data) {
-        await callback(response.data);
+        callback(response.data);
       }
     },
     [file]
@@ -173,11 +172,6 @@ const Page = () => {
                       />
                     </div>
                     <canvas id={el.path} className="w-full h-full"></canvas>
-                    {/* <iframe
-                      className="w-full h-full"
-                      src={el.path + "#toolbar=0&navpanes=0"}
-                      scrolling="no"
-                    ></iframe> */}
                   </div>
                   <span className="text-gray-500 text-sm">
                     Page No {el.number + 1}
