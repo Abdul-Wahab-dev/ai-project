@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { PDFDocument } from "pdf-lib";
-import { s3FileHandling } from "@/lib/integration/aws/s3";
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
   const file = formData.get("file") as File;
@@ -40,21 +39,12 @@ export const POST = async (req: NextRequest) => {
       }
 
       const pdfBytes = await downloadAblePdd.save();
-      const previewFile = await PDFDocument.create();
-
-      const [copyPreviewPage] = await previewFile.copyPages(downloadAblePdd, [
-        0,
-      ]);
-
-      previewFile.addPage(copyPreviewPage);
-
-      const base64Preview = await previewFile.saveAsBase64({ dataUri: true });
 
       const bufferPdf = Buffer.from(pdfBytes);
 
       formatRanges.push({
         range,
-        preview: base64Preview,
+        preview: "",
         bufferPdf,
       });
     }

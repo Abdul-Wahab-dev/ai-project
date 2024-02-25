@@ -9,7 +9,6 @@ const Page = () => {
   const [files, setFiles] = useState([]);
 
   const [filePreview, setFilePreview] = useState("");
-  const [resltPdfPreview, setResultPdfPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
@@ -34,33 +33,9 @@ const Page = () => {
   };
 
   const fetchPdfPreview = useCallback(async () => {
-    // const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      // formData.append("files", files[i]);
       await renderPDFPreview(files[i], files[i].name);
     }
-    // const response = await axios.post("/api/pdf-preview", formData, {
-    //   responseType: "json",
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // });
-
-    // if (response.data) {
-    //   for (let i = 0; i < response.data.previews.length; i++) {
-    //     if (i < 1) {
-    //       setResultPdfPreview(
-    //         `${response.data.previews[i].base64}#toolbar=0&navpanes=0`
-    //       );
-    //     }
-    //     if (document.getElementById(response.data.previews[i].name)) {
-    //       await renderPDFPreview(files[0], response.data.previews[i].name);
-    //       // document.getElementById(
-    //       //   response.data.previews[i].name
-    //       // ).src = `${response.data.previews[i].base64}#toolbar=0&navpanes=0`;
-    //     }
-    //   }
-    // }
   }, [files]);
 
   const handleConversion = async () => {
