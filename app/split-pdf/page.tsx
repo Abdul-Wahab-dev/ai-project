@@ -5,6 +5,8 @@ import Image from "next/image";
 import axios from "axios";
 import FilesDragAndDrop from "@/app/(components)/global/dragDrop/fileDragAndDrop";
 import "@/app/globals.css";
+import { renderPDFPreview } from "@/utils/pdfPreview";
+
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
@@ -65,13 +67,18 @@ const Page = () => {
     }
     setLoading(false);
   };
+
   useEffect(() => {
-    if (filePreview) {
-      if (document.getElementById("merged-pdf-preview")) {
-        document.getElementById("merged-pdf-preview").src = resltPdfPreview;
-      }
+    if (splittedPdfs.length) {
+      splittedPdfs.forEach((pdf) => {
+        renderPDFPreview(
+          file,
+          `result-${pdf.range[0]}-${pdf.range[1]}-splitted-pdf`,
+          pdf.range[0]
+        );
+      });
     }
-  }, [filePreview, resltPdfPreview]);
+  }, [splittedPdfs]);
   // Function to handle download
   const handleDownload = async (preview) => {
     // Create a temporary anchor element to trigger download
@@ -85,61 +92,72 @@ const Page = () => {
     downloadLink.remove();
   };
 
-  const fetchFileData = useCallback(
-    async (
-      pageNumbers: [number],
-      callback: (data: {
-        pageFromPreview: string;
-        totalPages: number;
-        pageToPreview: string;
-      }) => void
-    ) => {
-      if (!file) return null;
-      const formData = new FormData();
+  const fetchFileData = useCallback(async () => {
+    if (!file) return null;
+    const formData = new FormData();
 
-      formData.append("file", file);
-      formData.append("pageNumbers", JSON.stringify(pageNumbers));
+    formData.append("file", file);
 
-      const response = await axios.post("/api/split-pdf/file-data", formData, {
-        responseType: "json",
-        headers: {
-          "content-type": "multipart/form-data",
-        },
+    const response = await axios.post("/api/remove-pages/file-data", formData, {
+      responseType: "json",
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (response.data) {
+      setCurrentFileData({
+        totalPages: response.data.totalPages,
       });
-      if (response.data) {
-        callback(response.data);
-      }
-    },
-    [file]
-  );
-  useEffect(() => {
-    if (file) {
-      fetchFileData(
-        [1],
-        (data: {
-          pageFromPreview: string;
-          totalPages: number;
-          pageToPreview: string;
-        }) => {
-          setCurrentFileData({
-            totalPages: data.totalPages,
-          });
-          setRanges([
-            {
-              pageFrom: {
-                pageNumber: 1,
-                preview: data.pageFromPreview,
-              },
-              pageTo: {
-                pageNumber: data.totalPages,
-                preview: data.pageToPreview,
-              },
-              rangeNumber: 1,
+      if (file) {
+        setRanges([
+          {
+            pageFrom: {
+              pageNumber: 1,
+              preview: "",
             },
-          ]);
-        }
-      );
+            pageTo: {
+              pageNumber: response.data.totalPages,
+              preview: "",
+            },
+            rangeNumber: 1,
+          },
+        ]);
+        setTimeout(() => {
+          console.log("heelo");
+          renderPDFPreview(file, "range-1-from", 1);
+          renderPDFPreview(file, "range-1-to", response.data.totalPages);
+        }, 1);
+
+        // fetchFileData(
+        //   [1],
+        //   (data: {
+        //     pageFromPreview: string;
+        //     totalPages: number;
+        //     pageToPreview: string;
+        //   }) => {
+        //     setCurrentFileData({
+        //       totalPages: data.totalPages,
+        //     });
+        //     setRanges([
+        //       {
+        //         pageFrom: {
+        //           pageNumber: 1,
+        //           preview: data.pageFromPreview,
+        //         },
+        //         pageTo: {
+        //           pageNumber: data.totalPages,
+        //           preview: data.pageToPreview,
+        //         },
+        //         rangeNumber: 1,
+        //       },
+        //     ]);
+        //   }
+        // );
+      }
     }
+  }, [file]);
+  useEffect(() => {
+    fetchFileData();
   }, [file, fetchFileData]);
 
   const addRange = (event) => {
@@ -149,52 +167,58 @@ const Page = () => {
       pageFrom <= currentFileData.totalPages &&
       pageTo <= currentFileData.totalPages
     ) {
-      fetchFileData(
-        [pageFrom, pageTo],
-        (data: {
-          pageFromPreview: string;
-          totalPages: number;
-          pageToPreview: string;
-        }) => {
-          const temp = [...ranges];
-          if (isEdit) {
-            const tempObj = temp.find(
-              (el) => el.rangeNumber === selectedRange.rangeNumber
-            );
-            tempObj.pageFrom = {
-              pageNumber: pageFrom,
-              preview: data.pageFromPreview,
-            };
-            tempObj.pageTo = {
-              pageNumber: pageTo,
-              preview: data.pageToPreview,
-            };
-            const updatedObjectArray = temp.map((el) =>
-              el.rangeNumber === tempObj.rangeNumber ? tempObj : el
-            );
+      // fetchFileData(
+      //   [pageFrom, pageTo],
+      //   (data: {
+      //     pageFromPreview: string;
+      //     totalPages: number;
+      //     pageToPreview: string;
+      //   }) => {
 
-            setRanges([...updatedObjectArray]);
-          } else {
-            temp.push({
-              pageFrom: {
-                pageNumber: pageFrom,
-                preview: data.pageFromPreview,
-              },
-              pageTo: {
-                pageNumber: pageTo,
-                preview: data.pageToPreview,
-              },
-              rangeNumber: temp.length + 1,
-            });
-          }
-          setRanges([...temp]);
-          setIsNew(false);
-          setSelectedRange(null);
-          setPageFrom(null);
-          setPageTo(null);
-          setIsEdit(false);
-        }
-      );
+      //   }
+      // );
+      const temp = [...ranges];
+      if (isEdit) {
+        const tempObj = temp.find(
+          (el) => el.rangeNumber === selectedRange.rangeNumber
+        );
+        tempObj.pageFrom = {
+          pageNumber: pageFrom,
+          preview: "",
+        };
+        tempObj.pageTo = {
+          pageNumber: pageTo,
+          preview: "",
+        };
+        const updatedObjectArray = temp.map((el) =>
+          el.rangeNumber === tempObj.rangeNumber ? tempObj : el
+        );
+
+        setRanges([...updatedObjectArray]);
+      } else {
+        temp.push({
+          pageFrom: {
+            pageNumber: pageFrom,
+            preview: "",
+          },
+          pageTo: {
+            pageNumber: pageTo,
+            preview: "",
+          },
+          rangeNumber: temp.length + 1,
+        });
+      }
+
+      setRanges([...temp]);
+      setTimeout(() => {
+        renderPDFPreview(file, `range-${temp.length}-from`, pageFrom);
+        renderPDFPreview(file, `range-${temp.length}-to`, pageTo);
+      }, 1);
+      setIsNew(false);
+      setSelectedRange(null);
+      setPageFrom(null);
+      setPageTo(null);
+      setIsEdit(false);
     }
   };
 
@@ -203,40 +227,27 @@ const Page = () => {
 
     if (rangeFor === "from") {
       tempCurrentRange.pageFrom.pageNumber = value < 1 ? 1 : value;
+      renderPDFPreview(
+        file,
+        `range-${currentRange.rangeNumber}-from`,
+        tempCurrentRange.pageFrom.pageNumber
+      );
     }
 
     if (rangeFor === "to") {
       tempCurrentRange.pageTo.pageNumber = value < 1 ? 1 : value;
+      renderPDFPreview(
+        file,
+        `range-${currentRange.rangeNumber}-to`,
+        tempCurrentRange.pageTo.pageNumber
+      );
     }
-
-    fetchFileData(
-      [
-        tempCurrentRange.pageFrom.pageNumber,
-        tempCurrentRange.pageTo.pageNumber,
-      ],
-      (data: {
-        pageFromPreview: string;
-        totalPages: number;
-        pageToPreview: string;
-      }) => {
-        tempCurrentRange.pageFrom.preview = data.pageFromPreview;
-        tempCurrentRange.pageTo.preview = data.pageToPreview;
-        const temp = ranges.map((range) =>
-          range.rangeNumber == tempCurrentRange.rangeNumber
-            ? tempCurrentRange
-            : range
-        );
-
-        setRanges([...temp]);
-      }
-    );
 
     const tempRanges = ranges.map((range) =>
       range.rangeNumber == tempCurrentRange.rangeNumber
         ? tempCurrentRange
         : range
     );
-
     setRanges([...tempRanges]);
   };
   return (
@@ -255,15 +266,13 @@ const Page = () => {
                       Range No {range.rangeNumber ?? 0}
                     </span>
                     <div className=" mx-auto  gap-5 md:flex-row flex-col   flex justify-center items-center relative">
-                      {range.pageFrom.preview && (
+                      {range.pageFrom && (
                         <div className="w-[290px] h-[300px] md:h-[400px]  bg-white p-4 rounded-md shadow  flex items-center justify-between gap-3 flex-col">
-                          <iframe
+                          <canvas
+                            id={`range-${range.rangeNumber}-from`}
                             className="w-full h-full"
-                            src={
-                              range.pageFrom.preview + "#toolbar=0&navpanes=0"
-                            }
-                            scrolling="no"
-                          ></iframe>
+                          ></canvas>
+
                           <span className="text-gray-400 text-sm">
                             Page No {range.pageFrom.pageNumber}
                           </span>
@@ -274,13 +283,12 @@ const Page = () => {
                         <span className="w-[7px] h-[7px] bg-black opacity-50 rounded-full"></span>
                         <span className="w-[7px] h-[7px] bg-black opacity-50 rounded-full"></span>
                       </span>
-                      {range.pageTo.preview && (
+                      {range.pageTo && (
                         <div className="w-[290px] bg-white p-4 rounded-md shadow h-[350px] md:h-[400px]  flex items-center justify-between gap-3 flex-col">
-                          <iframe
+                          <canvas
+                            id={`range-${range.rangeNumber}-to`}
                             className="w-full h-full"
-                            src={range.pageTo.preview + "#toolbar=0&navpanes=0"}
-                            scrolling="no"
-                          ></iframe>
+                          ></canvas>
                           <span className="text-gray-400 text-sm">
                             Page No {range.pageTo.pageNumber}
                           </span>
@@ -293,9 +301,10 @@ const Page = () => {
                           From
                         </span>
                         <input
-                          type="text"
+                          type="number"
                           className="bg-transparent w-full  text-gray-900 rounded-lg px-2 py-3  focus:border-gray-200 outline-none"
                           value={range.pageFrom.pageNumber}
+                          min={1}
                           max={currentFileData.totalPages}
                           onChange={(e) => {
                             const isNumber = isNaN(e.target.value * 1)
@@ -313,9 +322,10 @@ const Page = () => {
                           To
                         </span>
                         <input
-                          type="text"
+                          type="number"
                           className="bg-transparent w-full  text-gray-900 rounded-lg px-2 py-3  focus:border-gray-200 outline-none"
                           value={range.pageTo.pageNumber}
+                          min={1}
                           max={currentFileData.totalPages}
                           onChange={(e) => {
                             const isNumber = isNaN(e.target.value * 1)
@@ -486,11 +496,10 @@ const Page = () => {
                     alt="delete-icon"
                   />
                 </div>
-                <iframe
+                <canvas
+                  id={`result-${el.range[0]}-${el.range[1]}-splitted-pdf`}
                   className="w-full h-full"
-                  src={el.preview + "#toolbar=0&navpanes=0"}
-                  scrolling="no"
-                ></iframe>
+                ></canvas>
               </div>
               <span className="text-gray-500 text-sm">
                 Range {el.range[0]} - {el.range[1]}

@@ -4,8 +4,9 @@ import Image from "next/image";
 import axios from "axios";
 import FilesDragAndDrop from "@/app/(components)/global/dragDrop/fileDragAndDrop";
 import "@/app/globals.css";
+import { renderPDFPreview } from "@/utils/pdfPreview";
+
 const Page = () => {
-  const [files, setFiles] = useState([]);
   const [file, setFile] = useState(null);
   const [pages, setPages] = useState<{ path: string; number: number }[]>([]);
   const [pageNumber, setPageNumber] = useState("");
@@ -16,7 +17,7 @@ const Page = () => {
   }>(null);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [filePreview, setFilePreview] = useState("");
-  const [resltPdfPreview, setResultPdfPreview] = useState("");
+
   const [loading, setLoading] = useState(false);
   const handleFile = (fileList) => {
     if (fileList && fileList.length) {
@@ -53,17 +54,19 @@ const Page = () => {
       );
 
       setFilePreview(base64String);
-      setResultPdfPreview(response.data.pdfPreview);
+      const tempPages = [];
+      for (let i = 0; i < currentFileData.totalPages; i++) {
+        if (pages.find((pag) => pag.number === i)) {
+          tempPages.push(i + 1);
+        }
+      }
+      setTimeout(() => {
+        renderPDFPreview(file, "result-extract-page", tempPages[0]);
+      }, 1);
     }
     setLoading(false);
   };
-  useEffect(() => {
-    if (filePreview) {
-      if (document.getElementById("merged-pdf-preview")) {
-        document.getElementById("merged-pdf-preview").src = resltPdfPreview;
-      }
-    }
-  }, [filePreview, resltPdfPreview]);
+
   // Function to handle download
   const handleDownload = async () => {
     setDownloadLoading(true);
@@ -72,7 +75,7 @@ const Page = () => {
     const downloadLink = document.createElement("a");
     downloadLink.href = `data:application/pdf;base64,${filePreview}`;
 
-    downloadLink.download = `${Date.now()}.pdf`;
+    downloadLink.download = file.name ?? `${Date.now()}.pdf`;
     downloadLink.click();
 
     // Clean up the temporary element
@@ -103,11 +106,17 @@ const Page = () => {
   };
   useEffect(() => {
     if (file) {
-      fetchFileData(0, (data: { preview: string; totalPages: number }) =>
-        setCurrentFileData(data)
-      );
+      fetchFileData(0, async (data: { totalPages: number }) => {
+        setCurrentFileData(data);
+        await renderPDFPreview(file, "extract-pdf");
+      });
     }
   }, [file]);
+  useEffect(() => {
+    if (pages.length < 2) {
+      renderPDFPreview(file, "extract-pdf");
+    }
+  }, [pages]);
 
   const addPageNumber = (event) => {
     event.preventDefault();
@@ -118,18 +127,20 @@ const Page = () => {
       pageNumber &&
       pages.length <= Math.ceil(currentFileData.totalPages / 2)
     ) {
-      fetchFileData(
-        pageNumber - 1,
-        (data: { preview: string; totalPages: number }) => {
-          setPages([
-            ...pages,
-            {
-              path: data.preview,
-              number: pageNumber - 1,
-            },
-          ]);
-        }
-      );
+      setPages([
+        ...pages,
+        {
+          path: `extract-page-number-${pageNumber - 1}`,
+          number: pageNumber - 1,
+        },
+      ]);
+      setTimeout(() => {
+        renderPDFPreview(
+          file,
+          `extract-page-number-${pageNumber - 1}`,
+          pageNumber
+        );
+      }, 1);
     }
     setPageNumber("");
   };
@@ -161,11 +172,7 @@ const Page = () => {
                         alt="delete-icon"
                       />
                     </div>
-                    <iframe
-                      className="w-full h-full"
-                      src={el.path + "#toolbar=0&navpanes=0"}
-                      scrolling="no"
-                    ></iframe>
+                    <canvas id={el.path} className="w-full h-full"></canvas>
                   </div>
                   <span className="text-gray-500 text-sm">
                     Page No {el.number + 1}
@@ -189,15 +196,7 @@ const Page = () => {
                     alt="delete-icon"
                   />
                 </div>
-                <iframe
-                  className="w-full h-full"
-                  id="target-pdf"
-                  src={
-                    currentFileData &&
-                    currentFileData.preview + "#toolbar=0&navpanes=0"
-                  }
-                  scrolling="no"
-                ></iframe>
+                <canvas id="extract-pdf" className="w-full h-full"></canvas>
               </div>
             </div>
           ) : (
@@ -286,20 +285,12 @@ const Page = () => {
         </div>
       </div>
 
-      {filePreview && resltPdfPreview ? (
+      {filePreview ? (
         <hr className="w-full h-[1px] bg-black opacity-50" />
       ) : null}
       <div className="flex-1 items-center justify-center flex-col py-5">
-        {/* {!filePreview ? (
-                    <div className="h-[350px] flex items-center justify-center">
-                      <h1 className="text-gray-200 text-xl text-center">
-                        Please upload image
-                      </h1>
-                    </div>
-                  ) : null} */}
-
         <div className="flex items-center justify-center w-full flex-col gap-5">
-          {filePreview && resltPdfPreview ? (
+          {filePreview ? (
             <div className="h-[370px] w-[270px] mx-auto p-3 shadow-md rounded-lg bg-[#f9f9f9] flex justify-center items-center relative">
               <div
                 className="p-2 bg-white absolute top-2 flex justify-center items-center right-2 rounded-md shadow-md cursor-pointer"
@@ -316,11 +307,10 @@ const Page = () => {
                   />
                 )}
               </div>
-              <iframe
+              <canvas
+                id="result-extract-page"
                 className="w-full h-full"
-                scrolling="no"
-                src={resltPdfPreview + "#toolbar=0&navpanes=0"}
-              ></iframe>
+              ></canvas>
             </div>
           ) : null}
         </div>

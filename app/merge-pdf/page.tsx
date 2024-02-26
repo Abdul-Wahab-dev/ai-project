@@ -4,11 +4,11 @@ import Image from "next/image";
 import axios from "axios";
 import FilesDragAndDrop from "@/app/(components)/global/dragDrop/fileDragAndDrop";
 import "@/app/globals.css";
+import { renderPDFPreview } from "@/utils/pdfPreview";
 const Page = () => {
   const [files, setFiles] = useState([]);
 
   const [filePreview, setFilePreview] = useState("");
-  const [resltPdfPreview, setResultPdfPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
@@ -33,30 +33,8 @@ const Page = () => {
   };
 
   const fetchPdfPreview = useCallback(async () => {
-    const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
-    const response = await axios.post("/api/pdf-preview", formData, {
-      responseType: "json",
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-
-    if (response.data) {
-      for (let i = 0; i < response.data.previews.length; i++) {
-        if (i < 1) {
-          setResultPdfPreview(
-            `${response.data.previews[i].base64}#toolbar=0&navpanes=0`
-          );
-        }
-        if (document.getElementById(response.data.previews[i].name)) {
-          document.getElementById(
-            response.data.previews[i].name
-          ).src = `${response.data.previews[i].base64}#toolbar=0&navpanes=0`;
-        }
-      }
+      await renderPDFPreview(files[i], files[i].name);
     }
   }, [files]);
 
@@ -79,18 +57,14 @@ const Page = () => {
         );
 
         setFilePreview(base64String);
+        setTimeout(() => {
+          renderPDFPreview(files[0], "result-merge-pdf");
+        }, 1);
       }
     }
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (filePreview) {
-      if (document.getElementById("merged-pdf-preview")) {
-        document.getElementById("merged-pdf-preview").src = resltPdfPreview;
-      }
-    }
-  }, [filePreview, resltPdfPreview]);
   // Function to handle download
   const handleDownload = async () => {
     setDownloadLoading(true);
@@ -138,11 +112,12 @@ const Page = () => {
                       alt="delete-icon"
                     />
                   </div>
-                  <iframe
+                  <canvas id={file.name} className="w-full h-full"></canvas>
+                  {/* <iframe
                     className="w-full h-full"
                     id={file.name}
                     scrolling="no"
-                  ></iframe>
+                  ></iframe> */}
                 </div>
               ))}
             </div>
@@ -239,11 +214,8 @@ const Page = () => {
                   />
                 )}
               </div>
-              <iframe
-                className="w-full h-full"
-                scrolling="no"
-                id="merged-pdf-preview"
-              ></iframe>
+
+              <canvas id="result-merge-pdf" className="w-full h-full"></canvas>
             </div>
           ) : null}
         </div>

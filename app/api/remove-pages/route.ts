@@ -7,8 +7,6 @@ import { PDFDocument } from "pdf-lib";
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
   const pdf = await PDFDocument.create();
-  const tempPdf = await PDFDocument.create();
-
   const file = formData.get("file");
   const pages: number[] = formData.get("pages");
   const fileBuffer = await file.arrayBuffer();
@@ -21,15 +19,10 @@ export const POST = async (req: NextRequest) => {
     }
   }
 
-  const [tempCopyPage] = await tempPdf.copyPages(pdf, [0]);
-  tempPdf.addPage(tempCopyPage);
-  const pdfBase64 = await tempPdf.saveAsBase64({ dataUri: true });
   const pdfBytes = await pdf.save();
-
   const bufferPdf = Buffer.from(pdfBytes);
   return NextResponse.json({
     bufferPdf,
-    pdfPreview: pdfBase64,
   });
 };
 
