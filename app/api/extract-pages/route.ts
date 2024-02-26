@@ -7,7 +7,7 @@ import { PDFDocument } from "pdf-lib";
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
   const pdf = await PDFDocument.create();
-  const tempPdf = await PDFDocument.create();
+  // const tempPdf = await PDFDocument.create();
 
   const file = formData.get("file");
   const pages: number[] = formData.get("pages");
@@ -21,9 +21,9 @@ export const POST = async (req: NextRequest) => {
     }
   }
 
-  const [tempCopyPage] = await tempPdf.copyPages(pdf, [0]);
-  tempPdf.addPage(tempCopyPage);
-  const pdfBase64 = await tempPdf.saveAsBase64({ dataUri: true });
+  // const [tempCopyPage] = await tempPdf.copyPages(pdf, [0]);
+  // tempPdf.addPage(tempCopyPage);
+  // const pdfBase64 = await tempPdf.saveAsBase64({ dataUri: true });
   pdf.setProducer("Testing");
 
   const pdfBytes = await pdf.save();
@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
   // const objectKey = await s3FileHandling.uploadBufferToS3(bufferPdf);
   return NextResponse.json({
     bufferPdf,
-    pdfPreview: pdfBase64,
+    pdfPreview: "",
   });
 };
 
