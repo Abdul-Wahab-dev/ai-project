@@ -42,16 +42,16 @@ function Layout({ children }: { children: React.ReactNode }) {
             {/* Advantanges */}
             <div className="w-full h-full flex flex-col items-center py-5 gap-5">
               <div className="my-5">
-                <h2 className="text-2xl font-semibold uppercase">
+                <h2 className="text-2xl font-semibold uppercase text-center">
                   Compress images Online - Free and Convenient
                 </h2>
-                <p className="uppercase text-lg">
+                <p className="uppercase text-lg text-center">
                   Reduce Image Size Without Compromising Quality in Just a Few
                   Clicks
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-x-20 gap-y-10 items-start">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-20 gap-y-10 items-start">
                 <div className="flex flex-col justify-end gap-2">
                   <h3 className="text-xl font-semibold text-center">
                     Quick Guide to Compress Image
