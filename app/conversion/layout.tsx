@@ -26,7 +26,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         <div className="bg-white w-full h-full py-10 px-3">
           <div className="custom_container mx-auto h-full px-3 py-10 text-black">
             <div className="pb-5 border-b">
-              <h2 className="text-2xl font-semibold uppercase">
+              <h2 className="text-xl font-semibold uppercase">
                 You can transform image format by following steps:
               </h2>
               <ul>
