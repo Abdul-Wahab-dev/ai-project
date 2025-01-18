@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, ReactNode } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 const FramerDiv = ({
   children,
@@ -7,6 +7,7 @@ const FramerDiv = ({
   classes = "",
   duration = 0.5,
 }: {
+  children?: ReactNode;
   delay: number;
   classes: string;
   duration: number;
@@ -18,6 +19,7 @@ const FramerDiv = ({
     if (isInView) {
       mainControllers.start("visible");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInView]);
   return (
     <motion.div
